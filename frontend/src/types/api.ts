@@ -152,6 +152,7 @@ export interface CWCStation {
   hfl_m: number;
   hfl_date?: string;
   proximity_km?: number;
+  distance_km?: number;
   relevance?: string;
   upstream_gateway_status?: string;
   note?: string;
@@ -182,14 +183,37 @@ export interface SentinelAcquisition {
   pipeline_capability: string;
 }
 
+export interface MonitoringRegion {
+  id: string;
+  name: string;
+  country: string;
+  state: string;
+  district?: string;
+  latitude: number;
+  longitude: number;
+  aoi_bbox: [number, number, number, number];
+  zoom: number;
+  type: string;
+  cwc_basin?: string;
+  is_default?: boolean;
+  is_custom?: boolean;
+}
+
 export interface MonitoringOverviewResponse {
   status: string;
   mode: string;
   timestamp: string;
   region: {
+    id: string;
     name: string;
+    state: string;
+    country: string;
+    district?: string;
     center: [number, number];
     aoi_bbox: [number, number, number, number];
+    zoom: number;
+    type: string;
+    cwc_basin?: string;
   };
   environmental_readiness: {
     level: string;

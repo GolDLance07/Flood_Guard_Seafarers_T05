@@ -67,10 +67,15 @@ export const App: React.FC = () => {
   const [fitAoiTrigger, setFitAoiTrigger] = useState<number>(0);
   const [resetViewTrigger, setResetViewTrigger] = useState<number>(0);
 
+  const [monitoringRegionId, setMonitoringRegionId] = useState<string>(() => {
+    return localStorage.getItem('floodguard_monitoring_region_id') || 'kerala-alappuzha';
+  });
+
   const loadAllData = async () => {
     try {
       setLoading(true);
       setError(null);
+      const savedRegion = localStorage.getItem('floodguard_monitoring_region_id') || 'kerala-alappuzha';
 
       const [ov, fm, fg, rg, rn, fac, set, live] = await Promise.all([
         fetchOverview(),
@@ -83,7 +88,7 @@ export const App: React.FC = () => {
         }),
         fetchFacilities(),
         fetchSettlements(),
-        fetchLiveOverview().catch((e) => {
+        fetchLiveOverview(savedRegion).catch((e) => {
           console.warn('Live monitoring service unavailable, falling back:', e);
           return null;
         }),
@@ -105,10 +110,11 @@ export const App: React.FC = () => {
     }
   };
 
-  const pollLiveData = async () => {
+  const pollLiveData = async (regionId?: string) => {
+    const target = regionId || monitoringRegionId;
     try {
       setLiveLoading(true);
-      const live = await fetchLiveOverview();
+      const live = await fetchLiveOverview(target);
       setLiveData(live);
     } catch (err: any) {
       console.error('Failed to poll live telemetry:', err);
@@ -263,7 +269,13 @@ export const App: React.FC = () => {
           <LiveMonitoringWorkspace
             liveData={liveData}
             loading={liveLoading}
-            onRefresh={pollLiveData}
+            selectedRegionId={monitoringRegionId}
+            onSelectRegion={(regId) => {
+              setMonitoringRegionId(regId);
+              localStorage.setItem('floodguard_monitoring_region_id', regId);
+              pollLiveData(regId);
+            }}
+            onRefresh={() => pollLiveData(monitoringRegionId)}
             floodGeoJSON={floodGeoJSON}
           />
         )}

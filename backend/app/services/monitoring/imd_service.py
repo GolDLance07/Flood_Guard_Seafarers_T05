@@ -122,33 +122,19 @@ IMD_RAINFALL_CATEGORIES = {
 class IMDService:
     """
     Client for India Meteorological Department (IMD) official API services.
-    Official portal: https://api.imd.gov.in/public/
-    API reference: https://api.imd.gov.in/public/api_reference.html
-
-    Endpoints used:
-    1. /current_wx?id=StationId (Current Weather Observations)
-    2. /districtrainfall?id=164 (Daily & cumulative rainfall stats)
-    3. /districtwarning?id=573  (Official 5-day colour-coded warnings)
-    4. /districtnowcast?id=164  (Short-term 3-hour local severe storm warnings)
-    5. /basinqpf                (Quantitative Precipitation Forecast for River Basins)
-
-    Authentication:
-    - IMD_API_KEY (passed via 'X-Api-Key' header)
-    - IMD_BEARER_TOKEN (passed via 'Authorization: Bearer <token>' header)
+    Supports dynamic geographical querying for any Indian state, district, or coordinates.
     """
     def __init__(self):
         self.base_url = os.environ.get("IMD_BASE_URL", "https://api.imd.gov.in/api/v1")
         self.api_key = os.environ.get("IMD_API_KEY", "")
         self.bearer_token = os.environ.get("IMD_BEARER_TOKEN", "")
 
-        # Alappuzha & Kuttanad coordinates and official IMD identifiers
-        self.latitude = 9.4950
-        self.longitude = 76.3350
-        self.district_name = "Alappuzha"
-        self.station_name = "ALAPPUZHA"
-        self.district_id = "164"  # IMD District code for Alappuzha
-        self.state_name = "Kerala"
-        self.state_id = "4"       # IMD State code for Kerala
+        # Default fallback coordinates (Alappuzha)
+        self.default_latitude = 9.4950
+        self.default_longitude = 76.3350
+        self.default_district = "Alappuzha"
+        self.default_state = "Kerala"
+        self.default_district_id = "164"
 
     def _get_headers(self) -> Dict[str, str]:
         headers = {
@@ -161,24 +147,32 @@ class IMDService:
             headers["Authorization"] = f"Bearer {self.bearer_token}"
         return headers
 
-    def fetch_weather(self) -> Dict[str, Any]:
-        """
-        Fetch current weather observations from IMD /current_wx API.
-        Extracts: Temperature, Humidity, Wind Speed, Wind Direction, Last 24 hrs Rainfall, Weather Code.
-        """
+    def fetch_weather(
+        self,
+        latitude: Optional[float] = None,
+        longitude: Optional[float] = None,
+        district_name: Optional[str] = None,
+        state_name: Optional[str] = None,
+        district_id: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Fetch current weather observations for a given region."""
+        lat = latitude if latitude is not None else self.default_latitude
+        lon = longitude if longitude is not None else self.default_longitude
+        district = district_name or self.default_district
+        state = state_name or self.default_state
+        dist_id = district_id or self.default_district_id
+
         now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-        if self.api_key and self.bearer_token:
+        if self.api_key and self.bearer_token and dist_id:
             try:
-                url = f"{self.base_url}/current_wx?id={self.district_id}"
+                url = f"{self.base_url}/current_wx?id={dist_id}"
                 resp = requests.get(url, headers=self._get_headers(), timeout=8)
                 if resp.status_code == 200:
                     data = resp.json()
-                    # Handle single object or array response
                     if isinstance(data, list) and len(data) > 0:
                         data = data[0]
 
-                    # Parse official IMD field names (with fallbacks to lowercase)
                     temp_raw = data.get("Temperature", data.get("temp", data.get("CURR_TEMP", 28.0)))
                     humidity_raw = data.get("Humidity", data.get("humidity", data.get("RH", 78)))
                     wind_speed_raw = data.get("Wind Speed", data.get("wind_speed", data.get("WIND_SPEED", 12.0)))
@@ -188,7 +182,6 @@ class IMDService:
                     wx_code = str(data.get("Weather Code", data.get("WEATHER_CODE", "01"))).zfill(2)
                     rain_24h = data.get("Last 24 hrs Rainfall", data.get("rainfall_24h", 0.0))
 
-                    # Map condition and wind direction text
                     condition = IMD_WEATHER_CODES.get(wx_code, data.get("weather_desc", "Partly Cloudy"))
                     wind_dir_name = IMD_WIND_DIRECTIONS.get(int(wind_dir_code) if str(wind_dir_code).isdigit() else 0, "Variable")
 
@@ -198,8 +191,8 @@ class IMDService:
                     return {
                         "provider": "India Meteorological Department (IMD)",
                         "observation_type": "current_weather",
-                        "location": f"{data.get('Station', self.station_name)}, {self.state_name}",
-                        "coordinates": [self.longitude, self.latitude],
+                        "location": f"{data.get('Station', district)}, {state}",
+                        "coordinates": [lon, lat],
                         "temperature_c": float(temp_raw) if temp_raw is not None else 28.0,
                         "relative_humidity_pct": int(float(humidity_raw)) if humidity_raw is not None else 78,
                         "wind_speed_kmh": float(wind_speed_raw) if wind_speed_raw is not None else 12.0,
@@ -217,22 +210,32 @@ class IMDService:
                     }
                 elif resp.status_code == 401:
                     auth_err = resp.json().get("error", "Unauthorized") if resp.content else "401 Unauthorized"
-                    return self._fallback_open_weather(now_iso, imd_error=f"IMD Authentication Failed ({auth_err})")
+                    return self._fallback_open_weather(now_iso, lat, lon, district, state, imd_error=f"IMD Authentication Failed ({auth_err})")
             except Exception as e:
-                return self._fallback_open_weather(now_iso, imd_error=str(e))
+                return self._fallback_open_weather(now_iso, lat, lon, district, state, imd_error=str(e))
 
-        return self._fallback_open_weather(now_iso, imd_error="IMD API Key & Bearer Token not configured in environment")
+        return self._fallback_open_weather(now_iso, lat, lon, district, state, imd_error="IMD API Key & Bearer Token not configured in environment")
 
-    def fetch_rainfall(self) -> Dict[str, Any]:
-        """
-        Fetch rainfall statistics from IMD /districtrainfall API.
-        Extracts: Daily Actual, Daily Normal, Daily Departure Per, Daily Category, Weekly Actual.
-        """
+    def fetch_rainfall(
+        self,
+        latitude: Optional[float] = None,
+        longitude: Optional[float] = None,
+        district_name: Optional[str] = None,
+        state_name: Optional[str] = None,
+        district_id: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """Fetch rainfall measurements and departure from normal for a region."""
+        lat = latitude if latitude is not None else self.default_latitude
+        lon = longitude if longitude is not None else self.default_longitude
+        district = district_name or self.default_district
+        state = state_name or self.default_state
+        dist_id = district_id or self.default_district_id
+
         now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-        if self.api_key and self.bearer_token:
+        if self.api_key and self.bearer_token and dist_id:
             try:
-                url = f"{self.base_url}/districtrainfall?id={self.district_id}"
+                url = f"{self.base_url}/districtrainfall?id={dist_id}"
                 resp = requests.get(url, headers=self._get_headers(), timeout=8)
                 if resp.status_code == 200:
                     data = resp.json()
@@ -253,8 +256,8 @@ class IMDService:
                     return {
                         "provider": "India Meteorological Department (IMD)",
                         "observation_type": "district_rainfall",
-                        "district": data.get("District", self.district_name),
-                        "state": self.state_name,
+                        "district": data.get("District", district),
+                        "state": state,
                         "rainfall_24h_mm": daily_actual,
                         "normal_rainfall_mm": daily_normal,
                         "departure_pct": dep_val,
@@ -270,14 +273,16 @@ class IMDService:
             except Exception:
                 pass
 
-        # Fallback to Open-Meteo measured precipitation
-        return self._fallback_rainfall(now_iso)
+        return self._fallback_rainfall(now_iso, lat, lon, district, state)
 
-    def fetch_warnings(self) -> List[Dict[str, Any]]:
-        """
-        Fetch district-level weather and heavy-rainfall warnings from IMD /districtwarning API.
-        Extracts: Day_1 to Day_5 warning codes and colour codes (Red, Orange, Yellow, Green).
-        """
+    def fetch_warnings(
+        self,
+        state_name: Optional[str] = None,
+        district_name: Optional[str] = None
+    ) -> List[Dict[str, Any]]:
+        """Fetch district-level weather and heavy-rainfall warnings."""
+        state = (state_name or self.default_state).lower()
+        district = (district_name or self.default_district).lower()
         now_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
         if self.api_key and self.bearer_token:
@@ -286,16 +291,16 @@ class IMDService:
                 resp = requests.get(url, headers=self._get_headers(), timeout=8)
                 if resp.status_code == 200:
                     items = resp.json()
-                    kerala_warnings = []
+                    region_warnings = []
                     for w in items:
-                        dist = str(w.get("District", "")).lower()
-                        if self.district_name.lower() in dist or "alappuzha" in dist:
+                        dist_val = str(w.get("District", "")).lower()
+                        if district in dist_val or state in dist_val:
                             day1_code = int(w.get("Day_1", 1)) if str(w.get("Day_1", "1")).isdigit() else 1
                             day1_color_code = int(w.get("Day1_Color", 4)) if str(w.get("Day1_Color", "4")).isdigit() else 4
                             color_info = IMD_WARNING_COLORS.get(day1_color_code, IMD_WARNING_COLORS[4])
 
-                            kerala_warnings.append({
-                                "district": w.get("District", self.district_name),
+                            region_warnings.append({
+                                "district": w.get("District", district_name or "Regional Area"),
                                 "warning_date": w.get("Date", now_iso[:10]),
                                 "issue_time_utc": w.get("UTC", "0300"),
                                 "primary_warning": IMD_WARNING_CODES.get(day1_code, "No Warning"),
@@ -307,59 +312,25 @@ class IMDService:
                                 "day_3_warning": IMD_WARNING_CODES.get(int(w.get("Day_3", 1)), "No Warning"),
                                 "source": "IMD Official API (/api/v1/districtwarning)"
                             })
-                    return kerala_warnings
+                    return region_warnings
             except Exception:
                 pass
 
         return []
 
-    def fetch_nowcast(self) -> Optional[Dict[str, Any]]:
-        """
-        Fetch 3-hour severe storm Nowcast from IMD /districtnowcast API.
-        Extracts: message, valid-up-to, color code (1=Green, 2=Yellow, 3=Orange, 4=Red).
-        """
-        if not (self.api_key and self.bearer_token):
-            return None
-
-        try:
-            url = f"{self.base_url}/districtnowcast?id={self.district_id}"
-            resp = requests.get(url, headers=self._get_headers(), timeout=8)
-            if resp.status_code == 200:
-                data = resp.json()
-                if isinstance(data, list) and len(data) > 0:
-                    data = data[0]
-
-                color_num = int(data.get("color", 1))
-                color_map = {
-                    1: {"level": "GREEN", "hex": "#008000"},
-                    2: {"level": "YELLOW", "hex": "#FFFF00"},
-                    3: {"level": "ORANGE", "hex": "#FFA500"},
-                    4: {"level": "RED", "hex": "#FF0000"}
-                }
-                color_info = color_map.get(color_num, color_map[1])
-
-                return {
-                    "station": data.get("Station", self.station_name),
-                    "date": data.get("Date"),
-                    "valid_upto": data.get("Vupto"),
-                    "time_of_issue": data.get("toi"),
-                    "message": data.get("message", "No severe weather nowcast"),
-                    "alert_level": color_info["level"],
-                    "alert_color": color_info["hex"],
-                    "source": "IMD Official API (/api/v1/districtnowcast)"
-                }
-        except Exception:
-            pass
-        return None
-
-    def _fallback_open_weather(self, now_iso: str, imd_error: str) -> Dict[str, Any]:
-        """
-        Graceful fallback using Open-Meteo global weather model (CC-BY 4.0).
-        Explicitly documents that fallback is active and why IMD is not directly serving.
-        """
+    def _fallback_open_weather(
+        self,
+        now_iso: str,
+        lat: float,
+        lon: float,
+        district: str,
+        state: str,
+        imd_error: str
+    ) -> Dict[str, Any]:
+        """Graceful fallback using Open-Meteo for any latitude/longitude in India/world."""
         url = (
             f"https://api.open-meteo.com/v1/forecast"
-            f"?latitude={self.latitude}&longitude={self.longitude}"
+            f"?latitude={lat}&longitude={lon}"
             f"&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,rain,weather_code,wind_speed_10m"
             f"&daily=precipitation_sum"
             f"&timezone=Asia%2FKolkata"
@@ -372,8 +343,8 @@ class IMDService:
                 return {
                     "provider": "Open-Meteo ECMWF/GFS Seamless (IMD Observation Fallback)",
                     "observation_type": "current_weather",
-                    "location": f"{self.district_name}, {self.state_name}",
-                    "coordinates": [self.longitude, self.latitude],
+                    "location": f"{district}, {state}",
+                    "coordinates": [lon, lat],
                     "temperature_c": cur.get("temperature_2m", 28.5),
                     "apparent_temperature_c": cur.get("apparent_temperature", 32.0),
                     "relative_humidity_pct": cur.get("relative_humidity_2m", 78),
@@ -394,8 +365,8 @@ class IMDService:
         return {
             "provider": "India Meteorological Department (IMD)",
             "observation_type": "current_weather",
-            "location": f"{self.district_name}, {self.state_name}",
-            "coordinates": [self.longitude, self.latitude],
+            "location": f"{district}, {state}",
+            "coordinates": [lon, lat],
             "temperature_c": None,
             "relative_humidity_pct": None,
             "wind_speed_kmh": None,
@@ -408,11 +379,18 @@ class IMDService:
             "upstream_status_note": imd_error
         }
 
-    def _fallback_rainfall(self, now_iso: str) -> Dict[str, Any]:
-        """Fetch precipitation accumulation from Open-Meteo model."""
+    def _fallback_rainfall(
+        self,
+        now_iso: str,
+        lat: float,
+        lon: float,
+        district: str,
+        state: str
+    ) -> Dict[str, Any]:
+        """Fetch precipitation accumulation from Open-Meteo for any latitude/longitude."""
         url = (
             f"https://api.open-meteo.com/v1/forecast"
-            f"?latitude={self.latitude}&longitude={self.longitude}"
+            f"?latitude={lat}&longitude={lon}"
             f"&daily=precipitation_sum,precipitation_hours"
             f"&timezone=Asia%2FKolkata"
         )
@@ -425,8 +403,8 @@ class IMDService:
                 return {
                     "provider": "Open-Meteo High-Resolution Model (Precipitation Baseline)",
                     "observation_type": "district_rainfall",
-                    "district": self.district_name,
-                    "state": self.state_name,
+                    "district": district,
+                    "state": state,
                     "rainfall_24h_mm": rain_24h,
                     "normal_rainfall_mm": 2.5,
                     "departure_pct": round(((rain_24h - 2.5) / 2.5) * 100, 1),
@@ -443,8 +421,8 @@ class IMDService:
         return {
             "provider": "India Meteorological Department (IMD)",
             "observation_type": "district_rainfall",
-            "district": self.district_name,
-            "state": self.state_name,
+            "district": district,
+            "state": state,
             "rainfall_24h_mm": None,
             "observation_timestamp": now_iso,
             "fetch_timestamp": now_iso,

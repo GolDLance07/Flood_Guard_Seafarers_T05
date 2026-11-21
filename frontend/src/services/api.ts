@@ -64,25 +64,35 @@ export async function computeCandidateRoute(req: RouteRequest): Promise<RouteRes
   return res.json();
 }
 
-export async function fetchLiveOverview(): Promise<any> {
-  const res = await fetch(`${API_BASE}/api/monitoring/overview`);
+export async function fetchMonitoringRegions(search?: string): Promise<any> {
+  const q = search ? `?search=${encodeURIComponent(search)}` : '';
+  const res = await fetch(`${API_BASE}/api/monitoring/regions${q}`);
+  if (!res.ok) throw new Error('Failed to fetch monitoring regions');
+  return res.json();
+}
+
+export async function fetchLiveOverview(regionId?: string): Promise<any> {
+  const q = regionId ? `?region=${encodeURIComponent(regionId)}` : '';
+  const res = await fetch(`${API_BASE}/api/monitoring/overview${q}`);
   if (!res.ok) {
     // Fallback to legacy live endpoint if monitoring router not yet synced
-    const fallbackRes = await fetch(`${API_BASE}/api/live/overview`);
+    const fallbackRes = await fetch(`${API_BASE}/api/live/overview${q}`);
     if (!fallbackRes.ok) throw new Error('Failed to fetch live environmental telemetry');
     return fallbackRes.json();
   }
   return res.json();
 }
 
-export async function fetchMonitoringOverview(): Promise<any> {
-  const res = await fetch(`${API_BASE}/api/monitoring/overview`);
+export async function fetchMonitoringOverview(regionId?: string): Promise<any> {
+  const q = regionId ? `?region=${encodeURIComponent(regionId)}` : '';
+  const res = await fetch(`${API_BASE}/api/monitoring/overview${q}`);
   if (!res.ok) throw new Error('Failed to fetch monitoring telemetry');
   return res.json();
 }
 
-export async function fetchMonitoringStations(): Promise<any> {
-  const res = await fetch(`${API_BASE}/api/monitoring/stations`);
+export async function fetchMonitoringStations(regionId?: string): Promise<any> {
+  const q = regionId ? `?region=${encodeURIComponent(regionId)}` : '';
+  const res = await fetch(`${API_BASE}/api/monitoring/stations${q}`);
   if (!res.ok) throw new Error('Failed to fetch river stations');
   return res.json();
 }

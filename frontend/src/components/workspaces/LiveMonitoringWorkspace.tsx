@@ -15,65 +15,37 @@ import {
   CheckCircle2,
   Radio,
   Eye,
-  EyeOff
+  EyeOff,
+  Search,
+  ChevronDown,
+  Navigation,
+  Info
 } from 'lucide-react';
 import type { FeatureCollection } from 'geojson';
 import { Card } from '../common/Card';
 import { Badge } from '../common/Badge';
 import { SvgBarChart } from '../common/SvgBarChart';
+import { fetchMonitoringRegions, fetchMonitoringStations } from '../../services/api';
+import type { MonitoringRegion, CWCStation } from '../../types/api';
 
 interface LiveMonitoringWorkspaceProps {
   liveData: any;
   loading: boolean;
+  selectedRegionId?: string;
+  onSelectRegion?: (regionId: string) => void;
   onRefresh: () => void;
   floodGeoJSON?: FeatureCollection | null;
 }
 
-// Authoritative CWC Gauge Stations
-const CWC_STATIONS = [
-  {
-    id: 'CWC_PAM_001',
-    name: 'Malakkara',
-    river: 'Pamba',
-    coords: [76.6421, 9.3242] as [number, number],
-    warning_m: 7.50,
-    danger_m: 8.50,
-    hfl_m: 11.23,
-    distance_km: 12.4
-  },
-  {
-    id: 'CWC_MAN_002',
-    name: 'Kallooppara',
-    river: 'Manimala',
-    coords: [76.6114, 9.3891] as [number, number],
-    warning_m: 6.00,
-    danger_m: 7.00,
-    hfl_m: 9.80,
-    distance_km: 8.2
-  },
-  {
-    id: 'CWC_ACH_003',
-    name: 'Thumpamon',
-    river: 'Achankovil',
-    coords: [76.7172, 9.2503] as [number, number],
-    warning_m: 10.00,
-    danger_m: 11.00,
-    hfl_m: 13.50,
-    distance_km: 22.0
-  },
-  {
-    id: 'CWC_MEE_004',
-    name: 'Kidangoor',
-    river: 'Meenachil',
-    coords: [76.6170, 9.6830] as [number, number],
-    warning_m: 10.50,
-    danger_m: 11.50,
-    hfl_m: 14.20,
-    distance_km: 18.5
-  }
+// Preset Indian flood-monitoring regions for 1-click quick selection
+const QUICK_REGIONS = [
+  { id: 'kerala-alappuzha', label: 'Alappuzha, Kerala', icon: '🌴' },
+  { id: 'assam-guwahati', label: 'Guwahati, Assam', icon: '🏔️' },
+  { id: 'bihar-patna', label: 'Patna, Bihar', icon: '🏛️' },
+  { id: 'gujarat-ahmedabad', label: 'Ahmedabad, Gujarat', icon: '🏭' },
+  { id: 'odisha-cuttack', label: 'Cuttack, Odisha', icon: '🌊' },
+  { id: 'maharashtra-mumbai', label: 'Mumbai, Maharashtra', icon: '🏙️' }
 ];
-
-const AOI_BBOX = [76.30, 9.30, 76.60, 9.60];
 
 const SATELLITE_STYLE: maplibregl.StyleSpecification = {
   version: 8,
@@ -108,6 +80,8 @@ const BASEMAP_STYLES = {
 export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = ({
   liveData,
   loading,
+  selectedRegionId = 'kerala-alappuzha',
+  onSelectRegion,
   onRefresh,
   floodGeoJSON = null
 }) => {
@@ -115,12 +89,31 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
   const mapInstance = useRef<maplibregl.Map | null>(null);
   const markersRef = useRef<maplibregl.Marker[]>([]);
 
+  // Region Selector State
+  const [regionsList, setRegionsList] = useState<MonitoringRegion[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [stations, setStations] = useState<CWCStation[]>([]);
+
   // Basemap & Layer toggles
   const [basemap, setBasemap] = useState<'satellite' | 'dark' | 'streets'>('dark');
   const [showStations, setShowStations] = useState(true);
   const [showHistoricalFlood, setShowHistoricalFlood] = useState(false);
 
   // Normalize data whether coming from /api/monitoring/overview or /api/live/overview
+  const region = liveData?.region || {
+    id: 'kerala-alappuzha',
+    name: 'Alappuzha & Kuttanad Basin',
+    state: 'Kerala',
+    country: 'India',
+    center: [76.3350, 9.4950],
+    aoi_bbox: [76.30, 9.30, 76.60, 9.60],
+    zoom: 10.0
+  };
+
+  const isKeralaRegion = region?.id?.startsWith('kerala');
+
   const weather = liveData?.weather || {};
   const hydrology = liveData?.hydrology || liveData?.rivers || {};
   const rainfall = liveData?.rainfall || {};
@@ -133,9 +126,49 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
   const alertLevel = alert?.level || 'NORMAL';
   const alertVariant = alertLevel === 'ADVISORY' ? 'rose' : alertLevel === 'ELEVATED' ? 'amber' : 'emerald';
 
+  // Load available regions on component mount
+  useEffect(() => {
+    fetchMonitoringRegions()
+      .then(res => {
+        if (Array.isArray(res)) setRegionsList(res);
+      })
+      .catch(err => console.warn('Failed to load regions list:', err));
+  }, []);
+
+  // Search regions dynamically (catalog or geocoding)
+  const handleSearchRegions = async (query: string) => {
+    setSearchQuery(query);
+    if (!query.trim()) {
+      const all = await fetchMonitoringRegions();
+      setRegionsList(all);
+      return;
+    }
+    try {
+      setIsSearching(true);
+      const res = await fetchMonitoringRegions(query);
+      if (Array.isArray(res)) {
+        setRegionsList(res);
+      }
+    } catch (e) {
+      console.warn('Geocoding search failed:', e);
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  // Load CWC stations for the selected region
+  useEffect(() => {
+    if (!region?.id) return;
+    fetchMonitoringStations(region.id)
+      .then(res => {
+        if (Array.isArray(res)) setStations(res);
+      })
+      .catch(() => setStations([]));
+  }, [region?.id]);
+
   // 7-day discharge trend bar rows
   const dischargeBars = (hydrology?.trend_7day || []).map((t: any) => ({
-    label: t.date,
+    label: t.date ? t.date.slice(5) : '—',
     value: t.discharge_m3_s || 0.8,
     max: Math.max(...(hydrology?.trend_7day || []).map((x: any) => x.discharge_m3_s || 1.5), 2.5),
     formattedValue: `${t.discharge_m3_s ? t.discharge_m3_s.toFixed(2) : '—'} m³/s`,
@@ -159,21 +192,26 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
     }
   };
 
-  // Initialize and manage embedded Monitoring Map
+  // Initialize Embedded Map
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
+
+    const initialCenter = region.center || [76.45, 9.45];
+    const initialZoom = region.zoom || 9.8;
 
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: BASEMAP_STYLES[basemap],
-      center: [76.45, 9.45],
-      zoom: 9.8,
+      center: initialCenter,
+      zoom: initialZoom,
       maxZoom: 16
     });
 
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
 
     const setupLayers = () => {
+      const bbox = region.aoi_bbox || [76.30, 9.30, 76.60, 9.60];
+
       // 1. AOI Bounding Box Footprint
       if (!map.getSource('monitoring-aoi-src')) {
         map.addSource('monitoring-aoi-src', {
@@ -184,11 +222,11 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
             geometry: {
               type: 'Polygon',
               coordinates: [[
-                [AOI_BBOX[0], AOI_BBOX[1]],
-                [AOI_BBOX[2], AOI_BBOX[1]],
-                [AOI_BBOX[2], AOI_BBOX[3]],
-                [AOI_BBOX[0], AOI_BBOX[3]],
-                [AOI_BBOX[0], AOI_BBOX[1]]
+                [bbox[0], bbox[1]],
+                [bbox[2], bbox[1]],
+                [bbox[2], bbox[3]],
+                [bbox[0], bbox[3]],
+                [bbox[0], bbox[1]]
               ]]
             }
           }
@@ -206,7 +244,7 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
         });
       }
 
-      // 2. Historical Flood Footprint (Reference Overlay)
+      // 2. Historical Flood Footprint (Reference Overlay for Kerala only)
       if (floodGeoJSON && !map.getSource('monitoring-flood-ref-src')) {
         map.addSource('monitoring-flood-ref-src', {
           type: 'geojson',
@@ -222,7 +260,7 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
             'fill-opacity': 0.35
           },
           layout: {
-            visibility: showHistoricalFlood ? 'visible' : 'none'
+            visibility: showHistoricalFlood && isKeralaRegion ? 'visible' : 'none'
           }
         });
       }
@@ -238,6 +276,47 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
       mapInstance.current = null;
     };
   }, []);
+
+  // Fly to new region and update AOI box when region changes
+  useEffect(() => {
+    if (!mapInstance.current || !region) return;
+
+    const center = region.center || [region.longitude || 76.335, region.latitude || 9.495];
+    const zoom = region.zoom || 10.0;
+    const bbox = region.aoi_bbox;
+
+    mapInstance.current.flyTo({
+      center,
+      zoom,
+      speed: 1.4,
+      curve: 1.2,
+      essential: true
+    });
+
+    // Update AOI stroke source geometry
+    if (bbox && mapInstance.current.getSource('monitoring-aoi-src')) {
+      const src = mapInstance.current.getSource('monitoring-aoi-src') as maplibregl.GeoJSONSource;
+      src.setData({
+        type: 'Feature',
+        properties: {},
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[
+            [bbox[0], bbox[1]],
+            [bbox[2], bbox[1]],
+            [bbox[2], bbox[3]],
+            [bbox[0], bbox[3]],
+            [bbox[0], bbox[1]]
+          ]]
+        }
+      });
+    }
+
+    // If switched away from Kerala, automatically hide the Kerala 2018 flood footprint
+    if (!isKeralaRegion && showHistoricalFlood) {
+      setShowHistoricalFlood(false);
+    }
+  }, [region?.id, region?.center, region?.aoi_bbox]);
 
   // Update Basemap Style
   useEffect(() => {
@@ -259,24 +338,26 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
         mapInstance.current.setLayoutProperty(
           'monitoring-flood-ref-fill',
           'visibility',
-          showHistoricalFlood ? 'visible' : 'none'
+          showHistoricalFlood && isKeralaRegion ? 'visible' : 'none'
         );
       }
     } catch {}
-  }, [showHistoricalFlood]);
+  }, [showHistoricalFlood, isKeralaRegion]);
 
-  // Render CWC Station Markers & IMD Station Marker
+  // Render Dynamic CWC Station Markers & Weather Center Marker for the Selected Region
   useEffect(() => {
     if (!mapInstance.current) return;
 
-    // Remove existing markers
+    // Clear previous region markers completely to prevent data mixing
     markersRef.current.forEach(m => m.remove());
     markersRef.current = [];
 
     if (!showStations) return;
 
-    // 1. Add CWC River Gauge Markers
-    CWC_STATIONS.forEach(st => {
+    const center = region.center || [region.longitude || 76.335, region.latitude || 9.495];
+
+    // 1. Add CWC River Gauge Markers for the current region
+    stations.forEach(st => {
       const el = document.createElement('div');
       el.className = 'group relative cursor-pointer';
       el.innerHTML = `
@@ -285,37 +366,39 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
         </div>
       `;
 
+      const distText = st.proximity_km || st.distance_km ? `${st.proximity_km || st.distance_km} km to center` : '';
+
       const popup = new maplibregl.Popup({ offset: 25, className: 'dark-popup' }).setHTML(`
         <div style="font-family: inherit; font-size: 12px; line-height: 1.4;">
           <div style="font-weight: 700; color: #10B981; font-size: 13px; margin-bottom: 2px;">
             ${st.name} Gauge Station
           </div>
           <div style="color: #94A3B8; font-size: 11px; margin-bottom: 4px;">
-            River: <strong style="color: #E2E8F0;">${st.river}</strong> • ${st.distance_km} km to Kuttanad
+            River: <strong style="color: #E2E8F0;">${st.river}</strong> ${distText ? `• ${distText}` : ''}
           </div>
           <div style="background: rgba(13,22,38,0.8); padding: 6px; border-radius: 6px; border: 1px solid #1E2D4A; margin-top: 4px;">
             <div style="display: flex; justify-content: space-between; color: #F59E0B;">
-              <span>Warning Level:</span> <strong>${st.warning_m} m</strong>
+              <span>Warning Level:</span> <strong>${st.warning_level_m} m</strong>
             </div>
             <div style="display: flex; justify-content: space-between; color: #F43F5E;">
-              <span>Danger Level:</span> <strong>${st.danger_m} m</strong>
+              <span>Danger Level:</span> <strong>${st.danger_level_m} m</strong>
             </div>
             <div style="display: flex; justify-content: space-between; color: #38BDF8; font-size: 10px; margin-top: 2px;">
-              <span>2018 HFL:</span> <strong>${st.hfl_m} m</strong>
+              <span>Historic HFL:</span> <strong>${st.hfl_m} m</strong>
             </div>
           </div>
         </div>
       `);
 
       const marker = new maplibregl.Marker({ element: el })
-        .setLngLat(st.coords)
+        .setLngLat(st.coordinates)
         .setPopup(popup)
         .addTo(mapInstance.current!);
 
       markersRef.current.push(marker);
     });
 
-    // 2. Add IMD Alappuzha Station Marker
+    // 2. Add Regional Weather Observation Center Marker
     const imdEl = document.createElement('div');
     imdEl.className = 'cursor-pointer';
     imdEl.innerHTML = `
@@ -327,10 +410,10 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
     const imdPopup = new maplibregl.Popup({ offset: 25, className: 'dark-popup' }).setHTML(`
       <div style="font-family: inherit; font-size: 12px; line-height: 1.4;">
         <div style="font-weight: 700; color: #22D3EE; font-size: 13px;">
-          IMD Alappuzha Meteorological Center
+          ${region.name} Weather Observation Center
         </div>
         <div style="color: #94A3B8; font-size: 11px;">
-          District Code: 164 • AWS/ARG Network
+          ${region.state}, ${region.country} • Open-Meteo & IMD Model
         </div>
         <div style="margin-top: 4px; color: #F1F5F9;">
           <div>Temp: <strong>${weather.temperature_c ?? 28}°C</strong> • Rain: <strong>${rainfall.rainfall_24h_mm ?? 0} mm/24h</strong></div>
@@ -339,18 +422,25 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
     `);
 
     const imdMarker = new maplibregl.Marker({ element: imdEl })
-      .setLngLat([76.335, 9.495])
+      .setLngLat(center)
       .setPopup(imdPopup)
       .addTo(mapInstance.current!);
 
     markersRef.current.push(imdMarker);
 
-  }, [showStations, weather, rainfall]);
+  }, [showStations, stations, weather, rainfall, region?.id]);
+
+  const handleSelectRegion = (regId: string) => {
+    setIsDropdownOpen(false);
+    if (onSelectRegion) {
+      onSelectRegion(regId);
+    }
+  };
 
   return (
     <div className="h-full overflow-y-auto bg-[#070D18] p-4 sm:p-6 lg:p-8 space-y-6">
-      {/* Top Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#1E2D4A]">
+      {/* Top Header Bar with Geographical Region Selector */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-[#1E2D4A]">
         <div>
           <div className="flex items-center space-x-2.5">
             <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
@@ -359,26 +449,138 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
             {renderFreshnessBadge(weather?.freshness_status || 'LIVE')}
           </div>
           <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Real-time multi-agency observation network: IMD meteorology, CWC river gauge thresholds, NDMA SACHET alerts & Sentinel-1 SAR acquisition discovery.
+            Dynamic nationwide environmental telemetry: meteorological observations, river gauge thresholds, NDMA alerts & Sentinel-1 SAR acquisition tracking.
           </p>
         </div>
 
-        <div className="flex items-center space-x-3">
-          <div className="text-right hidden sm:block">
-            <div className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Feed Status</div>
-            <div className="text-xs font-mono text-emerald-400 font-bold">
-              {weather?.freshness_status || 'Automated Sync'}
+        {/* Region Search & Action Buttons */}
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Geographical Region Search / Dropdown */}
+          <div className="relative min-w-[260px] sm:min-w-[320px]">
+            <div
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center justify-between px-3 py-2 bg-[#0D1626] border border-[#1E2D4A] rounded-xl text-xs text-white cursor-pointer hover:border-cyan-500/50 transition shadow-lg"
+            >
+              <div className="flex items-center space-x-2 truncate">
+                <Navigation className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                <span className="font-semibold text-slate-200 truncate">{region.name}</span>
+                <span className="text-[10px] text-cyan-400 px-1.5 py-0.5 bg-cyan-950/60 rounded border border-cyan-800/60 flex-shrink-0">
+                  {region.state}
+                </span>
+              </div>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
             </div>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-[#0D1626] border border-[#1E2D4A] rounded-xl shadow-2xl overflow-hidden p-2 space-y-2 backdrop-blur-xl">
+                {/* Search input */}
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => handleSearchRegions(e.target.value)}
+                    placeholder="Search city, district, state..."
+                    className="w-full bg-[#070D18] border border-[#1E2D4A] rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+                    autoFocus
+                  />
+                  {isSearching && (
+                    <div className="absolute right-2.5 top-2 text-[10px] text-cyan-400 animate-pulse font-mono">
+                      Searching...
+                    </div>
+                  )}
+                </div>
+
+                {/* Quick Filters */}
+                <div className="pt-1 border-t border-[#1E2D4A]">
+                  <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1.5 px-1">
+                    Preset Indian Flood Basins
+                  </div>
+                  <div className="grid grid-cols-2 gap-1">
+                    {QUICK_REGIONS.map(qr => (
+                      <button
+                        key={qr.id}
+                        onClick={() => handleSelectRegion(qr.id)}
+                        className={`flex items-center space-x-1.5 px-2 py-1.5 rounded-lg text-left text-xs transition cursor-pointer ${
+                          selectedRegionId === qr.id || region.id === qr.id
+                            ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40'
+                            : 'text-slate-300 hover:bg-[#16243A]'
+                        }`}
+                      >
+                        <span>{qr.icon}</span>
+                        <span className="truncate">{qr.label}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Search / Catalog Results */}
+                {regionsList.length > 0 && (
+                  <div className="pt-1 border-t border-[#1E2D4A] max-h-48 overflow-y-auto space-y-1">
+                    <div className="text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1 px-1">
+                      Available Locations ({regionsList.length})
+                    </div>
+                    {regionsList.map(r => (
+                      <div
+                        key={r.id}
+                        onClick={() => handleSelectRegion(r.id)}
+                        className={`px-2.5 py-1.5 rounded-lg cursor-pointer flex items-center justify-between text-xs transition ${
+                          selectedRegionId === r.id || region.id === r.id
+                            ? 'bg-cyan-500/20 text-cyan-300 font-bold border border-cyan-500/40'
+                            : 'text-slate-200 hover:bg-[#16243A]'
+                        }`}
+                      >
+                        <div className="truncate">
+                          <span className="font-medium">{r.name}</span>
+                          <span className="text-[10px] text-slate-400 ml-1.5">({r.state})</span>
+                        </div>
+                        <span className="text-[10px] font-mono text-slate-500 flex-shrink-0 ml-2">
+                          {r.latitude.toFixed(2)}°N, {r.longitude.toFixed(2)}°E
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
+
+          {/* Refresh Button */}
           <button
             onClick={onRefresh}
             disabled={loading}
-            className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#0D1626] hover:bg-[#16243A] text-slate-200 border border-[#1E2D4A] rounded-lg text-xs font-semibold transition cursor-pointer disabled:opacity-50"
+            className="flex items-center space-x-1.5 px-3 py-2 bg-[#0D1626] hover:bg-[#16243A] text-slate-200 border border-[#1E2D4A] rounded-xl text-xs font-semibold transition cursor-pointer disabled:opacity-50 shadow-lg"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
             <span>Poll Telemetry</span>
           </button>
         </div>
+      </div>
+
+      {/* Quick Selection Filter Pills */}
+      <div className="flex items-center space-x-2 overflow-x-auto pb-1 text-xs">
+        <span className="text-[11px] text-slate-400 font-medium flex items-center space-x-1 flex-shrink-0">
+          <MapPin className="w-3.5 h-3.5 text-cyan-400" />
+          <span>Quick Switch:</span>
+        </span>
+        {QUICK_REGIONS.map(qr => {
+          const isActive = selectedRegionId === qr.id || region.id === qr.id;
+          return (
+            <button
+              key={qr.id}
+              onClick={() => handleSelectRegion(qr.id)}
+              className={`flex items-center space-x-1.5 px-2.5 py-1 rounded-lg text-xs font-medium transition flex-shrink-0 cursor-pointer ${
+                isActive
+                  ? 'bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
+                  : 'bg-[#0D1626] border border-[#1E2D4A] text-slate-400 hover:text-white hover:border-slate-600'
+              }`}
+            >
+              <span>{qr.icon}</span>
+              <span>{qr.label}</span>
+            </button>
+          );
+        })}
       </div>
 
       {/* Environmental Readiness Alert Banner */}
@@ -400,14 +602,14 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
             <div className="space-y-1">
               <div className="flex items-center space-x-2">
                 <span className="text-sm sm:text-base font-bold text-white">
-                  Environmental Readiness Status
+                  Environmental Readiness Status • {region.name}
                 </span>
                 <Badge variant={alertVariant} size="sm">
                   {alert?.badge || 'Normal Conditions'}
                 </Badge>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
-                {alert?.summary || 'Stable meteorological and hydrological conditions across the Alappuzha & Kuttanad delta.'}
+                {alert?.summary || `Stable meteorological and hydrological conditions across ${region.name}.`}
               </p>
             </div>
           </div>
@@ -430,10 +632,10 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
       {/* Geospatial Monitoring Map */}
       <Card className="p-4 space-y-3">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-[#1E2D4A]">
-          <div className="flex items-center space-x-2">
-            <MapPin className="w-4 h-4 text-cyan-400" />
-            <h2 className="text-sm font-bold text-white uppercase tracking-wider">
-              Geospatial Telemetry Map • Alappuzha & River Inflow Corridors
+          <div className="flex items-center space-x-2 truncate">
+            <MapPin className="w-4 h-4 text-cyan-400 flex-shrink-0" />
+            <h2 className="text-sm font-bold text-white uppercase tracking-wider truncate">
+              Geospatial Telemetry Map • {region.name}
             </h2>
           </div>
 
@@ -469,16 +671,23 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
               }`}
             >
               <Radio className="w-3 h-3" />
-              <span>CWC Gauges</span>
+              <span>CWC Gauges ({stations.length})</span>
             </button>
 
+            {/* Historical 2018 Flood Footprint (Reference Overlay) */}
             <button
-              onClick={() => setShowHistoricalFlood(!showHistoricalFlood)}
+              onClick={() => isKeralaRegion && setShowHistoricalFlood(!showHistoricalFlood)}
+              disabled={!isKeralaRegion}
+              title={isKeralaRegion ? 'Toggle 2018 historical flood footprint reference' : 'Historical flood extent is specific to the Kerala 2018 benchmark study'}
               className={`flex items-center space-x-1 px-2 py-1 rounded text-[11px] border transition ${
-                showHistoricalFlood ? 'bg-cyan-950/70 border-cyan-500/40 text-cyan-200' : 'bg-[#070D18] border-[#1E2D4A] text-slate-400'
+                !isKeralaRegion
+                  ? 'opacity-40 cursor-not-allowed bg-[#070D18] border-[#1E2D4A] text-slate-500'
+                  : showHistoricalFlood
+                  ? 'bg-cyan-950/70 border-cyan-500/40 text-cyan-200 cursor-pointer'
+                  : 'bg-[#070D18] border-[#1E2D4A] text-slate-400 cursor-pointer'
               }`}
             >
-              {showHistoricalFlood ? <Eye className="w-3 h-3 text-cyan-400" /> : <EyeOff className="w-3 h-3" />}
+              {showHistoricalFlood && isKeralaRegion ? <Eye className="w-3 h-3 text-cyan-400" /> : <EyeOff className="w-3 h-3" />}
               <span>2018 Flood (Ref)</span>
             </button>
           </div>
@@ -496,7 +705,7 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
             </div>
             <div className="flex items-center space-x-1">
               <span className="w-2.5 h-2.5 rounded-full bg-cyan-400 border border-white" />
-              <span>IMD Weather Station</span>
+              <span>Observation Center</span>
             </div>
             <div className="flex items-center space-x-1">
               <span className="w-3 h-0.5 border-t-2 border-dashed border-cyan-400" />
@@ -508,16 +717,16 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
 
       {/* Grid: 3 major telemetry modules */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Module 1: Meteorological Telemetry (IMD / Open-Meteo) */}
+        {/* Module 1: Meteorological Telemetry */}
         <Card className="p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-400">
+            <div className="flex items-center space-x-2 truncate">
+              <div className="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-400 flex-shrink-0">
                 <CloudRain className="w-5 h-5" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-white">Meteorological Telemetry</h3>
-                <p className="text-[11px] text-slate-400">{weather?.provider || 'IMD AWS / Open-Meteo Model'}</p>
+              <div className="truncate">
+                <h3 className="text-sm font-bold text-white truncate">Meteorological Telemetry</h3>
+                <p className="text-[11px] text-slate-400 truncate">{weather?.provider || 'Open-Meteo High-Resolution Model'}</p>
               </div>
             </div>
             {renderFreshnessBadge(weather?.freshness_status || 'LIVE')}
@@ -586,21 +795,21 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
           </div>
 
           <div className="text-[10px] text-slate-400 pt-1 border-t border-[#1E2D4A] flex items-center justify-between">
-            <span>Location: <strong className="text-slate-300">Alappuzha (District 164)</strong></span>
-            <span className="text-slate-400">{weather?.source_reference || 'IMD AWS'}</span>
+            <span>Location: <strong className="text-slate-300">{region.name}</strong></span>
+            <span className="text-slate-400">{weather?.source_reference || 'Open-Meteo ECMWF'}</span>
           </div>
         </Card>
 
-        {/* Module 2: Hydrological Basin Telemetry (CWC & GloFAS) */}
+        {/* Module 2: Hydrological Basin Telemetry */}
         <Card className="p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400">
+            <div className="flex items-center space-x-2 truncate">
+              <div className="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400 flex-shrink-0">
                 <Waves className="w-5 h-5" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-white">River Basin Inflow</h3>
-                <p className="text-[11px] text-slate-400">Pamba & Manimala Inflow Corridors</p>
+              <div className="truncate">
+                <h3 className="text-sm font-bold text-white truncate">River Basin Inflow</h3>
+                <p className="text-[11px] text-slate-400 truncate">{hydrology?.basin_name || region.cwc_basin || 'Regional Drainage Basin'}</p>
               </div>
             </div>
             {renderFreshnessBadge(hydrology?.freshness_status || 'RECENT')}
@@ -608,7 +817,7 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
 
           <div className="p-3 bg-[#070D18] border border-[#1E2D4A] rounded-xl space-y-1">
             <div className="flex items-baseline justify-between">
-              <span className="text-xs text-slate-400">Current Delta Discharge:</span>
+              <span className="text-xs text-slate-400">Current Basin Inflow:</span>
               <span className="text-2xl font-extrabold text-emerald-300 font-mono">
                 {hydrology?.current_discharge_m3_s ? `${hydrology.current_discharge_m3_s} m³/s` : '0.82 m³/s'}
               </span>
@@ -624,51 +833,67 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
             <SvgBarChart data={dischargeBars} />
           </div>
 
-          <div className="text-[10px] text-slate-400 pt-1 border-t border-[#1E2D4A] flex items-center justify-between">
-            <span>Flow Status: <strong className="text-emerald-400">{hydrology?.flow_status || 'NORMAL'}</strong></span>
-            <span>CWC Gauge Atlas (4 Stations)</span>
-          </div>
+          {/* Honest station availability notice */}
+          {stations.length === 0 ? (
+            <div className="p-2 bg-[#070D18] border border-amber-500/30 rounded-lg text-[11px] text-amber-300/90 flex items-center space-x-1.5">
+              <Info className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+              <span>No active CWC river gauge stations within 120km radius of this region. GloFAS runoff simulation active.</span>
+            </div>
+          ) : (
+            <div className="text-[10px] text-slate-400 pt-1 border-t border-[#1E2D4A] flex items-center justify-between">
+              <span>Flow Status: <strong className="text-emerald-400">{hydrology?.flow_status || 'NORMAL'}</strong></span>
+              <span>CWC Stations: <strong className="text-emerald-300">{stations.length} Loaded</strong></span>
+            </div>
+          )}
         </Card>
 
         {/* Module 3: Sentinel-1 SAR Acquisition Discovery */}
         <Card className="p-5 space-y-4 md:col-span-2 lg:col-span-1">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <div className="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-400">
+            <div className="flex items-center space-x-2 truncate">
+              <div className="p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg text-cyan-400 flex-shrink-0">
                 <Satellite className="w-5 h-5" />
               </div>
-              <div>
-                <h3 className="text-sm font-bold text-white">SAR Satellite Acquisitions</h3>
-                <p className="text-[11px] text-slate-400">ESA Copernicus Data Space (CDSE)</p>
+              <div className="truncate">
+                <h3 className="text-sm font-bold text-white truncate">SAR Satellite Acquisitions</h3>
+                <p className="text-[11px] text-slate-400 truncate">ESA Copernicus Data Space (CDSE)</p>
               </div>
             </div>
             <Badge variant="cyan" size="sm">
-              Orbit 144
+              AOI Bbox
             </Badge>
           </div>
 
           <div className="space-y-2.5 text-xs">
             <div className="p-3 bg-[#070D18] border border-[#1E2D4A] rounded-xl space-y-1">
               <span className="text-[10px] uppercase text-slate-400 font-semibold block">
-                Latest Product Discovered (AOI Intersect)
+                Latest Product Discovered (Regional Intersect)
               </span>
-              <div className="text-xs font-mono font-bold text-cyan-300 truncate" title={latestProduct?.product_name || 'S1D_IW_OCN__2SDV_20261114T004022...'}>
-                {latestProduct?.product_name || 'S1D_IW_OCN__2SDV_20261114T004022...'}
-              </div>
-              <div className="text-[10px] text-slate-400 flex items-center justify-between pt-1">
-                <span>Acquired: <strong className="text-slate-200">{latestProduct?.acquisition_start ? new Date(latestProduct.acquisition_start).toLocaleDateString() : 'Nov 14, 2026'}</strong></span>
-                {latestProduct?.catalogue_link && (
-                  <a
-                    href={latestProduct.catalogue_link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-cyan-400 hover:underline flex items-center space-x-0.5"
-                  >
-                    <span>View CDSE</span>
-                    <ExternalLink className="w-2.5 h-2.5" />
-                  </a>
-                )}
-              </div>
+              {latestProduct ? (
+                <>
+                  <div className="text-xs font-mono font-bold text-cyan-300 truncate" title={latestProduct.product_name}>
+                    {latestProduct.product_name}
+                  </div>
+                  <div className="text-[10px] text-slate-400 flex items-center justify-between pt-1">
+                    <span>Acquired: <strong className="text-slate-200">{latestProduct.acquisition_start ? new Date(latestProduct.acquisition_start).toLocaleDateString() : 'Recent'}</strong></span>
+                    {latestProduct.catalogue_link && (
+                      <a
+                        href={latestProduct.catalogue_link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-cyan-400 hover:underline flex items-center space-x-0.5"
+                      >
+                        <span>View CDSE</span>
+                        <ExternalLink className="w-2.5 h-2.5" />
+                      </a>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="text-[11px] text-slate-400 italic">
+                  No recent Sentinel-1 SAR scenes covering this bounding box.
+                </div>
+              )}
             </div>
 
             <div className="p-3 bg-[#070D18] border border-[#1E2D4A] rounded-xl space-y-1">
@@ -691,8 +916,8 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
           </div>
 
           <div className="text-[10px] text-slate-400 pt-1 border-t border-[#1E2D4A] flex items-center justify-between">
-            <span>Catalogue: <strong className="text-slate-300">CDSE OData/STAC v1</strong></span>
-            <span className="text-cyan-400">Raw GRD Indexed</span>
+            <span>Catalogue: <strong className="text-slate-300">CDSE OData/STAC</strong></span>
+            <span className="text-cyan-400">Dynamic AOI Bbox</span>
           </div>
         </Card>
       </div>
@@ -707,7 +932,7 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
             </h3>
           </div>
           <div className="flex items-center space-x-2">
-            <span className="text-xs text-slate-400">Active Kerala Warnings:</span>
+            <span className="text-xs text-slate-400">Active Warnings for {region.state}:</span>
             <Badge variant={alertsList.length > 0 ? 'rose' : 'emerald'} size="sm">
               {alertsList.length} Active
             </Badge>
@@ -718,10 +943,10 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
           <div className="p-4 bg-[#070D18] border border-[#1E2D4A] rounded-xl text-center space-y-1.5">
             <div className="flex items-center justify-center space-x-2 text-emerald-400 font-bold text-xs">
               <CheckCircle2 className="w-4 h-4" />
-              <span>No Active Official Disaster Warnings for Kerala</span>
+              <span>No Active Official Disaster Warnings for {region.state}</span>
             </div>
             <p className="text-[11px] text-slate-400 max-w-xl mx-auto">
-              NDMA SACHET National Disaster Alert Portal reports 0 active emergency bulletins for Alappuzha and surrounding districts. The system continuously polls the national CAP feed.
+              NDMA SACHET National Disaster Alert Portal reports 0 active emergency bulletins for {region.name} and surrounding districts. The system continuously polls the national CAP feed.
             </p>
           </div>
         ) : (
@@ -749,19 +974,19 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px]">
           {/* IMD */}
           <div className="p-2 bg-[#070D18] border border-[#1E2D4A] rounded-lg">
-            <div className="text-slate-400 font-medium">IMD Weather</div>
+            <div className="text-slate-400 font-medium">Weather Pipeline</div>
             <div className="font-bold mt-0.5 text-cyan-300 flex items-center space-x-1">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-              <span>{providerStatus.imd?.status === 'AUTHENTICATED' ? 'Official API' : 'Open-Meteo Baseline'}</span>
+              <span>{providerStatus.imd?.status === 'AUTHENTICATED' ? 'Official IMD API' : 'Open-Meteo Model'}</span>
             </div>
           </div>
 
           {/* CWC */}
           <div className="p-2 bg-[#070D18] border border-[#1E2D4A] rounded-lg">
-            <div className="text-slate-400 font-medium">CWC River Atlas</div>
+            <div className="text-slate-400 font-medium">CWC Basin Atlas</div>
             <div className="font-bold mt-0.5 text-emerald-300 flex items-center space-x-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span>4 Stations Loaded</span>
+              <span>{stations.length > 0 ? `${stations.length} Gauges Active` : 'GloFAS Simulation'}</span>
             </div>
           </div>
 

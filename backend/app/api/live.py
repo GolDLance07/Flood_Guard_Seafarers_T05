@@ -1,17 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
+from typing import Optional
 from backend.app.services.monitoring import monitoring_aggregator
 
 router = APIRouter(prefix="/api/live", tags=["live_monitoring"])
 
 @router.get("/overview")
-def get_live_overview():
+def get_live_overview(region: Optional[str] = Query(None)):
     """
     Get live environmental telemetry (real-time weather, 24h rainfall,
-    GloFAS river discharge, and Sentinel-1 pass tracking) for Alappuzha/Kuttanad.
+    GloFAS river discharge, and Sentinel-1 pass tracking) for the selected region.
     """
-    overview = monitoring_aggregator.get_monitoring_overview()
+    overview = monitoring_aggregator.get_monitoring_overview(region_id=region)
 
-    # Map to backward-compatible shape for existing tests and components
     weather = overview.get("weather", {})
     rivers = overview.get("rivers", {})
     satellites = overview.get("satellites", {})
@@ -41,7 +41,7 @@ def get_live_overview():
             "status": weather.get("freshness_status", "LIVE")
         },
         "hydrology": {
-            "basin_name": rivers.get("basin_name", "Pamba & Manimala Basin"),
+            "basin_name": rivers.get("basin_name", "Regional River Basin"),
             "current_discharge_m3_s": rivers.get("current_discharge_m3_s", 0.82),
             "median_discharge_m3_s": rivers.get("median_discharge_m3_s", 0.80),
             "flow_status": rivers.get("flow_status", "NORMAL"),
@@ -62,9 +62,14 @@ def get_live_overview():
     }
 
 @router.get("/satellite-acquisitions")
-def get_live_satellite_acquisitions():
-    """
-    Get Sentinel-1 satellite pass schedule and orbital acquisition window.
-    """
-    data = get_live_overview()
-    return data.get("satellite_tracking", {})
+def get_live_satellite_acquisitions(
+    region: Optional[str] = Query(None),
+    limit: int = Query(5, ge=1, le=20)
+):
+    """Search Copernicus Data Space Ecosystem for Sentinel-1 acquisitions."""
+    sats = monitoring_aggregator.get_satellites(region_id=region, limit=limit)
+    sched = sats.get("orbital_pass_schedule", {})
+    return {
+        **sched,
+        **sats
+    }
