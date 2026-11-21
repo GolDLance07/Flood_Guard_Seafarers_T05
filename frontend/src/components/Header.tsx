@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ShieldAlert, Radio, RefreshCw, LayoutDashboard, Activity, Navigation as NavigationIcon, FileCheck2, MapPin, Eye, User, Shield } from 'lucide-react';
+import { ShieldAlert, Radio, RefreshCw, LayoutDashboard, Activity, Navigation as NavigationIcon, FileCheck2, MapPin, Eye, User, Shield, Users } from 'lucide-react';
 import type { OverviewResponse } from '../types/api';
 import { Badge } from './common/Badge';
 import { useAuth } from '../context/AuthContext';
@@ -13,6 +13,7 @@ interface HeaderProps {
   activeWorkspace: WorkspaceTab;
   onSelectWorkspace: (tab: WorkspaceTab) => void;
   onRefresh: () => void;
+  onSwitchToCitizen?: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -21,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   activeWorkspace,
   onSelectWorkspace,
   onRefresh,
+  onSwitchToCitizen,
 }) => {
   const workspaces: { id: WorkspaceTab; label: string; icon: React.ComponentType<{ className?: string }>; badge?: string }[] = [
     { id: 'overview', label: 'Command Center', icon: LayoutDashboard },
@@ -113,6 +115,18 @@ export const Header: React.FC<HeaderProps> = ({
             </>
           )}
         </div>
+
+        {/* Switch to Citizen Portal */}
+        {onSwitchToCitizen && (
+          <button
+            onClick={onSwitchToCitizen}
+            title="Switch to Public Citizen Portal"
+            className="flex items-center space-x-1.5 px-3 py-1.5 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-lg text-xs font-semibold transition cursor-pointer"
+          >
+            <Users className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="hidden md:inline">Citizen Portal</span>
+          </button>
+        )}
 
         {/* Refresh Action */}
         <button

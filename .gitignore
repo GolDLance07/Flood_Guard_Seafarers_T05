@@ -27,6 +27,12 @@ frontend/.env.local
 logs/
 *.log
 
+# Local SQLite databases
+*.db
+*.sqlite3
+data/*.db
+data/*.sqlite3
+
 # OS & IDE
 .DS_Store
 Thumbs.db

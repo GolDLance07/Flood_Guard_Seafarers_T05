@@ -1,4 +1,11 @@
 import type { OverviewResponse, FloodMetadataResponse, RouteRequest, RouteResponse } from '../types/api';
+import type {
+  SheltersResponse,
+  IncidentReportPayload,
+  IncidentSubmissionResult,
+  IncidentTrackingItem,
+  CitizenOverviewData
+} from '../types/citizen';
 import type { FeatureCollection } from 'geojson';
 import { supabase } from './supabase';
 
@@ -119,6 +126,77 @@ export async function fetchAuthMe(): Promise<any> {
   if (!res.ok) {
     const err = await res.json().catch(() => ({}));
     throw new Error(err?.error?.message || 'Authentication check failed');
+  }
+  return res.json();
+}
+
+// ------------------------------------------------------------------------------
+// Citizen Public Safety API Functions
+// ------------------------------------------------------------------------------
+
+export async function fetchCitizenOverview(regionId?: string): Promise<CitizenOverviewData> {
+  const q = regionId ? `?region=${encodeURIComponent(regionId)}` : '';
+  const res = await fetch(`${API_BASE}/api/citizen/overview${q}`);
+  if (!res.ok) throw new Error('Failed to fetch citizen safety overview');
+  return res.json();
+}
+
+export async function fetchCitizenShelters(regionId?: string): Promise<SheltersResponse> {
+  const q = regionId ? `?region=${encodeURIComponent(regionId)}` : '';
+  const res = await fetch(`${API_BASE}/api/citizen/shelters${q}`);
+  if (!res.ok) throw new Error('Failed to fetch emergency shelter registry');
+  return res.json();
+}
+
+export async function submitCitizenIncident(payload: IncidentReportPayload): Promise<IncidentSubmissionResult> {
+  const authHeaders = await getAuthHeaders();
+  const res = await fetch(`${API_BASE}/api/citizen/incidents`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...authHeaders
+    },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || err?.detail?.error?.message || 'Report submission failed');
+  }
+  return res.json();
+}
+
+export async function fetchIncidentStatus(trackingNumber: string): Promise<IncidentTrackingItem> {
+  const res = await fetch(`${API_BASE}/api/citizen/incidents/${encodeURIComponent(trackingNumber)}`);
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || 'Tracking report not found');
+  }
+  return res.json();
+}
+
+export async function fetchMyReports(trackingNumbers: string[]): Promise<any> {
+  const authHeaders = await getAuthHeaders();
+  const query = trackingNumbers.map(t => `tracking_numbers=${encodeURIComponent(t)}`).join('&');
+  const res = await fetch(`${API_BASE}/api/citizen/incidents/my-reports${query ? `?${query}` : ''}`, {
+    method: 'POST',
+    headers: {
+      ...authHeaders
+    }
+  });
+  if (!res.ok) throw new Error('Failed to fetch report history');
+  return res.json();
+}
+
+export async function uploadCitizenEvidence(file: File): Promise<any> {
+  const formData = new FormData();
+  formData.append('file', file);
+  const res = await fetch(`${API_BASE}/api/citizen/upload`, {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || err?.detail?.error?.message || 'Image upload validation failed');
   }
   return res.json();
 }

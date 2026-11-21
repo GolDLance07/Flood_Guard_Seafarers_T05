@@ -16,7 +16,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from backend.app.config import CORS_ORIGINS, API_VERSION, BASE_DIR
-from backend.app.api import health, events, overview, flood, impact, facilities, routes, reports, live, monitoring, auth
+from backend.app.api import health, events, overview, flood, impact, facilities, routes, reports, live, monitoring, auth, citizen
 from backend.app.core.supabase import supabase_manager
 
 @asynccontextmanager
@@ -83,6 +83,7 @@ app.include_router(reports.router)
 app.include_router(live.router)
 app.include_router(monitoring.router)
 app.include_router(auth.router)
+app.include_router(citizen.router)
 
 # Mount Frontend static files if built
 FRONTEND_DIST = BASE_DIR / "frontend" / "dist"

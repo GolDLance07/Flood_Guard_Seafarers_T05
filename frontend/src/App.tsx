@@ -7,6 +7,16 @@ import { ImpactWorkspace } from './components/workspaces/ImpactWorkspace';
 import { LiveMonitoringWorkspace } from './components/workspaces/LiveMonitoringWorkspace';
 import { RescueWorkspace } from './components/workspaces/RescueWorkspace';
 import { EvidenceWorkspace } from './components/workspaces/EvidenceWorkspace';
+
+// Citizen Experience Components
+import { CitizenHeader } from './components/citizen/CitizenHeader';
+import { CitizenNavigation } from './components/citizen/CitizenNavigation';
+import { CitizenOverviewTab } from './components/citizen/CitizenOverviewTab';
+import { CitizenMapTab } from './components/citizen/CitizenMapTab';
+import { CitizenShelterTab } from './components/citizen/CitizenShelterTab';
+import { CitizenReportTab } from './components/citizen/CitizenReportTab';
+import { CitizenActivityTab } from './components/citizen/CitizenActivityTab';
+
 import {
   fetchOverview,
   fetchFloodMetadata,
@@ -16,19 +26,41 @@ import {
   fetchFacilities,
   fetchSettlements,
   fetchLiveOverview,
+  fetchMonitoringRegions,
+  fetchCitizenOverview,
+  fetchCitizenShelters,
   computeCandidateRoute,
 } from './services/api';
+
 import type {
   OverviewResponse,
   FloodMetadataResponse,
-  LiveOverviewResponse,
   RouteCoordinate,
   RouteResponse,
+  MonitoringRegion,
 } from './types/api';
+
+import type {
+  AppMode,
+  CitizenTab,
+  CitizenOverviewData,
+  SheltersResponse,
+  IncidentSubmissionResult,
+} from './types/citizen';
+
 import type { FeatureCollection } from 'geojson';
 import { AlertCircle, Loader2 } from 'lucide-react';
 
 export const App: React.FC = () => {
+  // Application Mode: Citizen (Public) vs Command (Emergency Operations)
+  const [appMode, setAppMode] = useState<AppMode>(() => {
+    return (localStorage.getItem('floodguard_app_mode') as AppMode) || 'citizen';
+  });
+
+  // Citizen Tab Navigation
+  const [activeCitizenTab, setActiveCitizenTab] = useState<CitizenTab>('overview');
+
+  // Command Center Workspaces
   const [activeWorkspace, setActiveWorkspace] = useState<WorkspaceTab>('overview');
 
   // Operational Geospatial Data State (Historical Case Study)
@@ -41,8 +73,24 @@ export const App: React.FC = () => {
   const [settlementsGeoJSON, setSettlementsGeoJSON] = useState<FeatureCollection | null>(null);
 
   // Live Environmental Telemetry State
-  const [liveData, setLiveData] = useState<LiveOverviewResponse | null>(null);
+  const [liveData, setLiveData] = useState<any>(null);
   const [liveLoading, setLiveLoading] = useState<boolean>(false);
+
+  // Citizen State
+  const [citizenOverview, setCitizenOverview] = useState<CitizenOverviewData | null>(null);
+  const [citizenShelters, setCitizenShelters] = useState<SheltersResponse | null>(null);
+  const [citizenLoading, setCitizenLoading] = useState<boolean>(false);
+  const [regionsList, setRegionsList] = useState<MonitoringRegion[]>([]);
+
+  // Local Incident Reports (Privacy-safe localStorage)
+  const [myReports, setMyReports] = useState<IncidentSubmissionResult[]>(() => {
+    try {
+      const saved = localStorage.getItem('floodguard_my_reports');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +104,7 @@ export const App: React.FC = () => {
     settlements: true,
   });
 
-  // Routing State (Initialized to null - eliminates random unexplained markers)
+  // Routing State
   const [origin, setOrigin] = useState<RouteCoordinate | null>(null);
   const [destination, setDestination] = useState<RouteCoordinate | null>(null);
   const [routeResponse, setRouteResponse] = useState<RouteResponse | null>(null);
@@ -72,13 +120,40 @@ export const App: React.FC = () => {
   });
   const liveRequestIdRef = useRef(0);
 
+  const handleSetAppMode = (mode: AppMode) => {
+    setAppMode(mode);
+    localStorage.setItem('floodguard_app_mode', mode);
+  };
+
+  const loadCitizenData = async (regId: string) => {
+    setCitizenLoading(true);
+    try {
+      const [ov, sh] = await Promise.all([
+        fetchCitizenOverview(regId).catch((e) => {
+          console.warn('Citizen overview fetch failed:', e);
+          return null;
+        }),
+        fetchCitizenShelters(regId).catch((e) => {
+          console.warn('Citizen shelters fetch failed:', e);
+          return null;
+        }),
+      ]);
+      if (ov) setCitizenOverview(ov);
+      if (sh) setCitizenShelters(sh);
+    } catch (err: any) {
+      console.error('Failed to load citizen data:', err);
+    } finally {
+      setCitizenLoading(false);
+    }
+  };
+
   const loadAllData = async () => {
     try {
       setLoading(true);
       setError(null);
       const savedRegion = localStorage.getItem('floodguard_monitoring_region_id') || 'kerala-alappuzha';
 
-      const [ov, fm, fg, rg, rn, fac, set, live] = await Promise.all([
+      const [ov, fm, fg, rg, rn, fac, set, live, regResp] = await Promise.all([
         fetchOverview(),
         fetchFloodMetadata(),
         fetchFloodExtent(),
@@ -93,6 +168,10 @@ export const App: React.FC = () => {
           console.warn('Live monitoring service unavailable, falling back:', e);
           return null;
         }),
+        fetchMonitoringRegions().catch((e) => {
+          console.warn('Failed to fetch regions list:', e);
+          return null;
+        }),
       ]);
 
       setOverview(ov);
@@ -103,6 +182,9 @@ export const App: React.FC = () => {
       setFacilitiesGeoJSON(fac);
       setSettlementsGeoJSON(set);
       if (live) setLiveData(live);
+      if (regResp?.regions) setRegionsList(regResp.regions);
+
+      await loadCitizenData(savedRegion);
     } catch (err: any) {
       console.error('Failed to load disaster intelligence data:', err);
       setError(err?.message || 'Failed to connect to FloodGuard API backend.');
@@ -174,6 +256,126 @@ export const App: React.FC = () => {
     }
   };
 
+  const handleCitizenSelectRegion = (regId: string) => {
+    setMonitoringRegionId(regId);
+    localStorage.setItem('floodguard_monitoring_region_id', regId);
+    loadCitizenData(regId);
+    pollLiveData(regId);
+  };
+
+  const handleReportSubmitted = (res: IncidentSubmissionResult) => {
+    setMyReports((prev) => {
+      const updated = [res, ...prev.filter((r) => r.tracking_number !== res.tracking_number)];
+      try {
+        localStorage.setItem('floodguard_my_reports', JSON.stringify(updated));
+      } catch (e) {
+        console.warn('Failed to persist report locally:', e);
+      }
+      return updated;
+    });
+    setActiveCitizenTab('activity');
+  };
+
+  // --------------------------------------------------------------------------
+  // CITIZEN INTERFACE (Public Citizen Experience)
+  // --------------------------------------------------------------------------
+  if (appMode === 'citizen') {
+    const currentReg = citizenOverview?.region || {
+      id: monitoringRegionId,
+      name: monitoringRegionId.split('-')[1] || 'Alappuzha',
+      state: monitoringRegionId.split('-')[0] || 'Kerala',
+    };
+
+    return (
+      <div className="relative w-screen h-screen overflow-hidden bg-[#070D18] flex flex-col font-sans select-none text-[#F1F5F9]">
+        {/* Public Citizen Header */}
+        <CitizenHeader
+          currentRegion={{
+            id: currentReg.id,
+            name: currentReg.name,
+            state: currentReg.state,
+          }}
+          regionsList={regionsList}
+          onSelectRegion={handleCitizenSelectRegion}
+          onSwitchToCommand={() => handleSetAppMode('command')}
+        />
+
+        {/* 5-Tab Public Navigation */}
+        <CitizenNavigation
+          activeTab={activeCitizenTab}
+          onSelectTab={setActiveCitizenTab}
+          reportCount={myReports.length}
+        />
+
+        {/* Tab Content Area */}
+        <main className="relative flex-1 overflow-y-auto">
+          {activeCitizenTab === 'overview' && (
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+              <CitizenOverviewTab
+                data={citizenOverview}
+                loading={citizenLoading}
+                onNavigateTab={setActiveCitizenTab}
+              />
+            </div>
+          )}
+
+          {activeCitizenTab === 'map' && (
+            <div className="w-full h-full">
+              <CitizenMapTab
+                region={{
+                  id: currentReg.id,
+                  name: currentReg.name,
+                  state: currentReg.state,
+                  center: citizenOverview?.region.center,
+                  aoi_bbox: citizenOverview?.region.aoi_bbox,
+                  zoom: citizenOverview?.region.zoom,
+                }}
+                shelters={citizenShelters?.shelters || []}
+                stations={liveData?.rivers?.stations || liveData?.stations || []}
+                floodGeoJSON={floodGeoJSON}
+              />
+            </div>
+          )}
+
+          {activeCitizenTab === 'shelters' && (
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+              <CitizenShelterTab
+                sheltersData={citizenShelters}
+                loading={citizenLoading}
+                currentRegionName={currentReg.name}
+              />
+            </div>
+          )}
+
+          {activeCitizenTab === 'report' && (
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
+              <CitizenReportTab
+                currentRegion={{
+                  id: currentReg.id,
+                  name: currentReg.name,
+                  center: citizenOverview?.region.center,
+                }}
+                onReportSubmitted={handleReportSubmitted}
+              />
+            </div>
+          )}
+
+          {activeCitizenTab === 'activity' && (
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+              <CitizenActivityTab
+                myReports={myReports}
+                onSelectTab={setActiveCitizenTab}
+              />
+            </div>
+          )}
+        </main>
+      </div>
+    );
+  }
+
+  // --------------------------------------------------------------------------
+  // COMMAND INTERFACE (Authorized Emergency Workspaces)
+  // --------------------------------------------------------------------------
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#070D18] flex flex-col font-sans select-none text-[#F1F5F9]">
       {/* Top Intelligence Header Bar */}
@@ -183,6 +385,7 @@ export const App: React.FC = () => {
         activeWorkspace={activeWorkspace}
         onSelectWorkspace={setActiveWorkspace}
         onRefresh={loadAllData}
+        onSwitchToCitizen={() => handleSetAppMode('citizen')}
       />
 
       {/* Backend Error Banner */}
