@@ -101,21 +101,21 @@ export const IncidentWorkspace: React.FC = () => {
         });
       }
     } catch (err) {
-      console.error('Failed to fetch incident details:', err);
+      console.error('Failed to load incident detail:', err);
     } finally {
       setDetailLoading(false);
     }
   };
 
-  // Tactical Map Initialization
+  // Map Initialization
   useEffect(() => {
     if (!mapContainer.current || mapInstance.current) return;
 
     const map = new maplibregl.Map({
       container: mapContainer.current,
       style: BASEMAP_STYLE,
-      center: [76.338, 9.498],
-      zoom: 11.5,
+      center: [76.335, 9.495],
+      zoom: 11,
       maxZoom: 16
     });
 
@@ -128,7 +128,7 @@ export const IncidentWorkspace: React.FC = () => {
     };
   }, []);
 
-  // Update map markers when incidents change
+  // Update Map Markers on incident change
   useEffect(() => {
     if (!mapInstance.current) return;
 
@@ -139,79 +139,63 @@ export const IncidentWorkspace: React.FC = () => {
       if (!inc.latitude || !inc.longitude) return;
 
       const isSelected = inc.id === selectedIncidentId;
-      const isCritical = inc.severity === 'critical';
-      const isVerified = inc.status === 'VERIFIED' || inc.status === 'ACTION_DISPATCHED' || inc.status === 'IN_PROGRESS';
-
       const el = document.createElement('div');
-      el.className = 'cursor-pointer transition-transform duration-200';
+      el.className = 'cursor-pointer select-none';
+
+      const color =
+        inc.severity === 'critical' ? '#E45555' :
+        inc.severity === 'high' ? '#F0A83B' : '#16B8D4';
+
       el.innerHTML = `
-        <div class="relative flex items-center justify-center">
-          ${isSelected ? '<span class="absolute -inset-2 rounded-full bg-cyan-400/40 animate-ping"></span>' : ''}
-          <div class="w-6 h-6 rounded-full border-2 ${
-            isSelected
-              ? 'bg-cyan-400 border-white shadow-cyan-glow scale-125'
-              : isCritical
-              ? 'bg-rose-500 border-white shadow-danger-glow'
-              : isVerified
-              ? 'bg-emerald-500 border-white shadow-teal-glow'
-              : 'bg-amber-500 border-white shadow-amber-glow'
-          } flex items-center justify-center text-[10px] font-bold text-white">
-            !
-          </div>
+        <div style="
+          width: ${isSelected ? '22px' : '16px'};
+          height: ${isSelected ? '22px' : '16px'};
+          border-radius: 50%;
+          background: ${color};
+          border: 2px solid #E8F0F7;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 9px;
+          color: #07111F;
+        ">
+          !
         </div>
       `;
 
-      el.addEventListener('click', () => {
-        handleSelectIncident(inc.id);
-      });
-
-      const popup = new maplibregl.Popup({ offset: 15 }).setHTML(`
-        <div class="font-sans text-xs">
-          <div class="font-bold text-white">${inc.title}</div>
-          <div class="text-[10px] text-cyan-400 font-mono">${inc.tracking_number}</div>
-          <div class="text-[10px] text-slate-400 mt-1 uppercase font-mono">${inc.category} &bull; ${inc.status}</div>
-        </div>
-      `);
+      el.addEventListener('click', () => handleSelectIncident(inc.id));
 
       const marker = new maplibregl.Marker({ element: el })
         .setLngLat([inc.longitude, inc.latitude])
-        .setPopup(popup)
         .addTo(mapInstance.current!);
 
       markersRef.current.push(marker);
     });
   }, [incidents, selectedIncidentId]);
 
-  const handleStatusTransition = async (newStatus: string) => {
+  // Operational Verification Actions
+  const handleVerify = async (status: 'confirmed' | 'rejected' | 'duplicate') => {
     if (!selectedIncidentId) return;
     try {
-      await updateIncidentStatus(selectedIncidentId, {
-        new_status: newStatus,
-        reason: `Command Center duty officer transitioned status to ${newStatus}`,
-        public_note: `Emergency status updated to ${newStatus.replace('_', ' ')}.`
-      });
-      setActionNotice(`Status transitioned to ${newStatus}`);
-      await handleSelectIncident(selectedIncidentId);
-      await loadIncidents();
+      await verifyIncident(selectedIncidentId, { decision: status, verification_notes: 'Verified by Command Coordinator' });
+      setActionNotice(`Incident status updated to: ${status.toUpperCase()}`);
+      loadIncidents();
+      handleSelectIncident(selectedIncidentId);
     } catch (err: any) {
-      setActionNotice(`Error: ${err.message}`);
+      setActionNotice(`Verification failed: ${err.message}`);
     }
   };
 
-  const handleVerify = async (decision: 'confirmed' | 'rejected' | 'duplicate') => {
+  const handleStatusTransition = async (newStatus: string) => {
     if (!selectedIncidentId) return;
     try {
-      await verifyIncident(selectedIncidentId, {
-        decision,
-        confidence_score: 0.95,
-        verification_notes: 'Ground validation verified by emergency operations center',
-        public_note: decision === 'confirmed' ? 'Hazard verified by district emergency command.' : undefined
-      });
-      setActionNotice(`Verification decision '${decision}' recorded.`);
-      await handleSelectIncident(selectedIncidentId);
-      await loadIncidents();
+      await updateIncidentStatus(selectedIncidentId, { new_status: newStatus, internal_note: 'Status modified via Command operations console' });
+      setActionNotice(`Lifecycle state transitioned to: ${newStatus}`);
+      loadIncidents();
+      handleSelectIncident(selectedIncidentId);
     } catch (err: any) {
-      setActionNotice(`Verification failed: ${err.message}`);
+      setActionNotice(`Status update failed: ${err.message}`);
     }
   };
 
@@ -220,10 +204,10 @@ export const IncidentWorkspace: React.FC = () => {
     setDispatchModalOpen(true);
     setDispatchLoading(true);
     try {
-      const recs = await fetchDispatchRecommendations(selectedIncidentId, 4);
+      const recs = await fetchDispatchRecommendations(selectedIncidentId);
       setDispatchRecommendations(recs.top_recommendations || []);
     } catch (err) {
-      console.error('Dispatch recommendations error:', err);
+      console.error('Failed to load dispatch recommendations:', err);
     } finally {
       setDispatchLoading(false);
     }
@@ -232,17 +216,13 @@ export const IncidentWorkspace: React.FC = () => {
   const handleAssignTeam = async (teamId: string) => {
     if (!selectedIncidentId) return;
     try {
-      await assignIncidentTeam(selectedIncidentId, {
-        team_id: teamId,
-        priority: incidentDetail?.severity || 'high',
-        assignment_notes: 'Dispatched from Command Center Advisor'
-      });
+      await assignIncidentTeam(selectedIncidentId, { team_id: teamId, assignment_notes: 'Dispatch order issued via incident triage' });
       setDispatchModalOpen(false);
-      setActionNotice(`Responder team dispatched successfully.`);
-      await handleSelectIncident(selectedIncidentId);
-      await loadIncidents();
+      setActionNotice(`Unit dispatched successfully.`);
+      loadIncidents();
+      handleSelectIncident(selectedIncidentId);
     } catch (err: any) {
-      setActionNotice(`Dispatch error: ${err.message}`);
+      setActionNotice(`Dispatch assignment failed: ${err.message}`);
     }
   };
 
@@ -256,21 +236,21 @@ export const IncidentWorkspace: React.FC = () => {
   }));
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#060D17] text-slate-200 overflow-hidden select-none font-sans relative">
+    <div className="flex-1 flex flex-col h-full bg-[#07111F] text-[#E8F0F7] overflow-hidden select-none font-sans relative">
       {/* 1. Header Toolbar */}
-      <div className="p-3 bg-[#091522] border-b border-[#142B42] flex flex-wrap items-center justify-between gap-3 flex-shrink-0">
-        <div className="flex items-center space-x-3">
-          <div className="p-1.5 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400">
-            <AlertTriangle className="w-4 h-4" />
+      <div className="p-2.5 bg-[#091522] border-b border-[#203A52] flex flex-wrap items-center justify-between gap-2.5 flex-shrink-0">
+        <div className="flex items-center space-x-2.5">
+          <div className="p-1.5 bg-[#10243A] border border-[#203A52] rounded text-[#F0A83B]">
+            <AlertTriangle className="w-4 h-4 text-[#F0A83B]" />
           </div>
           <div>
-            <h1 className="text-xs sm:text-sm font-bold text-white tracking-tight flex items-center space-x-2 font-mono">
+            <h1 className="text-xs sm:text-sm font-bold text-[#E8F0F7] tracking-tight flex items-center space-x-2 font-mono">
               <span>INCIDENT TRIAGE &amp; OPERATIONS COMMAND</span>
-              <span className="text-[10px] px-2 py-0.2 bg-[#10243A] text-cyan-400 rounded-full font-mono border border-cyan-800/40">
+              <span className="text-[10px] px-1.5 py-0.2 bg-[#10243A] text-[#16B8D4] rounded font-mono border border-[#203A52]">
                 {incidents.length} active
               </span>
             </h1>
-            <p className="text-[10px] text-slate-400 font-mono">
+            <p className="text-[10px] text-[#8DA3B8] font-mono">
               Multi-source disaster verification, geospatial hotspot clustering, and unit dispatch
             </p>
           </div>
@@ -278,19 +258,19 @@ export const IncidentWorkspace: React.FC = () => {
 
         {/* View Mode & Actions */}
         <div className="flex items-center space-x-2 text-xs font-mono">
-          <div className="flex bg-[#060D17] p-0.5 rounded-lg border border-[#142B42]">
+          <div className="flex bg-[#07111F] p-0.5 rounded border border-[#203A52]">
             <button
               onClick={() => setViewMode('queue')}
-              className={`px-2.5 py-1 text-[11px] font-semibold rounded cursor-pointer ${
-                viewMode === 'queue' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400'
+              className={`px-2 py-0.5 text-[10px] font-medium rounded transition-colors cursor-pointer ${
+                viewMode === 'queue' ? 'bg-[#10243A] text-[#16B8D4] border border-[#16B8D4]' : 'text-[#8DA3B8]'
               }`}
             >
               Triage Queue
             </button>
             <button
               onClick={() => setViewMode('clusters')}
-              className={`px-2.5 py-1 text-[11px] font-semibold rounded flex items-center space-x-1 cursor-pointer ${
-                viewMode === 'clusters' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400'
+              className={`px-2 py-0.5 text-[10px] font-medium rounded flex items-center space-x-1 transition-colors cursor-pointer ${
+                viewMode === 'clusters' ? 'bg-[#10243A] text-[#16B8D4] border border-[#16B8D4]' : 'text-[#8DA3B8]'
               }`}
             >
               <Layers className="w-3 h-3" />
@@ -300,30 +280,30 @@ export const IncidentWorkspace: React.FC = () => {
 
           <button
             onClick={loadIncidents}
-            className="p-1.5 bg-[#060D17] hover:bg-[#10243A] text-slate-300 border border-[#142B42] rounded-lg cursor-pointer"
+            className="p-1.5 bg-[#07111F] hover:bg-[#10243A] text-[#8DA3B8] hover:text-[#E8F0F7] border border-[#203A52] rounded cursor-pointer"
             title="Refresh Incidents"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#16B8D4]' : ''}`} />
           </button>
         </div>
       </div>
 
       {actionNotice && (
-        <div className="px-4 py-1.5 bg-cyan-950/80 border-b border-cyan-700/60 text-cyan-300 text-xs flex justify-between items-center font-mono">
+        <div className="px-3 py-1 bg-[#10243A] border-b border-[#203A52] text-[#16B8D4] text-xs flex justify-between items-center font-mono">
           <span>{actionNotice}</span>
-          <button onClick={() => setActionNotice(null)} className="text-cyan-400 font-bold ml-2">×</button>
+          <button onClick={() => setActionNotice(null)} className="text-[#8DA3B8] hover:text-[#E8F0F7] font-bold ml-2">×</button>
         </div>
       )}
 
       {/* 2. Asymmetric Split Workspace Layout */}
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
         {/* LEFT / CENTER: Triage Queue & Map Composite (60% width) */}
-        <div className="flex-1 flex flex-col h-[50%] lg:h-full border-r border-[#142B42] overflow-hidden">
+        <div className="flex-1 flex flex-col h-[50%] lg:h-full border-r border-[#203A52] overflow-hidden">
           {/* Tactical Incident Map Viewport */}
-          <div className="h-64 sm:h-72 w-full relative border-b border-[#142B42] flex-shrink-0">
+          <div className="h-60 sm:h-64 w-full relative border-b border-[#203A52] flex-shrink-0">
             <div ref={mapContainer} className="w-full h-full" />
-            <div className="absolute top-2.5 left-2.5 panel-glass px-2.5 py-1 rounded-lg text-[10px] font-mono text-cyan-400 border border-[#142B42] flex items-center space-x-1.5 shadow-lg">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+            <div className="absolute top-2.5 left-2.5 bg-[#091522] px-2 py-0.5 rounded text-[10px] font-mono text-[#16B8D4] border border-[#203A52] flex items-center space-x-1.5 shadow">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#16B8D4]" />
               <span>TACTICAL INCIDENT BEACONS ({incidents.length})</span>
             </div>
           </div>
@@ -331,23 +311,23 @@ export const IncidentWorkspace: React.FC = () => {
           {/* Incident Queue Table & Filter HUD */}
           <div className="flex-1 flex flex-col overflow-hidden bg-[#07111F]">
             {/* Filter Controls Bar */}
-            <div className="p-2.5 bg-[#091522] border-b border-[#142B42] flex flex-wrap items-center gap-2 text-xs font-mono">
-              <div className="relative flex-1 min-w-[160px]">
-                <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2" />
+            <div className="p-2 bg-[#091522] border-b border-[#203A52] flex flex-wrap items-center gap-1.5 text-xs font-mono">
+              <div className="relative flex-1 min-w-[140px]">
+                <Search className="w-3 h-3 text-[#8DA3B8] absolute left-2 top-2" />
                 <input
                   type="text"
-                  placeholder="Search tracking #, location, title..."
+                  placeholder="Search tracking #, location..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && loadIncidents()}
-                  className="w-full bg-[#060D17] border border-[#142B42] rounded-lg pl-8 pr-3 py-1 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+                  className="w-full bg-[#07111F] border border-[#203A52] rounded pl-7 pr-2.5 py-1 text-xs text-[#E8F0F7] placeholder-[#8DA3B8]/60 focus:outline-none focus:border-[#16B8D4]"
                 />
               </div>
 
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="bg-[#060D17] border border-[#142B42] rounded-lg px-2 py-1 text-[11px] text-slate-300 focus:outline-none"
+                className="bg-[#07111F] border border-[#203A52] rounded px-2 py-1 text-[10px] text-[#8DA3B8] focus:outline-none focus:border-[#16B8D4]"
               >
                 <option value="ALL">All Statuses</option>
                 <option value="SUBMITTED_UNVERIFIED">Unverified</option>
@@ -360,7 +340,7 @@ export const IncidentWorkspace: React.FC = () => {
               <select
                 value={severityFilter}
                 onChange={(e) => setSeverityFilter(e.target.value)}
-                className="bg-[#060D17] border border-[#142B42] rounded-lg px-2 py-1 text-[11px] text-slate-300 focus:outline-none"
+                className="bg-[#07111F] border border-[#203A52] rounded px-2 py-1 text-[10px] text-[#8DA3B8] focus:outline-none focus:border-[#16B8D4]"
               >
                 <option value="ALL">All Severities</option>
                 <option value="critical">Critical</option>
@@ -371,9 +351,9 @@ export const IncidentWorkspace: React.FC = () => {
             </div>
 
             {/* Scrollable Queue List */}
-            <div className="flex-1 overflow-y-auto p-2 space-y-1.5">
+            <div className="flex-1 overflow-y-auto p-2 space-y-1">
               {incidents.length === 0 ? (
-                <div className="p-8 text-center text-slate-500 font-mono text-xs">
+                <div className="p-6 text-center text-[#8DA3B8] font-mono text-xs">
                   No incidents matching operational filters.
                 </div>
               ) : (
@@ -383,38 +363,38 @@ export const IncidentWorkspace: React.FC = () => {
                     <div
                       key={inc.id}
                       onClick={() => handleSelectIncident(inc.id)}
-                      className={`p-3 rounded-xl border transition-all cursor-pointer ${
+                      className={`p-2.5 rounded border transition-colors cursor-pointer ${
                         isSelected
-                          ? 'bg-[#10243A] border-cyan-500/70 shadow-cyan-glow'
-                          : 'bg-[#091522] border-[#142B42] hover:border-slate-600 hover:bg-[#0D1D2D]'
+                          ? 'bg-[#10243A] border-[#16B8D4]'
+                          : 'bg-[#091522] border-[#203A52] hover:border-[#8DA3B8]'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">
-                        <div className="flex items-center space-x-2">
-                          <span className="font-mono text-xs font-bold text-cyan-300">
+                        <div className="flex items-center space-x-1.5">
+                          <span className="font-mono text-xs font-bold text-[#16B8D4]">
                             {inc.tracking_number}
                           </span>
                           <IncidentPriorityBadge status={inc.status} size="sm" />
                           <span
                             className={`text-[9px] uppercase px-1.5 py-0.2 rounded font-mono font-bold ${
                               inc.severity === 'critical'
-                                ? 'bg-rose-950 text-rose-300 border border-rose-800'
+                                ? 'bg-[#E45555]/10 text-[#E45555] border border-[#E45555]/40'
                                 : inc.severity === 'high'
-                                ? 'bg-amber-950 text-amber-300 border border-amber-800'
-                                : 'bg-cyan-950 text-cyan-300 border border-cyan-800'
+                                ? 'bg-[#F0A83B]/10 text-[#F0A83B] border border-[#F0A83B]/40'
+                                : 'bg-[#16B8D4]/10 text-[#16B8D4] border border-[#16B8D4]/40'
                             }`}
                           >
                             {inc.severity}
                           </span>
                         </div>
-                        <span className="text-[10px] text-slate-500 font-mono">
+                        <span className="text-[10px] text-[#8DA3B8] font-mono">
                           {inc.submitted_at ? inc.submitted_at.slice(11, 16) : 'Now'}
                         </span>
                       </div>
 
-                      <div className="text-xs font-bold text-white truncate">{inc.title}</div>
-                      <div className="text-[11px] text-slate-400 truncate flex items-center space-x-1 mt-0.5">
-                        <MapPin className="w-3 h-3 text-cyan-400 flex-shrink-0" />
+                      <div className="text-xs font-bold text-[#E8F0F7] truncate">{inc.title}</div>
+                      <div className="text-[10px] text-[#8DA3B8] truncate flex items-center space-x-1 mt-0.5">
+                        <MapPin className="w-3 h-3 text-[#16B8D4] flex-shrink-0" />
                         <span>{inc.address || 'Kuttanad Lowlands, Alappuzha'}</span>
                       </div>
                     </div>
@@ -426,75 +406,75 @@ export const IncidentWorkspace: React.FC = () => {
         </div>
 
         {/* RIGHT: Selected Incident Focal Dossier (40% width) */}
-        <div className="w-full lg:w-[480px] h-[50%] lg:h-full bg-[#091522] flex flex-col overflow-hidden">
+        <div className="w-full lg:w-[460px] h-[50%] lg:h-full bg-[#091522] flex flex-col overflow-hidden">
           {detailLoading ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-xs font-mono text-cyan-400 space-y-2">
-              <div className="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
-              <span>Retrieving Tactical Incident Dossier...</span>
+            <div className="flex-1 flex flex-col items-center justify-center text-xs font-mono text-[#16B8D4] space-y-2">
+              <div className="w-5 h-5 border-2 border-[#16B8D4] border-t-transparent rounded-full animate-spin" />
+              <span>Retrieving Incident Dossier...</span>
             </div>
           ) : incidentDetail ? (
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-3 space-y-3">
               {/* Dossier Header */}
-              <div className="p-4 bg-[#0D1D2D] border border-[#142B42] rounded-2xl space-y-3">
+              <div className="p-3 bg-[#10243A] border border-[#203A52] rounded space-y-2">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-cyan-400 font-mono uppercase tracking-wider block">
+                    <span className="text-[10px] text-[#16B8D4] font-mono uppercase tracking-wider block font-bold">
                       INCIDENT DOSSIER
                     </span>
-                    <h2 className="text-sm font-bold text-white">{incidentDetail.title}</h2>
+                    <h2 className="text-sm font-bold text-[#E8F0F7]">{incidentDetail.title}</h2>
                   </div>
                   <IncidentPriorityBadge status={incidentDetail.status} size="md" />
                 </div>
 
-                <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-1 border-t border-[#142B42]">
+                <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-1 border-t border-[#203A52]">
                   <div>
-                    <span className="text-[9px] text-slate-500 block uppercase">Tracking ID</span>
-                    <span className="text-white font-bold">{incidentDetail.tracking_number}</span>
+                    <span className="text-[9px] text-[#8DA3B8] block uppercase">Tracking ID</span>
+                    <span className="text-[#E8F0F7] font-bold">{incidentDetail.tracking_number}</span>
                   </div>
                   <div>
-                    <span className="text-[9px] text-slate-500 block uppercase">Category</span>
-                    <span className="text-amber-400 font-semibold uppercase">{incidentDetail.category}</span>
+                    <span className="text-[9px] text-[#8DA3B8] block uppercase">Category</span>
+                    <span className="text-[#F0A83B] font-semibold uppercase">{incidentDetail.category}</span>
                   </div>
                   <div>
-                    <span className="text-[9px] text-slate-500 block uppercase">Coordinates</span>
-                    <span className="text-cyan-300">
+                    <span className="text-[9px] text-[#8DA3B8] block uppercase">Coordinates</span>
+                    <span className="text-[#16B8D4]">
                       {incidentDetail.latitude.toFixed(4)}°N, {incidentDetail.longitude.toFixed(4)}°E
                     </span>
                   </div>
                   <div>
-                    <span className="text-[9px] text-slate-500 block uppercase">Affected Count</span>
-                    <span className="text-rose-400 font-bold">{incidentDetail.affected_people_count || 1} Persons</span>
+                    <span className="text-[9px] text-[#8DA3B8] block uppercase">Affected Count</span>
+                    <span className="text-[#E45555] font-bold">{incidentDetail.affected_people_count || 1} Persons</span>
                   </div>
                 </div>
 
                 {incidentDetail.description && (
-                  <p className="text-xs text-slate-300 bg-[#060D17] p-2.5 rounded-xl border border-[#142B42] leading-relaxed">
+                  <p className="text-xs text-[#E8F0F7] bg-[#07111F] p-2 rounded border border-[#203A52] leading-relaxed">
                     {incidentDetail.description}
                   </p>
                 )}
               </div>
 
               {/* Lifecycle State Transitions */}
-              <div className="p-3 bg-[#0D1D2D] border border-[#142B42] rounded-xl space-y-2">
-                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
+              <div className="p-2.5 bg-[#10243A] border border-[#203A52] rounded space-y-1.5">
+                <span className="text-[10px] font-mono text-[#8DA3B8] uppercase tracking-wider block font-bold">
                   LIFECYCLE TRANSITION
                 </span>
                 <div className="grid grid-cols-3 gap-1.5 text-xs font-mono">
                   <button
                     onClick={() => handleStatusTransition('IN_REVIEW')}
-                    className="p-1.5 bg-[#060D17] hover:bg-amber-950/60 text-amber-300 border border-amber-800/60 rounded-lg text-center cursor-pointer"
+                    className="p-1 bg-[#07111F] hover:bg-[#142B42] text-[#F0A83B] border border-[#203A52] rounded text-center cursor-pointer"
                   >
                     Under Review
                   </button>
                   <button
                     onClick={() => handleStatusTransition('VERIFIED')}
-                    className="p-1.5 bg-[#060D17] hover:bg-emerald-950/60 text-emerald-300 border border-emerald-800/60 rounded-lg text-center cursor-pointer"
+                    className="p-1 bg-[#07111F] hover:bg-[#142B42] text-[#18A58B] border border-[#203A52] rounded text-center cursor-pointer"
                   >
                     Mark Verified
                   </button>
                   <button
                     onClick={() => handleStatusTransition('RESOLVED')}
-                    className="p-1.5 bg-[#060D17] hover:bg-blue-950/60 text-blue-300 border border-blue-800/60 rounded-lg text-center cursor-pointer"
+                    className="p-1 bg-[#07111F] hover:bg-[#142B42] text-[#8DA3B8] border border-[#203A52] rounded text-center cursor-pointer"
                   >
                     Mark Resolved
                   </button>
@@ -502,28 +482,28 @@ export const IncidentWorkspace: React.FC = () => {
               </div>
 
               {/* Ground Truth Verification Actions */}
-              <div className="p-3 bg-[#0D1D2D] border border-[#142B42] rounded-xl space-y-2">
-                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
+              <div className="p-2.5 bg-[#10243A] border border-[#203A52] rounded space-y-1.5">
+                <span className="text-[10px] font-mono text-[#8DA3B8] uppercase tracking-wider block font-bold">
                   GROUND TRUTH VERIFICATION
                 </span>
-                <div className="grid grid-cols-3 gap-2 text-xs font-mono">
+                <div className="grid grid-cols-3 gap-1.5 text-xs font-mono">
                   <button
                     onClick={() => handleVerify('confirmed')}
-                    className="p-2 bg-emerald-500/15 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 rounded-xl flex items-center justify-center space-x-1 cursor-pointer font-bold shadow-teal-glow"
+                    className="p-1.5 bg-[#07111F] hover:bg-[#142B42] text-[#18A58B] border border-[#18A58B] rounded flex items-center justify-center space-x-1 cursor-pointer font-bold"
                   >
                     <CheckCircle className="w-3.5 h-3.5" />
                     <span>Confirm</span>
                   </button>
                   <button
                     onClick={() => handleVerify('duplicate')}
-                    className="p-2 bg-amber-500/15 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 rounded-xl flex items-center justify-center space-x-1 cursor-pointer font-bold"
+                    className="p-1.5 bg-[#07111F] hover:bg-[#142B42] text-[#F0A83B] border border-[#F0A83B] rounded flex items-center justify-center space-x-1 cursor-pointer font-bold"
                   >
                     <Copy className="w-3.5 h-3.5" />
                     <span>Duplicate</span>
                   </button>
                   <button
                     onClick={() => handleVerify('rejected')}
-                    className="p-2 bg-rose-500/15 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 rounded-xl flex items-center justify-center space-x-1 cursor-pointer font-bold"
+                    className="p-1.5 bg-[#07111F] hover:bg-[#142B42] text-[#E45555] border border-[#E45555] rounded flex items-center justify-center space-x-1 cursor-pointer font-bold"
                   >
                     <XCircle className="w-3.5 h-3.5" />
                     <span>Reject</span>
@@ -531,23 +511,23 @@ export const IncidentWorkspace: React.FC = () => {
                 </div>
               </div>
 
-              {/* AI Multi-Factor Dispatch Advisor Trigger */}
-              <div className="p-4 bg-gradient-to-br from-cyan-950/40 to-[#0D1D2D] border border-cyan-500/40 rounded-2xl space-y-3 shadow-cyan-glow">
+              {/* Multi-Factor Dispatch Advisor Trigger */}
+              <div className="p-3 bg-[#10243A] border border-[#203A52] rounded space-y-2">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                    <Navigation className="w-4 h-4 text-cyan-400" />
-                    <span className="text-xs font-bold text-white font-mono">DISPATCH ADVISOR</span>
+                  <div className="flex items-center space-x-1.5">
+                    <Navigation className="w-3.5 h-3.5 text-[#16B8D4]" />
+                    <span className="text-xs font-bold text-[#E8F0F7] font-mono">DISPATCH ADVISOR</span>
                   </div>
-                  <span className="text-[10px] font-mono text-cyan-300 bg-cyan-950 px-2 py-0.5 rounded border border-cyan-800">
+                  <span className="text-[9px] font-mono text-[#16B8D4] bg-[#07111F] px-1.5 py-0.2 rounded border border-[#203A52]">
                     NETWORK ROUTING
                   </span>
                 </div>
-                <p className="text-xs text-slate-300 font-sans">
+                <p className="text-xs text-[#8DA3B8] font-sans">
                   Calculate nearest available field response units based on terrain access, boat equipment, and dry-road navigation corridors.
                 </p>
                 <button
                   onClick={handleOpenDispatch}
-                  className="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold font-mono shadow-cyan-glow cursor-pointer transition flex items-center justify-center space-x-1.5"
+                  className="w-full py-1.5 bg-[#142B42] hover:bg-[#203A52] border border-[#16B8D4] text-[#16B8D4] rounded text-xs font-bold font-mono cursor-pointer transition flex items-center justify-center space-x-1.5"
                 >
                   <Compass className="w-3.5 h-3.5" />
                   <span>Launch Dispatch Advisor</span>
@@ -555,16 +535,16 @@ export const IncidentWorkspace: React.FC = () => {
               </div>
 
               {/* Operational Audit Timeline */}
-              <div className="p-3 bg-[#0D1D2D] border border-[#142B42] rounded-xl space-y-2">
-                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider block">
+              <div className="p-2.5 bg-[#10243A] border border-[#203A52] rounded space-y-1.5">
+                <span className="text-[10px] font-mono text-[#8DA3B8] uppercase tracking-wider block font-bold">
                   OPERATIONAL AUDIT TRAIL
                 </span>
                 <OperationalTimeline events={mappedTimeline} />
               </div>
             </div>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-slate-500 font-mono text-xs space-y-2">
-              <Compass className="w-6 h-6 text-slate-600 animate-pulse" />
+            <div className="flex-1 flex flex-col items-center justify-center p-8 text-center text-[#8DA3B8] font-mono text-xs space-y-2">
+              <Compass className="w-6 h-6 text-[#8DA3B8]/40" />
               <span>Select an incident from the tactical map or triage queue to inspect dossier.</span>
             </div>
           )}
@@ -573,40 +553,40 @@ export const IncidentWorkspace: React.FC = () => {
 
       {/* Dispatch Recommendation Modal */}
       {dispatchModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4">
-          <div className="panel-glass-deep p-6 rounded-2xl border border-cyan-500/40 shadow-2xl max-w-lg w-full space-y-4">
-            <div className="flex items-center justify-between border-b border-[#142B42] pb-3">
-              <h3 className="text-sm font-bold text-white flex items-center space-x-2 font-mono">
-                <Compass className="w-4 h-4 text-cyan-400" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="bg-[#091522] p-5 rounded border border-[#203A52] shadow-2xl max-w-lg w-full space-y-3 font-mono">
+            <div className="flex items-center justify-between border-b border-[#203A52] pb-2">
+              <h3 className="text-xs font-bold text-[#E8F0F7] flex items-center space-x-2">
+                <Compass className="w-4 h-4 text-[#16B8D4]" />
                 <span>Recommended Dispatch Units</span>
               </h3>
-              <button onClick={() => setDispatchModalOpen(false)} className="text-slate-400 hover:text-white text-lg">×</button>
+              <button onClick={() => setDispatchModalOpen(false)} className="text-[#8DA3B8] hover:text-[#E8F0F7] text-base">×</button>
             </div>
 
             {dispatchLoading ? (
-              <div className="py-8 text-center text-xs font-mono text-cyan-400">
+              <div className="py-6 text-center text-xs text-[#16B8D4]">
                 Calculating dry-route transit times...
               </div>
             ) : dispatchRecommendations.length === 0 ? (
-              <div className="py-6 text-center text-xs text-slate-400 font-mono">
+              <div className="py-6 text-center text-xs text-[#8DA3B8]">
                 No active units available in immediate quadrant.
               </div>
             ) : (
-              <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+              <div className="space-y-2 max-h-72 overflow-y-auto pr-1">
                 {dispatchRecommendations.map((rec) => (
                   <div
                     key={rec.team_id}
-                    className="p-3 bg-[#060D17] border border-[#142B42] rounded-xl flex items-center justify-between"
+                    className="p-2.5 bg-[#07111F] border border-[#203A52] rounded flex items-center justify-between"
                   >
                     <div>
-                      <div className="text-xs font-bold text-white">{rec.team_name}</div>
-                      <div className="text-[10px] text-cyan-400 font-mono mt-0.5">
+                      <div className="text-xs font-bold text-[#E8F0F7]">{rec.team_name}</div>
+                      <div className="text-[10px] text-[#16B8D4] mt-0.5">
                         ETA: ~{rec.estimated_eta_minutes} mins &bull; Suitability: {(rec.score * 100).toFixed(0)}%
                       </div>
                     </div>
                     <button
                       onClick={() => handleAssignTeam(rec.team_id)}
-                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold font-mono cursor-pointer shadow-teal-glow"
+                      className="px-2.5 py-1 bg-[#10243A] hover:bg-[#142B42] text-[#18A58B] border border-[#18A58B] rounded text-xs font-bold cursor-pointer"
                     >
                       Dispatch
                     </button>

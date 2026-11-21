@@ -28,8 +28,8 @@ export const CitizenNavigation: React.FC<CitizenNavigationProps> = ({
   ];
 
   return (
-    <div className="bg-[#07111F] border-b border-[#1E3550] px-3 sm:px-6 py-2 select-none">
-      <div className="max-w-4xl mx-auto flex items-center justify-between sm:justify-center sm:space-x-3 overflow-x-auto">
+    <div className="bg-[#07111F] border-b border-[#203A52] px-3 sm:px-6 py-1.5 select-none font-sans">
+      <div className="max-w-4xl mx-auto flex items-center justify-between sm:justify-center sm:space-x-2 overflow-x-auto">
         {tabs.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -37,19 +37,19 @@ export const CitizenNavigation: React.FC<CitizenNavigationProps> = ({
             <button
               key={tab.id}
               onClick={() => onSelectTab(tab.id)}
-              className={`flex items-center space-x-1.5 sm:space-x-2 px-3 py-1.5 sm:py-2 rounded-xl text-xs font-semibold transition cursor-pointer whitespace-nowrap flex-shrink-0 ${
+              className={`flex items-center space-x-1.5 px-3 py-1.5 rounded text-xs font-semibold transition cursor-pointer whitespace-nowrap flex-shrink-0 ${
                 isActive
-                  ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-950/40'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/60 border border-transparent'
+                  ? 'bg-[#10243A] text-[#16B8D4] border border-[#16B8D4]'
+                  : 'text-[#8DA3B8] hover:text-[#E8F0F7] hover:bg-[#091522] border border-transparent'
               }`}
             >
-              <Icon className={`w-4 h-4 ${isActive ? 'text-cyan-400' : 'text-slate-400'}`} />
+              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#16B8D4]' : 'text-[#8DA3B8]'}`} />
               <span>{tab.label}</span>
               {tab.badge && (
                 <span className={`text-[9px] uppercase px-1.5 py-0.2 rounded font-mono font-bold ${
                   tab.id === 'report'
-                    ? 'bg-rose-950 text-rose-300 border border-rose-700/60'
-                    : 'bg-cyan-950 text-cyan-300 border border-cyan-700/60'
+                    ? 'bg-[#E45555]/10 text-[#E45555] border border-[#E45555]/40'
+                    : 'bg-[#10243A] text-[#16B8D4] border border-[#203A52]'
                 }`}>
                   {tab.badge}
                 </span>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Home,
   Search,
   MapPin,
   Phone,
@@ -26,9 +25,9 @@ export const CitizenShelterTab: React.FC<CitizenShelterTabProps> = ({
 
   if (loading && !sheltersData) {
     return (
-      <div className="py-24 flex flex-col items-center justify-center space-y-3 text-slate-400 select-none font-sans">
-        <div className="w-8 h-8 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
-        <span className="text-xs font-mono text-emerald-300">Accessing verified district shelter registry...</span>
+      <div className="py-24 flex flex-col items-center justify-center space-y-3 text-[#8DA3B8] select-none font-sans">
+        <div className="w-8 h-8 border-2 border-[#18A58B] border-t-transparent rounded-full animate-spin" />
+        <span className="text-xs font-mono text-[#18A58B]">Accessing verified district shelter registry...</span>
       </div>
     );
   }
@@ -45,19 +44,19 @@ export const CitizenShelterTab: React.FC<CitizenShelterTabProps> = ({
   });
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-6 select-none font-sans">
+    <div className="max-w-4xl mx-auto p-4 sm:p-6 space-y-4 select-none font-sans">
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#142B42]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[#203A52]">
         <div>
           <div className="flex items-center space-x-2">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+            <h1 className="text-lg sm:text-xl font-bold text-[#E8F0F7] tracking-tight">
               Verified Relief Shelters
             </h1>
             <Badge variant="emerald" size="sm">
               GOVERNMENT VERIFIED
             </Badge>
           </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <p className="text-xs text-[#8DA3B8] mt-0.5">
             Official relief camps designated by State &amp; District Disaster Management Authorities.
           </p>
         </div>
@@ -65,15 +64,15 @@ export const CitizenShelterTab: React.FC<CitizenShelterTabProps> = ({
         {/* Filter Controls */}
         {hasVerifiedData && (
           <div className="flex flex-wrap items-center gap-2">
-            <div className="flex bg-[#091522] p-0.5 rounded-xl border border-[#142B42]">
+            <div className="flex bg-[#091522] p-0.5 rounded border border-[#203A52]">
               {(['ALL', 'ACTIVE', 'STANDBY'] as const).map((f) => (
                 <button
                   key={f}
                   onClick={() => setStatusFilter(f)}
-                  className={`px-3 py-1 text-xs rounded-lg font-mono font-semibold transition cursor-pointer ${
+                  className={`px-2.5 py-0.5 text-xs rounded font-mono font-medium transition cursor-pointer ${
                     statusFilter === f
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-teal-glow'
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-[#10243A] text-[#18A58B] border border-[#18A58B]'
+                      : 'text-[#8DA3B8] hover:text-[#E8F0F7]'
                   }`}
                 >
                   {f}
@@ -82,13 +81,13 @@ export const CitizenShelterTab: React.FC<CitizenShelterTabProps> = ({
             </div>
 
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
+              <Search className="w-3.5 h-3.5 text-[#8DA3B8] absolute left-2.5 top-2" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search shelter name or village..."
-                className="bg-[#091522] border border-[#142B42] rounded-xl pl-9 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400 w-44 sm:w-56"
+                className="bg-[#091522] border border-[#203A52] rounded pl-8 pr-2.5 py-1 text-xs text-[#E8F0F7] placeholder-[#8DA3B8]/60 focus:outline-none focus:border-[#18A58B] w-44 sm:w-56"
               />
             </div>
           </div>
@@ -96,121 +95,116 @@ export const CitizenShelterTab: React.FC<CitizenShelterTabProps> = ({
       </div>
 
       {/* Notice Callout */}
-      <div className="p-3.5 bg-[#091522] border border-[#142B42] rounded-2xl text-xs text-slate-300 flex items-start space-x-3">
-        <Info className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
-        <div className="leading-relaxed">
-          <strong className="text-white">Authoritative Distinction:</strong> Only facilities listed below are official designated relief shelters equipped with backup generators, potable drinking water, medical staff, and community rations.
-        </div>
+      <div className="p-3 bg-[#091522] border border-[#203A52] rounded text-xs text-[#8DA3B8] flex items-start space-x-2.5">
+        <Info className="w-4 h-4 text-[#18A58B] flex-shrink-0 mt-0.5" />
+        <p className="leading-relaxed">
+          <strong className="text-[#E8F0F7]">Authoritative Distinction:</strong> Only facilities listed below are official designated relief shelters equipped with backup generators, potable drinking water, medical staff, and community rations.
+        </p>
       </div>
 
-      {/* Unseeded Region Warning */}
-      {!hasVerifiedData && (
-        <div className="p-8 text-center space-y-4 bg-[#091522] border border-[#142B42] rounded-3xl">
-          <div className="w-12 h-12 rounded-2xl bg-[#060D17] text-slate-400 flex items-center justify-center mx-auto border border-[#142B42]">
-            <Home className="w-6 h-6 text-amber-400" />
+      {/* Shelters Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {filteredShelters.length === 0 ? (
+          <div className="col-span-2 p-8 text-center text-[#8DA3B8] font-mono text-xs bg-[#091522] rounded border border-[#203A52]">
+            No verified relief shelters matching search criteria in {currentRegionName}.
           </div>
-          <div className="space-y-1.5 max-w-lg mx-auto">
-            <h3 className="text-base font-bold text-white">No Verified Shelter Dataset Connected</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              {sheltersData?.notice || `No verified official shelter dataset is currently connected for ${currentRegionName}.`}
-            </p>
-          </div>
-          <div className="text-[10px] text-slate-500 font-mono">
-            Requires local DDMA integration in FloodGuard Command.
-          </div>
-        </div>
-      )}
-
-      {/* Verified Shelter Cards */}
-      {hasVerifiedData && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filteredShelters.map((s) => {
-            const capacity = s.capacity || 100;
-            const occupancy = s.current_occupancy ?? 0;
-            const occupancyRate = Math.min(100, Math.round((occupancy / capacity) * 100));
+        ) : (
+          filteredShelters.map((shelter) => {
+            const occupancy = shelter.current_occupancy || 0;
+            const capacity = shelter.capacity || 100;
+            const occupancyPct = Math.min(100, Math.round((occupancy / capacity) * 100));
             const availableBeds = Math.max(0, capacity - occupancy);
-            const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${s.latitude},${s.longitude}`;
 
             return (
               <div
-                key={s.id}
-                className="p-5 bg-[#091522] border border-[#142B42] rounded-3xl space-y-4 shadow-xl hover:border-slate-500 transition"
+                key={shelter.id}
+                className="p-4 bg-[#091522] border border-[#203A52] rounded space-y-3 transition shadow"
               >
-                <div className="flex justify-between items-start">
+                <div className="flex items-start justify-between gap-2">
                   <div>
-                    <h3 className="text-sm sm:text-base font-bold text-white">{s.name}</h3>
-                    <div className="text-xs text-slate-400 flex items-center space-x-1 mt-1">
-                      <MapPin className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-                      <span>{s.address}</span>
+                    <h3 className="text-sm font-bold text-[#E8F0F7]">{shelter.name}</h3>
+                    <div className="text-xs text-[#8DA3B8] flex items-center space-x-1 mt-0.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#18A58B] flex-shrink-0" />
+                      <span className="truncate">{shelter.address || 'Alappuzha, Kerala'}</span>
                     </div>
                   </div>
-                  <Badge variant={s.operational_status === 'ACTIVE' ? 'emerald' : 'amber'} size="sm">
-                    {s.operational_status}
+                  <Badge variant={shelter.operational_status === 'ACTIVE' ? 'emerald' : 'amber'} size="sm">
+                    {shelter.operational_status}
                   </Badge>
                 </div>
 
                 {/* Capacity Gauge */}
-                <div className="space-y-1.5 bg-[#060D17] p-3 rounded-2xl border border-[#142B42]">
-                  <div className="flex justify-between text-xs font-mono">
-                    <span className="text-slate-400">Available Bed Space:</span>
-                    <span className="text-emerald-300 font-bold">
-                      {availableBeds} beds available ({occupancyRate}% full)
+                <div className="p-2.5 bg-[#07111F] rounded border border-[#203A52] space-y-1.5 font-mono">
+                  <div className="flex justify-between text-xs">
+                    <span className="text-[#8DA3B8]">Available Bed Space:</span>
+                    <span className="text-[#18A58B] font-bold">
+                      {availableBeds} beds available ({occupancyPct}% full)
                     </span>
                   </div>
-                  <div className="w-full bg-[#10243A] rounded-full h-2">
+                  <div className="w-full bg-[#10243A] h-2 rounded-full overflow-hidden">
                     <div
-                      className={`h-2 rounded-full transition-all ${
-                        occupancyRate > 85 ? 'bg-rose-500' : occupancyRate > 60 ? 'bg-amber-400' : 'bg-emerald-400'
+                      className={`h-full transition-all duration-300 ${
+                        occupancyPct > 80 ? 'bg-[#E45555]' : occupancyPct > 50 ? 'bg-[#F0A83B]' : 'bg-[#18A58B]'
                       }`}
-                      style={{ width: `${occupancyRate}%` }}
+                      style={{ width: `${occupancyPct}%` }}
                     />
                   </div>
-                  <div className="text-[10px] text-slate-500 font-mono text-right">
+                  <div className="text-[10px] text-[#8DA3B8] text-right">
                     Certified for {capacity} residents
                   </div>
                 </div>
 
-                {/* Supplies & Provisions */}
-                <div className="flex flex-wrap gap-1.5">
-                  {(s.amenities || ['Drinking Water', 'Medical Volunteer Post', 'Power Backup']).map((sup, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2.5 py-0.5 rounded-lg text-[10px] font-mono bg-[#060D17] text-slate-300 border border-[#142B42]"
-                    >
-                      {sup.replace(/_/g, ' ')}
-                    </span>
-                  ))}
-                </div>
+                {/* Amenities Tags */}
+                {shelter.amenities && shelter.amenities.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {shelter.amenities.map((amenity, idx) => (
+                      <span
+                        key={idx}
+                        className="text-[10px] px-2 py-0.5 rounded bg-[#10243A] text-[#8DA3B8] border border-[#203A52]"
+                      >
+                        {amenity}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
-                {/* Direct Action Buttons */}
-                <div className="pt-2 border-t border-[#142B42] flex items-center justify-between gap-2">
-                  {s.contact_phone ? (
+                {/* Action Controls */}
+                <div className="grid grid-cols-2 gap-2 pt-1 border-t border-[#203A52]">
+                  {shelter.contact_phone ? (
                     <a
-                      href={`tel:${s.contact_phone}`}
-                      className="px-3.5 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 rounded-xl text-xs font-mono font-bold flex items-center space-x-1.5 transition"
+                      href={`tel:${shelter.contact_phone}`}
+                      className="py-1.5 px-3 bg-[#10243A] hover:bg-[#142B42] text-[#18A58B] border border-[#203A52] hover:border-[#18A58B] rounded text-xs font-semibold flex items-center justify-center space-x-1.5 transition"
                     >
                       <Phone className="w-3.5 h-3.5" />
-                      <span>Call Camp ({s.contact_phone})</span>
+                      <span>Call Camp ({shelter.contact_phone})</span>
                     </a>
                   ) : (
-                    <span className="text-[10px] text-slate-500 font-mono">DDMA Dispatch</span>
+                    <a
+                      href="tel:1077"
+                      className="py-1.5 px-3 bg-[#10243A] hover:bg-[#142B42] text-[#8DA3B8] border border-[#203A52] rounded text-xs font-semibold flex items-center justify-center space-x-1.5 transition"
+                    >
+                      <Phone className="w-3.5 h-3.5" />
+                      <span>Call Camp (1077)</span>
+                    </a>
                   )}
 
-                  <a
-                    href={mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3.5 py-1.5 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 rounded-xl text-xs font-mono font-bold flex items-center space-x-1.5 transition"
-                  >
-                    <Navigation2 className="w-3.5 h-3.5" />
-                    <span>Get Directions</span>
-                  </a>
+                  {shelter.latitude && shelter.longitude && (
+                    <a
+                      href={`https://www.google.com/maps/dir/?api=1&destination=${shelter.latitude},${shelter.longitude}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="py-1.5 px-3 bg-[#10243A] hover:bg-[#142B42] text-[#16B8D4] border border-[#203A52] hover:border-[#16B8D4] rounded text-xs font-semibold flex items-center justify-center space-x-1.5 transition"
+                    >
+                      <Navigation2 className="w-3.5 h-3.5" />
+                      <span>Get Directions</span>
+                    </a>
+                  )}
                 </div>
               </div>
             );
-          })}
-        </div>
-      )}
+          })
+        )}
+      </div>
     </div>
   );
 };

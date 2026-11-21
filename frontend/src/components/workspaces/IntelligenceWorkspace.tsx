@@ -2,22 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as maplibregl from 'maplibre-gl';
 import {
   Radio,
-  Satellite,
-  Play,
   RefreshCw,
   Waves,
-  Layers
+  Layers,
+  Sliders
 } from 'lucide-react';
 import type { FeatureCollection } from 'geojson';
 import type { OverviewResponse, FloodMetadataResponse, RiskAssessmentData, CWCStation } from '../../types/api';
 import {
-  triggerSatelliteJob,
   fetchRiskAssessment,
   fetchMonitoringStations
 } from '../../services/api';
 import { RiskDial } from '../design-system/RiskDial';
 import { DataProvenanceCard } from '../design-system/DataProvenanceCard';
 import { IntelligenceChart } from '../design-system/IntelligenceChart';
+import { SatelliteAcquisitionPanel } from '../design-system/SatelliteAcquisitionPanel';
+import { MapLegend } from '../design-system/MapLegend';
 
 interface IntelligenceWorkspaceProps {
   liveData: any;
@@ -26,10 +26,10 @@ interface IntelligenceWorkspaceProps {
   onSelectRegion?: (regionId: string) => void;
   onRefresh: () => void;
   floodGeoJSON?: FeatureCollection | null;
-  overview: OverviewResponse | null;
+  overview?: OverviewResponse | null;
   floodMeta?: FloodMetadataResponse | null;
-  facilitiesGeoJSON: FeatureCollection | null;
-  settlementsGeoJSON: FeatureCollection | null;
+  facilitiesGeoJSON?: FeatureCollection | null;
+  settlementsGeoJSON?: FeatureCollection | null;
 }
 
 const QUICK_REGIONS = [
@@ -78,10 +78,6 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
   onSelectRegion,
   onRefresh,
   floodGeoJSON,
-  overview: _overview,
-  floodMeta: _floodMeta,
-  facilitiesGeoJSON: _facilitiesGeoJSON,
-  settlementsGeoJSON: _settlementsGeoJSON,
 }) => {
   // Map References
   const mapContainer = useRef<HTMLDivElement>(null);
@@ -92,6 +88,10 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
   const [basemap, setBasemap] = useState<'satellite' | 'dark' | 'streets'>('dark');
   const [showRiverStations, setShowRiverStations] = useState(true);
   const [showHistoricalFlood, setShowHistoricalFlood] = useState(true);
+  
+  // Before-and-After Comparison Wipe Slider State
+  const [showComparisonSlider, setShowComparisonSlider] = useState(false);
+  const [comparisonOpacity, setComparisonOpacity] = useState<number>(85); // 0 = baseline dry, 100 = full flood extent
 
   // Inspector state
   const [inspectedFeature, setInspectedFeature] = useState<{
@@ -101,11 +101,6 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
     metrics: Record<string, string | number>;
     provenance: string;
   } | null>(null);
-
-  // Satellite Pipeline State
-  const [triggerModalOpen, setTriggerModalOpen] = useState(false);
-  const [customSceneId, setCustomSceneId] = useState('S1A_IW_GRDH_1SDV_20261122T000000_000000_0000');
-  const [triggerStatus, setTriggerStatus] = useState<string | null>(null);
 
   // Risk Engine State
   const [riskData, setRiskData] = useState<RiskAssessmentData | null>(null);
@@ -124,7 +119,6 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
   };
 
   const isKeralaRegion = region?.id?.startsWith('kerala');
-  const weather = liveData?.weather || {};
   const riverStation = liveData?.rivers?.stations?.[0] || liveData?.hydrology?.stations?.[0];
   const rainfall = liveData?.weather?.rainfall_24h_mm ?? 18.4;
 
@@ -148,16 +142,6 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
       setRiskData(data);
     } catch (err) {
       console.error('Failed to load risk assessment:', err);
-    }
-  };
-
-  const handleTriggerJob = async () => {
-    try {
-      await triggerSatelliteJob(customSceneId, selectedRegionId);
-      setTriggerStatus('Sentinel-1 SAR job queued successfully.');
-      setTimeout(() => setTriggerModalOpen(false), 1500);
-    } catch (err: any) {
-      setTriggerStatus(`Job submission error: ${err.message}`);
     }
   };
 
@@ -207,7 +191,7 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
           source: 'studio-aoi-src',
           paint: {
             'line-color': '#16B8D4',
-            'line-width': 2,
+            'line-width': 1.5,
             'line-dasharray': [3, 2]
           }
         });
@@ -220,36 +204,33 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
           data: floodGeoJSON
         });
 
+        const floodFillOpacity = (comparisonOpacity / 100) * 0.75;
+
         map.addLayer({
           id: 'studio-flood-ref-fill',
           type: 'fill',
           source: 'studio-flood-ref-src',
           paint: {
             'fill-color': '#16B8D4',
-            'fill-opacity': 0.38
-          },
-          layout: {
-            visibility: showHistoricalFlood && isKeralaRegion ? 'visible' : 'none'
+            'fill-opacity': floodFillOpacity
           }
         });
 
         map.addLayer({
-          id: 'studio-flood-ref-outline',
+          id: 'studio-flood-ref-stroke',
           type: 'line',
           source: 'studio-flood-ref-src',
           paint: {
-            'line-color': '#38BDF8',
-            'line-width': 1.5
-          },
-          layout: {
-            visibility: showHistoricalFlood && isKeralaRegion ? 'visible' : 'none'
+            'line-color': '#16B8D4',
+            'line-width': 1,
+            'line-opacity': Math.min(1, floodFillOpacity + 0.2)
           }
         });
       }
     };
 
-    map.on('style.load', setupLayers);
     map.on('load', setupLayers);
+    map.on('style.load', setupLayers);
 
     mapInstance.current = map;
 
@@ -259,79 +240,37 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
     };
   }, []);
 
-  // Update map bounds when region changes
-  useEffect(() => {
-    if (!mapInstance.current || !region) return;
-
-    const center = region.center || [region.longitude || 76.335, region.latitude || 9.495];
-    const zoom = region.zoom || 10.0;
-    const bbox = region.aoi_bbox;
-
-    mapInstance.current.flyTo({
-      center,
-      zoom,
-      speed: 1.4,
-      curve: 1.2,
-      essential: true
-    });
-
-    if (bbox && mapInstance.current.getSource('studio-aoi-src')) {
-      const src = mapInstance.current.getSource('studio-aoi-src') as maplibregl.GeoJSONSource;
-      src.setData({
-        type: 'Feature',
-        properties: {},
-        geometry: {
-          type: 'Polygon',
-          coordinates: [[
-            [bbox[0], bbox[1]],
-            [bbox[2], bbox[1]],
-            [bbox[2], bbox[3]],
-            [bbox[0], bbox[3]],
-            [bbox[0], bbox[1]]
-          ]]
-        }
-      });
-    }
-
-    if (!isKeralaRegion && showHistoricalFlood) {
-      setShowHistoricalFlood(false);
-    }
-  }, [region?.id, region?.center, region?.aoi_bbox]);
-
-  // Update Basemap Style
+  // Update basemap style
   useEffect(() => {
     if (!mapInstance.current) return;
-    const center = mapInstance.current.getCenter();
-    const zoom = mapInstance.current.getZoom();
     mapInstance.current.setStyle(BASEMAP_STYLES[basemap]);
-    mapInstance.current.once('style.load', () => {
-      mapInstance.current?.setCenter(center);
-      mapInstance.current?.setZoom(zoom);
-    });
   }, [basemap]);
 
-  // Toggle Historical Flood layer
+  // Update dynamic flood layer opacity with comparison slider
   useEffect(() => {
     if (!mapInstance.current) return;
-    try {
-      if (mapInstance.current.getLayer('studio-flood-ref-fill')) {
-        mapInstance.current.setLayoutProperty(
-          'studio-flood-ref-fill',
-          'visibility',
-          showHistoricalFlood && isKeralaRegion ? 'visible' : 'none'
-        );
-      }
-      if (mapInstance.current.getLayer('studio-flood-ref-outline')) {
-        mapInstance.current.setLayoutProperty(
-          'studio-flood-ref-outline',
-          'visibility',
-          showHistoricalFlood && isKeralaRegion ? 'visible' : 'none'
-        );
-      }
-    } catch {}
-  }, [showHistoricalFlood, isKeralaRegion]);
+    const map = mapInstance.current;
+    if (map.getLayer('studio-flood-ref-fill')) {
+      const activeOpacity = showHistoricalFlood ? (comparisonOpacity / 100) * 0.75 : 0;
+      map.setPaintProperty('studio-flood-ref-fill', 'fill-opacity', activeOpacity);
+    }
+    if (map.getLayer('studio-flood-ref-stroke')) {
+      const activeStrokeOpacity = showHistoricalFlood ? Math.min(1, (comparisonOpacity / 100) * 0.9) : 0;
+      map.setPaintProperty('studio-flood-ref-stroke', 'line-opacity', activeStrokeOpacity);
+    }
+  }, [comparisonOpacity, showHistoricalFlood]);
 
-  // Render CWC river gauge markers
+  // Center on region switch
+  useEffect(() => {
+    if (!mapInstance.current || !region.center) return;
+    mapInstance.current.flyTo({
+      center: region.center,
+      zoom: region.zoom || 10.0,
+      duration: 1200
+    });
+  }, [region.id]);
+
+  // Render station markers
   useEffect(() => {
     if (!mapInstance.current) return;
 
@@ -340,30 +279,23 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
 
     if (!showRiverStations) return;
 
-    const center = region.center || [region.longitude || 76.335, region.latitude || 9.495];
-
     stations.forEach((st) => {
       const el = document.createElement('div');
-      el.className = 'group relative cursor-pointer';
-      el.innerHTML = `
-        <div class="flex items-center justify-center w-7 h-7 rounded-full bg-[#060D17] border-2 border-emerald-400 text-emerald-400 shadow-[0_0_12px_rgba(24,165,139,0.7)] transition-transform hover:scale-125">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-        </div>
-      `;
+      el.className = 'w-4 h-4 rounded-full bg-[#16B8D4] border border-[#07111F] flex items-center justify-center cursor-pointer shadow-md';
+      el.innerHTML = '<span style="font-size: 8px; color: #07111F; font-weight: bold;">●</span>';
 
       el.addEventListener('click', () => {
         setInspectedFeature({
-          title: `${st.name} Hydrometric Station`,
+          title: `CWC Station: ${st.name}`,
           type: 'STATION',
           coordinates: st.coordinates,
           metrics: {
-            'Basin / River': st.river,
+            'River': st.river,
             'Warning Level': `${st.warning_level_m} m`,
             'Danger Level': `${st.danger_level_m} m`,
-            'Historical HFL': `${st.hfl_m} m`,
-            'Distance to Center': st.proximity_km ? `${st.proximity_km} km` : 'Regional',
+            'HFL Record': `${st.hfl_m} m (${st.hfl_date || 'Historical'})`
           },
-          provenance: 'Central Water Commission (CWC) Official Hydrometric Feed',
+          provenance: 'Central Water Commission (CWC) Hydrological Network'
         });
       });
 
@@ -373,39 +305,9 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
 
       markersRef.current.push(marker);
     });
-
-    // IMD Weather Marker
-    const imdEl = document.createElement('div');
-    imdEl.className = 'cursor-pointer';
-    imdEl.innerHTML = `
-      <div class="flex items-center justify-center w-7 h-7 rounded-full bg-[#060D17] border-2 border-cyan-400 text-cyan-400 shadow-[0_0_12px_rgba(22,184,212,0.8)] transition-transform hover:scale-125">
-        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"></path></svg>
-      </div>
-    `;
-
-    imdEl.addEventListener('click', () => {
-      setInspectedFeature({
-        title: `${region.name} Meteorological Radar`,
-        type: 'WEATHER',
-        coordinates: center,
-        metrics: {
-          '24h Precipitation': `${rainfall} mm`,
-          'Ambient Temperature': `${weather.temperature_c ?? 28}°C`,
-          'Relative Humidity': `${weather.humidity_pct ?? 82}%`,
-          'Wind Velocity': `${weather.wind_speed_kmh ?? 14} km/h`,
-        },
-        provenance: 'India Meteorological Department (IMD) / Open-Meteo High-Resolution Ensemble',
-      });
-    });
-
-    const imdMarker = new maplibregl.Marker({ element: imdEl })
-      .setLngLat(center)
-      .addTo(mapInstance.current!);
-
-    markersRef.current.push(imdMarker);
   }, [showRiverStations, stations, region?.id]);
 
-  // Hydrograph Mock Data
+  // Hydrograph Trend Data
   const hydrographData = [
     { label: '00:00', value: 2.1 },
     { label: '04:00', value: 2.3 },
@@ -424,32 +326,32 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
   ];
 
   return (
-    <div className="flex-1 flex flex-col lg:flex-row h-full bg-[#060D17] text-slate-200 overflow-hidden select-none relative">
-      {/* LEFT / CENTER: Dominant Geospatial Studio Canvas (60-65% width) */}
+    <div className="flex-1 flex flex-col lg:flex-row h-full bg-[#07111F] text-[#E8F0F7] overflow-hidden select-none relative font-sans">
+      {/* LEFT / CENTER: Dominant Geospatial Studio Canvas (65-70% width) */}
       <div className="relative flex-1 h-[55%] lg:h-full overflow-hidden">
         <div ref={mapContainer} className="w-full h-full" />
 
         {/* Floating Top-Left Region Selector & Quick Switch Bar */}
-        <div className="absolute top-4 left-4 z-20 pointer-events-none max-w-lg">
-          <div className="pointer-events-auto panel-glass-deep p-2.5 rounded-2xl border border-[#142B42] shadow-2xl space-y-2">
-            <div className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-              <span className="text-[10px] font-mono uppercase font-bold text-cyan-300 tracking-wider">
+        <div className="absolute top-3 left-3 z-20 pointer-events-none max-w-lg">
+          <div className="pointer-events-auto bg-[#091522] p-2 rounded border border-[#203A52] shadow-xl space-y-1.5">
+            <div className="flex items-center space-x-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#16B8D4]" />
+              <span className="text-[10px] font-mono uppercase font-bold text-[#16B8D4] tracking-wider">
                 SATELLITE ANALYTICS STUDIO
               </span>
-              <span className="text-[9px] text-slate-500 font-mono">• SENTINEL-1 C-SAR</span>
+              <span className="text-[9px] text-[#8DA3B8] font-mono">• SENTINEL-1 C-SAR</span>
             </div>
 
-            {/* Quick Region Switch Pills */}
-            <div className="flex flex-wrap gap-1.5 pt-0.5">
+            {/* Quick Region Switch Buttons */}
+            <div className="flex flex-wrap gap-1 pt-0.5">
               {QUICK_REGIONS.map((r) => (
                 <button
                   key={r.id}
                   onClick={() => onSelectRegion && onSelectRegion(r.id)}
-                  className={`px-2.5 py-1 rounded-lg text-[10px] font-mono transition cursor-pointer flex items-center space-x-1 ${
+                  className={`px-2 py-0.5 rounded text-[10px] font-mono transition-colors cursor-pointer flex items-center space-x-1 ${
                     selectedRegionId === r.id
-                      ? 'bg-cyan-500/25 text-cyan-300 border border-cyan-500/50 shadow-cyan-glow font-bold'
-                      : 'bg-[#0D1D2D] text-slate-400 hover:text-slate-200 border border-[#142B42]'
+                      ? 'bg-[#10243A] text-[#16B8D4] border border-[#16B8D4] font-bold'
+                      : 'bg-[#07111F] text-[#8DA3B8] hover:text-[#E8F0F7] border border-[#203A52]'
                   }`}
                 >
                   <span>{r.icon}</span>
@@ -460,23 +362,23 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
           </div>
         </div>
 
-        {/* Floating Top-Right Map Layer Controls */}
-        <div className="absolute top-4 right-4 z-20 pointer-events-none">
-          <div className="pointer-events-auto panel-glass-deep p-2.5 rounded-2xl border border-[#142B42] shadow-2xl flex items-center space-x-2 text-xs font-mono">
+        {/* Floating Top-Right Map Controls */}
+        <div className="absolute top-3 right-3 z-20 pointer-events-none">
+          <div className="pointer-events-auto bg-[#091522] p-1.5 rounded border border-[#203A52] shadow-xl flex items-center space-x-1.5 text-xs font-mono">
             {/* Basemap Switcher */}
-            <div className="flex items-center bg-[#060D17] p-0.5 rounded-xl border border-[#142B42]">
+            <div className="flex items-center bg-[#07111F] p-0.5 rounded border border-[#203A52]">
               <button
                 onClick={() => setBasemap('satellite')}
-                className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold transition cursor-pointer ${
-                  basemap === 'satellite' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400'
+                className={`px-2 py-0.5 rounded text-[10px] font-medium transition-colors cursor-pointer ${
+                  basemap === 'satellite' ? 'bg-[#10243A] text-[#16B8D4] border border-[#16B8D4]' : 'text-[#8DA3B8]'
                 }`}
               >
                 Satellite
               </button>
               <button
                 onClick={() => setBasemap('dark')}
-                className={`px-2.5 py-1 rounded-lg text-[10px] font-semibold transition cursor-pointer ${
-                  basemap === 'dark' ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40' : 'text-slate-400'
+                className={`px-2 py-0.5 rounded text-[10px] font-medium transition-colors cursor-pointer ${
+                  basemap === 'dark' ? 'bg-[#10243A] text-[#16B8D4] border border-[#16B8D4]' : 'text-[#8DA3B8]'
                 }`}
               >
                 Dark
@@ -485,87 +387,149 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
 
             <button
               onClick={() => setShowRiverStations(!showRiverStations)}
-              className={`px-2.5 py-1.5 rounded-xl border text-[10px] font-mono transition cursor-pointer flex items-center space-x-1.5 ${
+              className={`px-2 py-1 rounded border text-[10px] font-mono transition-colors cursor-pointer flex items-center space-x-1 ${
                 showRiverStations
-                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                  : 'bg-[#060D17] text-slate-500 border-[#142B42]'
+                  ? 'bg-[#18A58B]/10 text-[#18A58B] border-[#18A58B]/40'
+                  : 'bg-[#07111F] text-[#8DA3B8] border-[#203A52]'
               }`}
             >
-              <Waves className="w-3 h-3 text-emerald-400" />
+              <Waves className="w-3 h-3 text-[#18A58B]" />
               <span>CWC ({stations.length})</span>
             </button>
 
             {isKeralaRegion && (
               <button
                 onClick={() => setShowHistoricalFlood(!showHistoricalFlood)}
-                className={`px-2.5 py-1.5 rounded-xl border text-[10px] font-mono transition cursor-pointer flex items-center space-x-1.5 ${
+                className={`px-2 py-1 rounded border text-[10px] font-mono transition-colors cursor-pointer flex items-center space-x-1 ${
                   showHistoricalFlood
-                    ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40 shadow-cyan-glow'
-                    : 'bg-[#060D17] text-slate-500 border-[#142B42]'
+                    ? 'bg-[#16B8D4]/10 text-[#16B8D4] border-[#16B8D4]/40'
+                    : 'bg-[#07111F] text-[#8DA3B8] border-[#203A52]'
                 }`}
               >
-                <Layers className="w-3 h-3 text-cyan-400" />
+                <Layers className="w-3 h-3 text-[#16B8D4]" />
                 <span>2018 SAR Footprint</span>
+              </button>
+            )}
+
+            {/* Draggable Comparison Wipe Slider Toggle */}
+            {isKeralaRegion && showHistoricalFlood && (
+              <button
+                onClick={() => setShowComparisonSlider(!showComparisonSlider)}
+                className={`px-2 py-1 rounded border text-[10px] font-mono transition-colors cursor-pointer flex items-center space-x-1 ${
+                  showComparisonSlider
+                    ? 'bg-[#F0A83B]/10 text-[#F0A83B] border-[#F0A83B]/40'
+                    : 'bg-[#07111F] text-[#8DA3B8] border-[#203A52]'
+                }`}
+                title="Toggle Before/After Imagery Wipe Slider"
+              >
+                <Sliders className="w-3 h-3 text-[#F0A83B]" />
+                <span>Compare</span>
               </button>
             )}
           </div>
         </div>
 
+        {/* Floating Before-and-After Imagery Comparison Slider */}
+        {showComparisonSlider && isKeralaRegion && showHistoricalFlood && (
+          <div className="absolute top-16 right-3 z-20 pointer-events-none w-72">
+            <div className="pointer-events-auto bg-[#091522] p-2.5 rounded border border-[#203A52] shadow-2xl space-y-2 font-mono text-xs">
+              <div className="flex items-center justify-between text-[10px]">
+                <span className="text-[#F0A83B] font-bold uppercase tracking-wider flex items-center space-x-1">
+                  <Sliders className="w-3 h-3 text-[#F0A83B]" />
+                  <span>SAR Inundation Wipe Slider</span>
+                </span>
+                <span className="text-[#E8F0F7] font-bold">{comparisonOpacity}% Overlay</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={comparisonOpacity}
+                onChange={(e) => setComparisonOpacity(Number(e.target.value))}
+                className="w-full accent-[#16B8D4] cursor-pointer"
+              />
+              <div className="flex justify-between text-[9px] text-[#8DA3B8]">
+                <span>0% (Dry Baseline)</span>
+                <span>100% (Flood Water Extent)</span>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Floating Feature Inspector HUD (Bottom-Left) */}
         {inspectedFeature && (
-          <div className="absolute bottom-6 left-6 z-20 pointer-events-none max-w-sm">
-            <div className="pointer-events-auto panel-glass-deep p-4 rounded-2xl border border-cyan-500/40 shadow-2xl space-y-3">
-              <div className="flex items-center justify-between border-b border-[#142B42] pb-2">
+          <div className="absolute bottom-5 left-5 z-20 pointer-events-none max-w-sm">
+            <div className="pointer-events-auto bg-[#091522] p-3 rounded border border-[#203A52] shadow-2xl space-y-2">
+              <div className="flex items-center justify-between border-b border-[#203A52] pb-1.5">
                 <div>
-                  <span className="text-[9px] font-mono text-cyan-400 uppercase tracking-wider block">FEATURE INSPECTOR</span>
-                  <h4 className="text-xs font-bold text-white">{inspectedFeature.title}</h4>
+                  <span className="text-[9px] font-mono text-[#16B8D4] uppercase tracking-wider block">FEATURE INSPECTOR</span>
+                  <h4 className="text-xs font-bold text-[#E8F0F7]">{inspectedFeature.title}</h4>
                 </div>
                 <button
                   onClick={() => setInspectedFeature(null)}
-                  className="text-slate-400 hover:text-white font-mono text-sm cursor-pointer"
+                  className="text-[#8DA3B8] hover:text-[#E8F0F7] font-mono text-sm px-1"
                 >
                   ×
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-xs font-mono">
+              <div className="grid grid-cols-2 gap-1.5 text-xs font-mono">
                 {Object.entries(inspectedFeature.metrics).map(([key, val]) => (
-                  <div key={key} className="p-2 bg-[#060D17] rounded-lg border border-[#142B42]">
-                    <span className="text-[9px] text-slate-500 block uppercase">{key}</span>
-                    <span className="text-white font-semibold">{val}</span>
+                  <div key={key} className="p-1.5 bg-[#07111F] rounded border border-[#203A52]">
+                    <span className="text-[9px] text-[#8DA3B8] block uppercase">{key}</span>
+                    <span className="text-[#E8F0F7] font-semibold">{val}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="text-[9px] text-slate-400 font-mono pt-1">
-                <span className="text-cyan-400">Provenance:</span> {inspectedFeature.provenance}
+              <div className="text-[9px] text-[#8DA3B8] font-mono pt-0.5">
+                <span className="text-[#16B8D4]">Lineage:</span> {inspectedFeature.provenance}
               </div>
             </div>
           </div>
         )}
+
+        {/* Floating Map Legend (Bottom-Right) */}
+        <div className="absolute bottom-5 right-5 z-20 pointer-events-none hidden sm:block">
+          <div className="pointer-events-auto">
+            <MapLegend
+              showInundation={showHistoricalFlood}
+              showAffectedRoads={true}
+              showRoads={true}
+              showFacilities={true}
+              showStations={showRiverStations}
+            />
+          </div>
+        </div>
       </div>
 
-      {/* RIGHT: Analytical Studio Visualisation Deck (35-40% width) */}
-      <div className="w-full lg:w-[460px] h-[45%] lg:h-full bg-[#091522] border-t lg:border-t-0 lg:border-l border-[#142B42] flex flex-col z-10 overflow-hidden">
+      {/* RIGHT: Analytical Studio Visualisation Deck (30-35% width) */}
+      <div className="w-full lg:w-[440px] h-[45%] lg:h-full bg-[#091522] border-t lg:border-t-0 lg:border-l border-[#203A52] flex flex-col z-10 overflow-hidden font-sans">
         {/* Studio Deck Header */}
-        <div className="p-3.5 bg-[#060D17] border-b border-[#142B42] flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Radio className="w-4 h-4 text-emerald-400 animate-pulse" />
-            <h3 className="text-xs font-bold text-white font-mono uppercase tracking-wider">
+        <div className="p-3 bg-[#07111F] border-b border-[#203A52] flex items-center justify-between">
+          <div className="flex items-center space-x-1.5">
+            <Radio className="w-3.5 h-3.5 text-[#18A58B]" />
+            <h3 className="text-xs font-bold text-[#E8F0F7] font-mono uppercase tracking-wider">
               MULTI-SENSOR ANALYTICAL DECK
             </h3>
           </div>
           <button
             onClick={onRefresh}
-            className="p-1.5 bg-[#0D1D2D] hover:bg-[#142B42] text-slate-300 rounded-lg border border-[#142B42] cursor-pointer"
+            className="p-1 bg-[#10243A] hover:bg-[#142B42] text-[#8DA3B8] hover:text-[#E8F0F7] rounded border border-[#203A52] cursor-pointer"
             title="Refresh Telemetry"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${liveLoading ? 'animate-spin text-cyan-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${liveLoading ? 'animate-spin text-[#16B8D4]' : ''}`} />
           </button>
         </div>
 
         {/* Studio Visualisation Cards */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-3 space-y-3">
+          {/* Sentinel-1 Acquisition Profile */}
+          <SatelliteAcquisitionPanel
+            regionId={selectedRegionId}
+            onJobTriggered={onRefresh}
+          />
+
           {/* Chart 1: River Stage Hydrograph Curve */}
           <IntelligenceChart
             title="River Basin Hydrograph Trend"
@@ -592,7 +556,7 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
 
           {/* Explainable Risk Engine Dial */}
           <RiskDial
-            score={riskData?.risk_assessment.composite_score || 35}
+            score={riskData?.risk_assessment.composite_score || 22}
             classification={riskData?.risk_assessment.level || 'NORMAL'}
             contributingFactors={{
               precipitationScore: 35,
@@ -600,42 +564,8 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
               historicFloodScore: 45,
               populationExposureScore: 30,
             }}
-            limitations={['Hydrologic risk incorporates 24h rainfall precursor potential. Does not replace ground truth physical verification.']}
+            limitations={['Hydrologic risk incorporates 24h rainfall precursor potential. Ground truth physical verification required for critical actions.']}
           />
-
-          {/* Sentinel-1 SAR Pipeline Console */}
-          <div className="p-4 bg-[#0D1D2D] border border-[#142B42] rounded-xl space-y-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <span className="text-[9px] text-cyan-400 font-mono uppercase tracking-wider block">
-                  COPERNICUS SAR INGESTION
-                </span>
-                <h4 className="text-xs font-bold text-white">Sentinel-1 Radar Processing</h4>
-              </div>
-              <button
-                onClick={() => setTriggerModalOpen(true)}
-                className="px-2.5 py-1 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-[10px] font-bold font-mono flex items-center space-x-1 cursor-pointer shadow-cyan-glow"
-              >
-                <Play className="w-3 h-3" />
-                <span>Submit Scene</span>
-              </button>
-            </div>
-
-            <div className="text-[11px] font-mono text-slate-300 space-y-1 bg-[#060D17] p-2.5 rounded-lg border border-[#142B42]">
-              <div className="flex justify-between">
-                <span className="text-slate-500">Active Sensor:</span>
-                <span className="text-cyan-300 font-semibold">Sentinel-1A C-SAR</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Pass Direction:</span>
-                <span className="text-white">ASCENDING • Orbit 56</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-slate-500">Calibration:</span>
-                <span className="text-emerald-400">Radiometric Gamma-0 (-16.5 dB)</span>
-              </div>
-            </div>
-          </div>
 
           {/* Data Provenance Card */}
           <DataProvenanceCard
@@ -649,47 +579,6 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
           />
         </div>
       </div>
-
-      {/* Raw SAR Submission Modal */}
-      {triggerModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
-          <div className="panel-glass-deep p-6 rounded-2xl border border-cyan-500/40 shadow-2xl max-w-md w-full space-y-4">
-            <div className="flex items-center justify-between border-b border-[#142B42] pb-3">
-              <h3 className="text-sm font-bold text-white flex items-center space-x-2 font-mono">
-                <Satellite className="w-4 h-4 text-cyan-400" />
-                <span>Submit Raw Sentinel-1 SAR Scene</span>
-              </h3>
-              <button onClick={() => setTriggerModalOpen(false)} className="text-slate-400 hover:text-white text-lg">×</button>
-            </div>
-            <div className="space-y-2">
-              <label className="text-xs text-slate-400 font-mono block">Sentinel-1 Granule Identifier</label>
-              <input
-                type="text"
-                value={customSceneId}
-                onChange={(e) => setCustomSceneId(e.target.value)}
-                className="w-full bg-[#060D17] border border-[#142B42] rounded-xl px-3 py-2 text-xs text-white font-mono focus:border-cyan-400 focus:outline-none"
-              />
-              {triggerStatus && (
-                <p className="text-[11px] font-mono text-cyan-400 pt-1">{triggerStatus}</p>
-              )}
-            </div>
-            <div className="flex justify-end space-x-2 pt-2">
-              <button
-                onClick={() => setTriggerModalOpen(false)}
-                className="px-3 py-1.5 rounded-xl border border-[#142B42] text-xs text-slate-400 hover:text-white"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleTriggerJob}
-                className="px-4 py-1.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold font-mono shadow-cyan-glow"
-              >
-                Dispatch Pipeline
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

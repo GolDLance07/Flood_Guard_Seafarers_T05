@@ -58,42 +58,41 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
     role === 'citizen' ? 'cyan' : 'slate';
 
   return (
-    <header className="h-13 px-3 sm:px-5 bg-[#060D17]/95 backdrop-blur-xl border-b border-[#142B42] flex items-center justify-between z-30 select-none font-sans relative">
+    <header className="h-12 px-3 sm:px-4 bg-[#07111F] border-b border-[#203A52] flex items-center justify-between z-30 select-none font-sans relative">
       {/* Brand & Terminal Metadata */}
       <div className="flex items-center space-x-3 sm:space-x-4">
         {/* Terminal Logo Anchor */}
         <div className="flex items-center space-x-2.5">
-          <div className="relative p-1.5 bg-gradient-to-br from-cyan-500/20 to-teal-500/10 border border-cyan-500/40 rounded-lg text-cyan-400 shadow-cyan-glow flex items-center justify-center">
-            <ShieldAlert className="w-4 h-4 text-cyan-400" />
-            <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+          <div className="p-1.5 bg-[#10243A] border border-[#203A52] rounded text-[#16B8D4] flex items-center justify-center">
+            <ShieldAlert className="w-4 h-4 text-[#16B8D4]" />
           </div>
           <div>
             <div className="flex items-center space-x-2">
-              <span className="font-extrabold text-sm sm:text-base tracking-tight text-white font-mono leading-none">
-                Flood<span className="text-cyan-400">Guard</span>
+              <span className="font-extrabold text-sm sm:text-base tracking-tight text-[#E8F0F7] font-mono leading-none">
+                Flood<span className="text-[#16B8D4]">Guard</span>
               </span>
-              <span className="hidden sm:inline text-[9px] uppercase font-mono tracking-widest text-cyan-300 px-1.5 py-0.5 bg-cyan-950/80 border border-cyan-700/50 rounded">
-                OPS TERMINAL
+              <span className="hidden sm:inline text-[9px] uppercase font-mono tracking-widest text-[#16B8D4] px-1.5 py-0.2 bg-[#10243A] border border-[#203A52] rounded">
+                MISSION CONTROL
               </span>
             </div>
-            <div className="text-[9px] text-slate-500 font-mono hidden md:block leading-none mt-0.5">
+            <div className="text-[9px] text-[#8DA3B8] font-mono hidden md:block leading-none mt-0.5">
               AUTONOMOUS SATELLITE & DISASTER INTELLIGENCE
             </div>
           </div>
         </div>
 
-        <div className="h-6 w-px bg-[#142B42] hidden md:block" />
+        <div className="h-5 w-px bg-[#203A52] hidden md:block" />
 
         {/* Tactical Coordinates & Region Anchor */}
         <div className="hidden lg:flex items-center space-x-2 text-xs font-mono">
-          <div className="flex items-center space-x-1.5 text-slate-300 px-2 py-1 rounded bg-[#091522] border border-[#142B42]">
-            <MapPin className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="font-semibold text-white">{currentRegionName}</span>
-            <span className="text-[10px] text-cyan-400/80 pl-1 font-mono">9.498°N 76.338°E</span>
+          <div className="flex items-center space-x-1.5 text-[#8DA3B8] px-2 py-1 rounded bg-[#091522] border border-[#203A52]">
+            <MapPin className="w-3.5 h-3.5 text-[#16B8D4]" />
+            <span className="font-semibold text-[#E8F0F7]">{currentRegionName}</span>
+            <span className="text-[10px] text-[#16B8D4] pl-1 font-mono">9.498°N 76.338°E</span>
           </div>
 
-          <div className="hidden xl:flex items-center space-x-1.5 text-[10px] text-slate-400 px-2 py-1 rounded bg-[#091522] border border-[#142B42]">
-            <Satellite className="w-3.5 h-3.5 text-teal-400" />
+          <div className="hidden xl:flex items-center space-x-1.5 text-[10px] text-[#8DA3B8] px-2 py-1 rounded bg-[#091522] border border-[#203A52]">
+            <Satellite className="w-3.5 h-3.5 text-[#18A58B]" />
             <span>SENTINEL-1A • ORBIT 56</span>
           </div>
         </div>
@@ -101,46 +100,46 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
 
       {/* Center Live Clock & Operational Status */}
       <div className="hidden 2xl:flex items-center space-x-4">
-        <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-[#091522] border border-[#142B42] text-[10px] font-mono">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-slate-400">SYSTEM:</span>
-          <span className="text-emerald-400 font-bold">{operationalStatus}</span>
+        <div className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded bg-[#091522] border border-[#203A52] text-[10px] font-mono">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#18A58B]" />
+          <span className="text-[#8DA3B8]">SYSTEM:</span>
+          <span className="text-[#18A58B] font-bold">{operationalStatus}</span>
         </div>
 
-        <div className="flex items-center space-x-1.5 text-[11px] text-slate-300 font-mono">
-          <Clock className="w-3.5 h-3.5 text-cyan-400" />
+        <div className="flex items-center space-x-1.5 text-[11px] text-[#8DA3B8] font-mono">
+          <Clock className="w-3.5 h-3.5 text-[#16B8D4]" />
           <span>{currentTime}</span>
         </div>
       </div>
 
       {/* Right Actions & Mode Switcher */}
-      <div className="flex items-center space-x-2 sm:space-x-3">
+      <div className="flex items-center space-x-2 sm:space-x-2.5">
         {/* Active Emergency Alert Pill */}
         {activeAlertCount > 0 && (
-          <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded-lg bg-rose-950/90 border border-rose-500/80 text-rose-200 text-xs font-mono font-bold animate-pulse shadow-danger-glow">
-            <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+          <div className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-[#E45555]/10 border border-[#E45555] text-[#E45555] text-xs font-mono font-bold">
+            <AlertTriangle className="w-3.5 h-3.5 text-[#E45555]" />
             <span>{activeAlertCount} CRITICAL ALERT{activeAlertCount === 1 ? '' : 'S'}</span>
           </div>
         )}
 
         {/* Dual-Experience Toggle Pill */}
-        <div className="flex items-center bg-[#091522] border border-[#142B42] p-1 rounded-xl text-xs">
+        <div className="flex items-center bg-[#091522] border border-[#203A52] p-0.5 rounded text-xs font-mono">
           <button
             onClick={() => onSwitchMode('citizen')}
-            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
               appMode === 'citizen'
-                ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 text-emerald-300 border border-emerald-500/40 shadow-teal-glow'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#10243A] text-[#18A58B] border border-[#18A58B]'
+                : 'text-[#8DA3B8] hover:text-[#E8F0F7]'
             }`}
           >
             Public Citizen
           </button>
           <button
             onClick={() => onSwitchMode('command')}
-            className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`px-2.5 py-1 rounded text-xs font-medium transition-colors cursor-pointer ${
               appMode === 'command'
-                ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-300 border border-cyan-500/40 shadow-cyan-glow'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-[#10243A] text-[#16B8D4] border border-[#16B8D4]'
+                : 'text-[#8DA3B8] hover:text-[#E8F0F7]'
             }`}
           >
             Command Center
@@ -151,10 +150,10 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         {onOpenSystemDiagnostics && (
           <button
             onClick={onOpenSystemDiagnostics}
-            className="hidden sm:flex items-center space-x-1.5 px-2.5 py-1.5 bg-[#091522] hover:bg-[#10243A] text-slate-300 border border-[#142B42] rounded-lg text-xs font-mono transition-colors cursor-pointer"
+            className="hidden sm:flex items-center space-x-1.5 px-2.5 py-1.5 bg-[#091522] hover:bg-[#10243A] text-[#8DA3B8] hover:text-[#E8F0F7] border border-[#203A52] rounded text-xs font-mono transition-colors cursor-pointer"
             title="System Diagnostics & Provenance"
           >
-            <Activity className="w-3.5 h-3.5 text-emerald-400" />
+            <Activity className="w-3.5 h-3.5 text-[#18A58B]" />
             <span>Telemetry</span>
           </button>
         )}
@@ -162,18 +161,18 @@ export const AppHeader: React.FC<AppHeaderProps> = ({
         {/* Data Ingest Sync Button */}
         <button
           onClick={onRefresh}
-          className="p-2 bg-[#091522] hover:bg-[#10243A] text-slate-300 border border-[#142B42] rounded-lg transition-colors cursor-pointer"
+          className="p-1.5 bg-[#091522] hover:bg-[#10243A] text-[#8DA3B8] hover:text-[#E8F0F7] border border-[#203A52] rounded transition-colors cursor-pointer"
           title="Force Ingest Telemetry"
         >
-          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
+          <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-[#16B8D4]' : ''}`} />
         </button>
 
         {/* User Identity / Role Pill */}
         <button
           onClick={() => setIsAuthModalOpen(true)}
-          className="flex items-center space-x-2 px-3 py-1.5 bg-[#091522] hover:bg-[#10243A] border border-[#142B42] rounded-xl text-xs font-semibold text-slate-200 cursor-pointer transition-colors"
+          className="flex items-center space-x-1.5 px-2.5 py-1 bg-[#091522] hover:bg-[#10243A] border border-[#203A52] rounded text-xs font-medium text-[#E8F0F7] cursor-pointer transition-colors"
         >
-          <User className="w-3.5 h-3.5 text-cyan-400" />
+          <User className="w-3.5 h-3.5 text-[#16B8D4]" />
           <span className="hidden sm:inline font-mono text-xs">
             {isAuthenticated ? user?.email?.split('@')[0] : 'Sign In'}
           </span>

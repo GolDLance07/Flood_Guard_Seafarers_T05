@@ -3,15 +3,14 @@ import {
   Home,
   Building2,
   Navigation,
-  MapPin,
-  Phone
+  Hospital
 } from 'lucide-react';
 import type { FeatureCollection } from 'geojson';
 import type { RouteCoordinate, RouteResponse } from '../../types/api';
-import type { SheltersResponse } from '../../types/citizen';
+import type { SheltersResponse, ShelterItem } from '../../types/citizen';
 import type { LayerVisibility } from '../LayerControls';
 import { RescueWorkspace } from './RescueWorkspace';
-import { Badge } from '../common/Badge';
+import { ShelterCapacityPanel } from '../design-system/ShelterCapacityPanel';
 
 interface ResourcesWorkspaceProps {
   layers: LayerVisibility;
@@ -61,61 +60,61 @@ export const ResourcesWorkspace: React.FC<ResourcesWorkspaceProps> = ({
   sheltersData,
 }) => {
   const [activeSubTab, setActiveSubTab] = useState<'routing' | 'shelters' | 'facilities'>('routing');
+  const [selectedShelter, setSelectedShelter] = useState<ShelterItem | null>(null);
 
   const shelters = sheltersData?.shelters || [];
   const facilities = facilitiesGeoJSON?.features || [];
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#060D17] text-slate-200 overflow-hidden select-none font-sans relative">
+    <div className="flex-1 flex flex-col h-full bg-[#07111F] text-[#E8F0F7] overflow-hidden select-none font-sans relative">
       {/* Sub-Navigation Ribbon */}
-      <div className="h-12 px-4 bg-[#091522] border-b border-[#142B42] flex items-center justify-between z-10 flex-shrink-0">
-        <div className="flex items-center space-x-1.5 sm:space-x-2">
+      <div className="h-11 px-4 bg-[#091522] border-b border-[#203A52] flex items-center justify-between z-10 flex-shrink-0">
+        <div className="flex items-center space-x-1.5">
           <button
             onClick={() => setActiveSubTab('routing')}
-            className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-2.5 py-1 rounded text-xs font-medium font-mono transition-colors cursor-pointer ${
               activeSubTab === 'routing'
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-cyan-glow'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/50 border border-transparent'
+                ? 'bg-[#10243A] text-[#16B8D4] border border-[#16B8D4]'
+                : 'text-[#8DA3B8] hover:text-[#E8F0F7] hover:bg-[#10243A]/50 border border-transparent'
             }`}
           >
-            <Navigation className="w-3.5 h-3.5 text-cyan-400" />
+            <Navigation className="w-3.5 h-3.5 text-[#16B8D4]" />
             <span>Evacuation & Routing</span>
           </button>
 
           <button
             onClick={() => setActiveSubTab('shelters')}
-            className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-2.5 py-1 rounded text-xs font-medium font-mono transition-colors cursor-pointer ${
               activeSubTab === 'shelters'
-                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-teal-glow'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/50 border border-transparent'
+                ? 'bg-[#10243A] text-[#18A58B] border border-[#18A58B]'
+                : 'text-[#8DA3B8] hover:text-[#E8F0F7] hover:bg-[#10243A]/50 border border-transparent'
             }`}
           >
-            <Home className="w-3.5 h-3.5 text-emerald-400" />
+            <Home className="w-3.5 h-3.5 text-[#18A58B]" />
             <span>Shelter Registry ({shelters.length})</span>
           </button>
 
           <button
             onClick={() => setActiveSubTab('facilities')}
-            className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex items-center space-x-1.5 px-2.5 py-1 rounded text-xs font-medium font-mono transition-colors cursor-pointer ${
               activeSubTab === 'facilities'
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-cyan-glow'
-                : 'text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/50 border border-transparent'
+                ? 'bg-[#10243A] text-[#F0A83B] border border-[#F0A83B]'
+                : 'text-[#8DA3B8] hover:text-[#E8F0F7] hover:bg-[#10243A]/50 border border-transparent'
             }`}
           >
-            <Building2 className="w-3.5 h-3.5 text-cyan-400" />
+            <Building2 className="w-3.5 h-3.5 text-[#F0A83B]" />
             <span>Critical Facilities ({facilities.length})</span>
           </button>
         </div>
 
-        <div className="text-[11px] text-slate-400 font-mono hidden md:flex items-center space-x-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+        <div className="hidden sm:flex items-center space-x-2 text-[10px] font-mono text-[#8DA3B8]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#18A58B]" />
           <span>RELIEF LOGISTICS &amp; EVACUATION ENGINE</span>
         </div>
       </div>
 
-      {/* Main Tab Content */}
+      {/* Primary Workspace Content View */}
       <div className="flex-1 overflow-hidden relative">
-        {/* SUB-TAB 1: Evacuation Routing Engine */}
         {activeSubTab === 'routing' && (
           <RescueWorkspace
             layers={layers}
@@ -141,139 +140,64 @@ export const ResourcesWorkspace: React.FC<ResourcesWorkspaceProps> = ({
           />
         )}
 
-        {/* SUB-TAB 2: Shelter Registry */}
         {activeSubTab === 'shelters' && (
-          <div className="w-full h-full p-4 sm:p-6 overflow-y-auto space-y-4 max-w-6xl mx-auto">
-            <div className="p-4 bg-[#091522] border border-[#142B42] rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-              <div>
-                <h2 className="text-sm font-bold text-white flex items-center space-x-2 font-mono">
-                  <Home className="w-4 h-4 text-emerald-400" />
-                  <span>District Verified Relief Camp Registry</span>
-                </h2>
-                <p className="text-xs text-slate-400 font-mono mt-0.5">
-                  DDMA Alappuzha officially designated relief shelters with verified capacity and provisions
-                </p>
-              </div>
-              <Badge variant="emerald" size="md">STATE MONITORED</Badge>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {shelters.map((sh) => (
-                <div
-                  key={sh.id}
-                  className="p-4 bg-[#0D1D2D] border border-[#142B42] rounded-2xl space-y-3 shadow-lg hover:border-slate-600 transition"
-                >
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <h3 className="text-sm font-bold text-white">{sh.name}</h3>
-                      <div className="text-xs text-slate-400 flex items-center space-x-1 mt-0.5">
-                        <MapPin className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
-                        <span>{sh.address}</span>
-                      </div>
-                    </div>
-                    <Badge variant={sh.operational_status === 'ACTIVE' ? 'emerald' : 'amber'} size="sm">
-                      {sh.operational_status}
-                    </Badge>
-                  </div>
-
-                  {/* Capacity Bar */}
-                  <div className="space-y-1">
-                    <div className="flex justify-between text-xs font-mono">
-                      <span className="text-slate-400">Occupancy:</span>
-                      <span className="text-white font-bold">
-                        {sh.current_occupancy ?? 0} / {sh.capacity || 100} beds ({Math.round(((sh.current_occupancy ?? 0) / (sh.capacity || 1)) * 100)}%)
-                      </span>
-                    </div>
-                    <div className="w-full bg-[#060D17] rounded-full h-2 border border-[#142B42]">
-                      <div
-                        className="bg-emerald-400 h-2 rounded-full transition-all"
-                        style={{ width: `${Math.min(100, Math.round(((sh.current_occupancy ?? 0) / (sh.capacity || 1)) * 100))}%` }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* Provisions tags */}
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {(sh.amenities || ['Drinking Water', 'Medical Volunteer Post', 'Power Backup']).map((sup, idx) => (
-                      <span
-                        key={idx}
-                        className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#060D17] text-slate-300 border border-[#142B42]"
-                      >
-                        {sup.replace(/_/g, ' ')}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Actions */}
-                  <div className="pt-2 border-t border-[#142B42] flex justify-between items-center text-xs font-mono">
-                    <span className="text-slate-400">Coord: {sh.latitude.toFixed(3)}°N, {sh.longitude.toFixed(3)}°E</span>
-                    {sh.contact_phone && (
-                      <a
-                        href={`tel:${sh.contact_phone}`}
-                        className="px-2.5 py-1 bg-emerald-600/20 text-emerald-300 border border-emerald-500/40 rounded-lg flex items-center space-x-1 hover:bg-emerald-600/30"
-                      >
-                        <Phone className="w-3 h-3" />
-                        <span>{sh.contact_phone}</span>
-                      </a>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="h-full p-4 overflow-y-auto max-w-5xl mx-auto">
+            <ShelterCapacityPanel
+              shelters={shelters}
+              selectedShelterId={selectedShelter?.id}
+              onSelectShelter={setSelectedShelter}
+            />
           </div>
         )}
 
-        {/* SUB-TAB 3: Critical Facilities */}
         {activeSubTab === 'facilities' && (
-          <div className="w-full h-full p-4 sm:p-6 overflow-y-auto space-y-4 max-w-6xl mx-auto">
-            <div className="p-4 bg-[#091522] border border-[#142B42] rounded-2xl flex justify-between items-center">
+          <div className="h-full p-4 overflow-y-auto max-w-5xl mx-auto space-y-3 font-mono">
+            <div className="flex items-center justify-between border-b border-[#203A52] pb-2">
               <div>
-                <h2 className="text-sm font-bold text-white flex items-center space-x-2 font-mono">
-                  <Building2 className="w-4 h-4 text-cyan-400" />
-                  <span>Regional Critical Infrastructure Atlas</span>
-                </h2>
-                <p className="text-xs text-slate-400 font-mono mt-0.5">
-                  Hospitals, emergency medical outposts, power substations, and evacuation shelters
+                <h3 className="text-xs font-bold text-[#E8F0F7] uppercase tracking-wider flex items-center space-x-2">
+                  <Hospital className="w-4 h-4 text-[#E45555]" />
+                  <span>Critical Infrastructure &amp; Medical Atlas</span>
+                </h3>
+                <p className="text-[10px] text-[#8DA3B8]">
+                  Verified hospitals, community health centers, and staging points across the basin.
                 </p>
               </div>
-              <Badge variant="cyan" size="md">{facilities.length} Mapped Assets</Badge>
+              <span className="text-[9px] px-2 py-0.5 rounded border border-[#203A52] bg-[#091522] text-[#8DA3B8]">
+                {facilities.length} ASSETS
+              </span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
               {facilities.slice(0, 30).map((f: any, idx: number) => {
-                const props = f.properties || {};
-                const isFlooded = props.inside_flood_extent;
+                const isFlooded = f.properties?.inside_flood_extent;
                 return (
                   <div
                     key={idx}
-                    className={`p-3.5 rounded-xl border space-y-2 ${
-                      isFlooded
-                        ? 'bg-rose-950/30 border-rose-800/60'
-                        : 'bg-[#0D1D2D] border-[#142B42]'
-                    }`}
+                    className="p-3 bg-[#091522] border border-[#203A52] rounded space-y-1.5"
                   >
-                    <div className="flex justify-between items-start">
-                      <span className="text-xs font-bold text-white truncate max-w-[200px]">
-                        {props.name || 'Critical Facility'}
+                    <div className="flex items-center justify-between">
+                      <span className="font-bold text-[#E8F0F7] text-xs font-sans truncate max-w-[260px]">
+                        {f.properties?.name || 'Local Facility'}
                       </span>
                       <span
-                        className={`text-[9px] uppercase px-1.5 py-0.5 rounded font-mono font-bold ${
-                          isFlooded ? 'bg-rose-950 text-rose-300 border border-rose-700' : 'bg-emerald-950 text-emerald-300 border border-emerald-700'
+                        className={`text-[8px] uppercase px-1.5 py-0.2 rounded font-bold border ${
+                          isFlooded
+                            ? 'bg-[#E45555]/10 text-[#E45555] border-[#E45555]/40'
+                            : 'bg-[#18A58B]/10 text-[#18A58B] border-[#18A58B]/40'
                         }`}
                       >
-                        {isFlooded ? 'Inundated' : 'Accessible'}
+                        {isFlooded ? 'Threatened' : 'Operational'}
                       </span>
                     </div>
 
-                    <div className="text-[11px] text-slate-400 font-mono">
-                      Category: <span className="text-cyan-300 uppercase">{props.category || 'Hospital'}</span>
+                    <div className="text-[10px] text-[#8DA3B8] flex items-center justify-between">
+                      <span>Category: {f.properties?.category || 'Healthcare'}</span>
+                      {f.geometry?.coordinates && (
+                        <span>
+                          {f.geometry.coordinates[1].toFixed(4)}°N, {f.geometry.coordinates[0].toFixed(4)}°E
+                        </span>
+                      )}
                     </div>
-
-                    {props.bed_count && (
-                      <div className="text-[10px] text-slate-500 font-mono">
-                        Bed Capacity: {props.bed_count} Units
-                      </div>
-                    )}
                   </div>
                 );
               })}
