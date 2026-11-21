@@ -1,0 +1,51 @@
+{
+  "event_id": "kerala-2018-demo",
+  "event_name": "Kerala Floods — August 2018",
+  "aoi": {
+    "name": "Alappuzha & Kuttanad Wetland Basin",
+    "bbox": [76.3, 9.3, 76.6, 9.6],
+    "crs": "EPSG:4326",
+    "utm_crs": "EPSG:32643"
+  },
+  "event_scene": {
+    "id": "S1A_IW_GRDH_1SDV_20180821T004109_20180821T004134_023337_0289D5_B2B2.SAFE",
+    "copernicus_cog_id": "211ae2d0-a8d4-495b-af81-1899c0c2d628",
+    "date": "2018-08-21T00:41:09.643Z",
+    "polarisation": "VV+VH",
+    "pass": "ASCENDING",
+    "relative_orbit": 144
+  },
+  "baseline_scene": {
+    "id": "S1A_IW_GRDH_1SDV_20180809T004108_20180809T004133_023162_02842B_FEE2.SAFE",
+    "copernicus_cog_id": "d76aa011-63c1-4598-bdc8-ad04a10ee3e8",
+    "date": "2018-08-09T00:41:08.927Z",
+    "polarisation": "VV+VH",
+    "pass": "ASCENDING",
+    "relative_orbit": 144
+  },
+  "methodology": {
+    "detection": "C-SAR amplitude backscatter thresholding with pre-event multi-temporal baseline subtraction",
+    "permanent_water_treatment": "Excluded pre-event permanent waterbodies (Vembanad Lake, backwaters, and river channels) with make_valid topological cleaning",
+    "area_calculation_method": "Projected planar area summation in UTM Zone 43N (EPSG:32643)",
+    "total_flooded_area_ha": 38656.52,
+    "total_flooded_area_km2": 386.57,
+    "facilities_breakdown": {
+      "total_facilities": 324,
+      "total_exposed_facilities": 38,
+      "hospitals_and_clinics_exposed": 28,
+      "pharmacies_and_doctors_exposed": 10
+    },
+    "population_exposure_model": {
+      "method": "Settlement-weighted spatial density formula: area_km2 * 1480 * 0.45",
+      "calibrated_density_per_km2": 1480,
+      "settlement_coefficient": 0.45,
+      "estimated_exposed_population": 257456,
+      "uncertainty_range": "+/- 20% due to unmapped localized evacuations"
+    },
+    "limitations": [
+      "Vegetation canopy and dense water hyacinth can cause radar specular scattering variations",
+      "Built-up urban structures produce double-bounce reflections that can mask surface standing water",
+      "Candidate routes strictly exclude mapped inundation segments and require field ground-truth passability verification"
+    ]
+  }
+}

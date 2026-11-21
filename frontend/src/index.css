@@ -1,0 +1,87 @@
+@import "tailwindcss";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+:root {
+  color-scheme: dark;
+  --bg-base: #070D18;
+  --surface-primary: #0D1626;
+  --surface-secondary: #111E30;
+  --surface-elevated: #16243A;
+  --border-subtle: #1E2D4A;
+  --border-muted: rgba(30, 45, 74, 0.8);
+  --accent-cyan: #06B6D4;
+  --accent-cyan-bright: #22D3EE;
+  --accent-emerald: #10B981;
+  --accent-amber: #F59E0B;
+  --accent-rose: #F43F5E;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #070D18;
+  color: #F1F5F9;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.maplibregl-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  outline: none;
+}
+
+/* Custom scrollbar for translucent panels */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(7, 13, 24, 0.8);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(30, 45, 74, 0.9);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.5);
+}
+
+/* Tabular numbers for numerical KPIs */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* MapLibre popup custom styling */
+.maplibregl-popup-content {
+  background: #0D1626 !important;
+  color: #F1F5F9 !important;
+  border: 1px solid #1E2D4A !important;
+  border-radius: 10px !important;
+  padding: 12px 14px !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+  font-family: inherit !important;
+}
+.maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: #0D1626 !important;
+}
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #0D1626 !important;
+}
+.maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  border-right-color: #0D1626 !important;
+}
+.maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  border-left-color: #0D1626 !important;
+}
+.maplibregl-popup-close-button {
+  color: #94A3B8 !important;
+  font-size: 16px !important;
+  padding: 4px 8px !important;
+}
+.maplibregl-popup-close-button:hover {
+  color: #F1F5F9 !important;
+  background-color: transparent !important;
+}

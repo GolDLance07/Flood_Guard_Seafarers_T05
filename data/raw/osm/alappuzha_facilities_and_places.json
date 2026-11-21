@@ -1,0 +1,6551 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-11-21T12:33:05Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+    {
+      "type": "node",
+      "id": 245584504,
+      "lat": 9.5960545,
+      "lon": 76.4305378,
+      "tags": {
+        "name": "Kumarakom",
+        "name:ar": "\u06a9\u0648\u0645\u0627\u0631\u0627\u06a9\u0648\u0645",
+        "name:hi": "\u0915\u0941\u092e\u0930\u0915\u092e",
+        "name:kn": "\u0c95\u0cc1\u0cae\u0cbe\u0cb0\u0c95\u0c82",
+        "name:ml": "\u0d15\u0d41\u0d2e\u0d30\u0d15\u0d02",
+        "name:ta": "\u0b95\u0bc1\u0bae\u0bb0\u0b95\u0bae\u0bcd",
+        "place": "village",
+        "postal_code": "686563",
+        "wikidata": "Q3521576",
+        "wikimedia_commons": "Category:Kumarakom",
+        "wikipedia": "en:Kumarakom"
+      }
+    },
+    {
+      "type": "node",
+      "id": 281358055,
+      "lat": 9.3799326,
+      "lon": 76.3634769,
+      "tags": {
+        "name": "Ambalapuzha",
+        "name:ml": "\u0d05\u0d2e\u0d4d\u0d2a\u0d32\u0d2a\u0d4d\u0d2a\u0d41\u0d34",
+        "place": "village",
+        "postal_code": "688561"
+      }
+    },
+    {
+      "type": "node",
+      "id": 307511109,
+      "lat": 9.363999,
+      "lon": 76.5925769,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Thirumoolapuram",
+        "addr:postcode": "689115",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Aravind Ayurvedic Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 345211038,
+      "lat": 9.4919443,
+      "lon": 76.3336515,
+      "tags": {
+        "name": "Vellakinar",
+        "name:ml": "\u0d35\u0d46\u0d33\u0d4d\u0d33\u0d15\u0d4d\u0d15\u0d3f\u0d23\u0d30\u0d4d",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 418995475,
+      "lat": 9.4465151,
+      "lon": 76.5403096,
+      "tags": {
+        "alt_name": "Changanasseri",
+        "alt_name:ta": "\u0b9a\u0b99\u0bcd\u0b95\u0ba9\u0bbe\u0b9a\u0bcd\u0b9a\u0bc7\u0bb0\u0bbf",
+        "name": "Changanassery",
+        "name:ar": "\u0634\u0627\u0646\u062c\u0627\u0646\u0627\u0634\u0631\u064a",
+        "name:en": "Changanassery",
+        "name:kn": "\u0c9a\u0c99\u0ccd\u0c99\u0ca8\u0cbe\u0cb6\u0ccd\u0cb6\u0cc7\u0cb0\u0cbf",
+        "name:ml": "\u0d1a\u0d19\u0d4d\u0d19\u0d28\u0d3e\u0d36\u0d4d\u0d36\u0d47\u0d30\u0d3f",
+        "name:ta": "\u0b9a\u0b99\u0bcd\u0b99\u0ba9\u0bbe\u0bb8\u0bcd\u0bb8\u0bc7\u0bb0\u0bbf",
+        "place": "town",
+        "wikidata": "Q889300",
+        "wikipedia": "en:Changanassery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 425164768,
+      "lat": 9.4246528,
+      "lon": 76.5849735,
+      "tags": {
+        "alt_name": "Paippadu;Paippad",
+        "name": "Paipad",
+        "name:ml": "\u0d2a\u0d3e\u0d2f\u0d3f\u0d2a\u0d4d\u0d2a\u0d3e\u0d1f\u0d4d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 425164777,
+      "lat": 9.4349643,
+      "lon": 76.6103113,
+      "tags": {
+        "name": "Kunnamthanam",
+        "name:en": "Kunnamthanam",
+        "name:ml": "\u0d15\u0d41\u0d28\u0d4d\u0d28\u0d28\u0d4d\u0d24\u0d3e\u0d28\u0d02",
+        "place": "village",
+        "postal_code": "689581",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6444918",
+        "wikipedia": "en:Kunnamthanam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 425248530,
+      "lat": 9.4058829,
+      "lon": 76.6093008,
+      "tags": {
+        "name": "Kaniyanpara",
+        "name:ml": "\u0d15\u0d23\u0d3f\u0d2f\u0d3e\u0d7b\u0d2a\u0d3e\u0d31",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 425248537,
+      "lat": 9.3861307,
+      "lon": 76.6064537,
+      "tags": {
+        "is_in": "Kaviyoor",
+        "name": "Manackachira",
+        "name:ml": "\u0d2e\u0d28\u0d15\u0d4d\u0d15\u0d1a\u0d4d\u0d1a\u0d3f\u0d31",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 594862430,
+      "lat": 9.43331,
+      "lon": 76.35002,
+      "tags": {
+        "name": "Punnapra",
+        "name:ml": "\u0d2a\u0d41\u0d28\u0d4d\u0d28\u0d2a\u0d4d\u0d30",
+        "place": "village",
+        "postal_code": "688004",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7260459",
+        "wikimedia_commons": "Category:Punnapra",
+        "wikipedia": "en:Punnapra"
+      }
+    },
+    {
+      "type": "node",
+      "id": 594863825,
+      "lat": 9.43331,
+      "lon": 76.46656,
+      "tags": {
+        "name": "Ramankari",
+        "name:ml": "\u0d30\u0d3e\u0d2e\u0d19\u0d4d\u0d15\u0d30\u0d3f",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 594876732,
+      "lat": 9.58334,
+      "lon": 76.54999,
+      "tags": {
+        "name": "Manganam",
+        "name:en": "Manganam",
+        "name:ml": "\u0d2e\u0d3e\u0d19\u0d4d\u0d19\u0d3e\u0d28\u0d02",
+        "place": "village",
+        "postal_code": "686018",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 594884345,
+      "lat": 9.5656334,
+      "lon": 76.6443645,
+      "tags": {
+        "name": "Pampady",
+        "name:en": "Pampady",
+        "name:hi": "\u092a\u093e\u0902\u092c\u093e\u0921\u0940",
+        "name:ml": "\u0d2a\u0d3e\u0d2e\u0d4d\u0d2a\u0d3e\u0d1f\u0d3f",
+        "name:ta": "\u0baa\u0bbe\u0bae\u0bcd\u0baa\u0bbe\u0b9f\u0bbf",
+        "place": "town",
+        "wikidata": "Q7129395",
+        "wikipedia": "en:Pampady"
+      }
+    },
+    {
+      "type": "node",
+      "id": 622250802,
+      "lat": 9.3852283,
+      "lon": 76.6153372,
+      "tags": {
+        "amenity": "hospital",
+        "emergency": "yes",
+        "name": "Thottabhagam Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 622251014,
+      "lat": 9.3847784,
+      "lon": 76.6150126,
+      "tags": {
+        "is_in": "Kaviyoor",
+        "name": "Thottabhagam",
+        "name:ml": "\u0d24\u0d4b\u0d1f\u0d4d\u0d1f\u0d2d\u0d3e\u0d17\u0d02",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 622251551,
+      "lat": 9.419837,
+      "lon": 76.5980627,
+      "tags": {
+        "name": "Anjilithanam",
+        "name:ml": "\u0d06\u0d1e\u0d4d\u0d1e\u0d3f\u0d32\u0d3f\u0d24\u0d4d\u0d24\u0d3e\u0d28\u0d02",
+        "place": "suburb",
+        "postal_code": "689582",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 649325171,
+      "lat": 9.4747646,
+      "lon": 76.5770747,
+      "tags": {
+        "name": "Thengana",
+        "name:ml": "\u0d24\u0d46\u0d19\u0d4d\u0d19\u0d23",
+        "place": "town"
+      }
+    },
+    {
+      "type": "node",
+      "id": 649325174,
+      "lat": 9.4808408,
+      "lon": 76.6058271,
+      "tags": {
+        "name": "Mammood",
+        "name:en": "Mammood",
+        "name:ml": "\u0d2e\u0d3e\u0d2e\u0d4d\u0d2e\u0d42\u0d1f\u0d4d",
+        "place": "village",
+        "wikidata": "Q6745844",
+        "wikipedia": "en:Mammood"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1446285533,
+      "lat": 9.5173224,
+      "lon": 76.5719694,
+      "tags": {
+        "name": "Vakathanam",
+        "name:en": "Vakathanam",
+        "name:ml": "\u0d35\u0d3e\u0d15\u0d24\u0d4d\u0d24\u0d3e\u0d28\u0d02",
+        "place": "village",
+        "postal_code": "686538",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7908975",
+        "wikipedia": "en:Vakathanam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1449596196,
+      "lat": 9.5900125,
+      "lon": 76.522249,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "MC Road",
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Jackson Medical Stores",
+        "opening_hours": "Mo-Sa 09:00-20:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1473134118,
+      "lat": 9.5053603,
+      "lon": 76.3418646,
+      "tags": {
+        "addr:city": "Alappuzha",
+        "addr:district": "Alappuzha",
+        "addr:full": "Thathampally",
+        "addr:postcode": "688013",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Sahrudaya Hospital",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1653599986,
+      "lat": 9.5593525,
+      "lon": 76.5715284,
+      "tags": {
+        "name": "Puthuppally",
+        "name:en": "Puthuppally",
+        "name:ml": "\u0d2a\u0d41\u0d24\u0d41\u0d2a\u0d4d\u0d2a\u0d33\u0d4d\u0d33\u0d3f",
+        "name:ta": "\u0baa\u0bc1\u0ba4\u0bc1\u0baa\u0bcd\u0baa\u0bb3\u0bcd\u0bb3\u0bbf",
+        "place": "town",
+        "wikidata": "Q7262268",
+        "wikimedia_commons": "Category:Puthuppally, Kottayam",
+        "wikipedia": "en:Puthuppally, Kottayam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1668582976,
+      "lat": 9.5829338,
+      "lon": 76.608359,
+      "tags": {
+        "name": "Velloor",
+        "name:en": "Velloor",
+        "name:ml": "\u0d35\u0d46\u0d33\u0d4d\u0d33\u0d42\u0d7c",
+        "place": "village",
+        "postal_code": "686501",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1682779066,
+      "lat": 9.3178608,
+      "lon": 76.6139049,
+      "tags": {
+        "name": "Chengannur",
+        "name:ar": "\u062a\u0634\u0646\u062c\u0646\u0646\u0648\u0631",
+        "name:hi": "\u091a\u0947\u0902\u0917\u0928\u094d\u0928\u0942\u0930",
+        "name:kn": "\u0c9a\u0cc6\u0c82\u0c97\u0ca8\u0ccd\u0ca8\u0cc2\u0cb0\u0cc1",
+        "name:ml": "\u0d1a\u0d46\u0d19\u0d4d\u0d19\u0d28\u0d4d\u0d28\u0d42\u0d30\u0d4d\u200d",
+        "name:ru": "\u0427\u0435\u043d\u0433\u0430\u043d\u043d\u0443\u0440",
+        "name:ta": "\u0b9a\u0bc6\u0b99\u0bcd\u0b95\u0ba9\u0bcd\u0ba9\u0bc2\u0bb0\u0bcd",
+        "name:te": "\u0c1a\u0c46\u0c02\u0c17\u0c28\u0c4d\u0c28\u0c42\u0c30\u0c41",
+        "place": "town",
+        "wikidata": "Q888384",
+        "wikimedia_commons": "Category:Chengannur",
+        "wikipedia": "en:Chengannur"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1682779068,
+      "lat": 9.3867448,
+      "lon": 76.5762652,
+      "tags": {
+        "name": "Thiruvalla",
+        "name:ar": "\u062a\u064a\u0631\u0648\u0648\u0644\u0644\u0627",
+        "name:hi": "\u0924\u093f\u0930\u0941\u0935\u0932\u094d\u0932\u093e",
+        "name:kn": "\u0ca4\u0cbf\u0cb0\u0cc1\u0cb5\u0cb2\u0ccd\u0cb2",
+        "name:ml": "\u0d24\u0d3f\u0d30\u0d41\u0d35\u0d32\u0d4d\u0d32",
+        "name:ru": "\u0422\u0438\u0440\u0443\u0432\u0430\u043b\u043b\u0430",
+        "name:ta": "\u0ba4\u0bbf\u0bb0\u0bc1\u0bb5\u0bb2\u0bcd\u0bb2\u0bbe",
+        "name:te": "\u0c24\u0c3f\u0c30\u0c41\u0c35\u0c32\u0c4d\u0c32",
+        "place": "town",
+        "postal_code": "689101",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q2336443",
+        "wikipedia": "en:Thiruvalla"
+      }
+    },
+    {
+      "type": "node",
+      "id": 1862573525,
+      "lat": 9.3685345,
+      "lon": 76.5147535,
+      "tags": {
+        "name": "Neeretupuram",
+        "name:ml": "\u0d28\u0d40\u0d30\u0d47\u0d31\u0d4d\u0d31\u0d41\u0d2a\u0d41\u0d31\u0d02",
+        "place": "village",
+        "wikidata": "Q6986936",
+        "wikipedia": "en:Neerattupuram"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136300217,
+      "lat": 9.4800921,
+      "lon": 76.395723,
+      "tags": {
+        "name": "Chennamkary",
+        "place": "hamlet",
+        "postal_code": "688501",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136390820,
+      "lat": 9.4845621,
+      "lon": 76.3835538,
+      "tags": {
+        "name": "Kadavu",
+        "name:ml": "\u0d15\u0d1f\u0d35\u0d4d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136390823,
+      "lat": 9.4785813,
+      "lon": 76.3868499,
+      "tags": {
+        "name": "Kainakary",
+        "name:ml": "\u0d15\u0d48\u0d28\u0d15\u0d30\u0d3f",
+        "place": "village",
+        "postal_code": "688501",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6348080"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136390825,
+      "lat": 9.4372481,
+      "lon": 76.4287912,
+      "tags": {
+        "alt_name:en": "Moncompu",
+        "alt_name_1:en": "Moncombu",
+        "name": "Mancombu",
+        "name:ml": "\u0d2e\u0d3e\u0d19\u0d4d\u0d15\u0d4a\u0d2e\u0d4d\u0d2a\u0d4d",
+        "place": "village",
+        "postal_code": "688502",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q3529977",
+        "wikimedia_commons": "Category:Moncompu",
+        "wikipedia": "en:Monkombu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136390826,
+      "lat": 9.4518647,
+      "lon": 76.3889326,
+      "tags": {
+        "name": "Ponga",
+        "name:ml": "\u0d2a\u0d4a\u0d19\u0d4d\u0d19",
+        "place": "village",
+        "postal_code": "688503",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136390827,
+      "lat": 9.4514113,
+      "lon": 76.4407988,
+      "tags": {
+        "alt_name": "Pulincunnu",
+        "alt_name:en": "Pulincunnoo",
+        "name": "Pullincunoo",
+        "name:ml": "\u0d2a\u0d41\u0d33\u0d3f\u0d19\u0d4d\u0d15\u0d41\u0d28\u0d4d\u0d28\u0d4d",
+        "place": "village",
+        "wikidata": "Q7259345",
+        "wikipedia": "en:Pulinkunnoo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2136390828,
+      "lat": 9.4423424,
+      "lon": 76.4452233,
+      "tags": {
+        "name": "Punakunnam",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2278443893,
+      "lat": 9.5973259,
+      "lon": 76.5274487,
+      "tags": {
+        "name": "Nagampadam",
+        "name:en": "Nagampadam",
+        "name:ml": "\u0d28\u0d3e\u0d17\u0d2e\u0d4d\u0d2a\u0d1f\u0d02",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2444946668,
+      "lat": 9.528549,
+      "lon": 76.514907,
+      "tags": {
+        "name": "Pallom",
+        "name:en": "Pallom",
+        "name:ml": "\u0d2a\u0d33\u0d4d\u0d33\u0d02",
+        "place": "village",
+        "postal_code": "686007",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7127725",
+        "wikipedia": "en:Pallom"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2444958392,
+      "lat": 9.5247631,
+      "lon": 76.5247268,
+      "tags": {
+        "name": "Chingavanam",
+        "name:en": "Chingavanam",
+        "name:ml": "\u0d1a\u0d3f\u0d19\u0d4d\u0d19\u0d35\u0d28\u0d02",
+        "place": "suburb",
+        "postal_code": "686531",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q16258126",
+        "wikipedia": "en:Chingavanam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2555411615,
+      "lat": 9.3682137,
+      "lon": 76.478529,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Edathua",
+        "addr:postcode": "689573",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "emergency": "yes",
+        "name": "Maha Jubilee Memorial Hospital",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2595496255,
+      "lat": 9.4626186,
+      "lon": 76.5524968,
+      "tags": {
+        "addr:city": "Changanacherry",
+        "addr:district": "Kottayam",
+        "addr:full": "Chethipuzha, Changanacherry",
+        "addr:housename": "Chethipuzha",
+        "addr:postcode": "686104",
+        "addr:state": "Kerala",
+        "addr:street": "Chethipuzha, Kurishmoodu Road",
+        "amenity": "hospital",
+        "contact:fax": "+91 0481-2721584",
+        "email": "info@st-thomashospital.org",
+        "healthcare": "hospital",
+        "healthcare:speciality": "general",
+        "name": "St. Thomas Hospital, Chethipuzha",
+        "name:ml": "\u0d38\u0d46\u0d28\u0d4d\u0d31\u0d4d \u0d24\u0d4b\u0d2e\u0d38\u0d4d \u0d06\u0d36\u0d41\u0d2a\u0d24\u0d4d\u0d30\u0d3f;\u0d1a\u0d46\u0d24\u0d4d\u0d24\u0d3f\u0d2a\u0d4d\u0d2a\u0d41\u0d34",
+        "phone": "+91 481 2723952;+91 481 2721797",
+        "source": "OpenGovernmentData",
+        "website": "http://www.st-thomashospital.net/contact.html"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2728196027,
+      "lat": 9.3829181,
+      "lon": 76.6408905,
+      "tags": {
+        "name": "Eraviperoor",
+        "name:ml": "\u0d07\u0d30\u0d35\u0d3f\u0d2a\u0d47\u0d30\u0d42\u0d7c",
+        "place": "village",
+        "postal_code": "689542",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2905481028,
+      "lat": 9.4381446,
+      "lon": 76.5442466,
+      "tags": {
+        "comment": "May not be the exact location",
+        "junction": "yes",
+        "name": "Perunna",
+        "name:en": "Perunna",
+        "name:ml": "\u0d2a\u0d46\u0d30\u0d41\u0d28\u0d4d\u0d28",
+        "place": "suburb",
+        "postal_code": "686102",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7171106",
+        "wikipedia": "en:Perunna"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2905502454,
+      "lat": 9.5010259,
+      "lon": 76.5251119,
+      "tags": {
+        "comment": "May not be the exact location",
+        "is_in": "Kottayam;Kerala;KL;India;IN",
+        "name": "Kurichi",
+        "name:en": "Kurichi",
+        "name:ml": "\u0d15\u0d41\u0d31\u0d3f\u0d1a\u0d4d\u0d1a\u0d3f",
+        "place": "village",
+        "postal_code": "686532",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6445992",
+        "wikipedia": "en:Kurichy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2905502455,
+      "lat": 9.5554641,
+      "lon": 76.5135334,
+      "tags": {
+        "comment": "May not be the exact location",
+        "is_in": "Kottayam;Kerala;KL;India;IN",
+        "name": "Nattakom",
+        "name:en": "Nattakom",
+        "name:ml": "\u0d28\u0d3e\u0d1f\u0d4d\u0d1f\u0d15\u0d02",
+        "place": "suburb",
+        "postal_code": "686013",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2908786364,
+      "lat": 9.3174015,
+      "lon": 76.5338634,
+      "tags": {
+        "name": "Mannar",
+        "name:ml": "\u0d2e\u0d3e\u0d28\u0d4d\u0d28\u0d3e\u0d7c",
+        "place": "village",
+        "postal_code": "689622",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q13564556",
+        "wikipedia": "en:Mannar, Alappuzha"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2908799242,
+      "lat": 9.3274911,
+      "lon": 76.5383899,
+      "tags": {
+        "name": "Parumala",
+        "name:hi": "\u092a\u0930\u0941\u092e\u0932\u093e",
+        "name:ml": "\u0d2a\u0d30\u0d41\u0d2e\u0d32",
+        "name:ta": "\u0baa\u0bb0\u0bc1\u0bae\u0bb2\u0bc8",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2917049475,
+      "lat": 9.5873934,
+      "lon": 76.5429708,
+      "tags": {
+        "name": "Kanjikuzhy Junction",
+        "name:en": "Kanjikuzhy Junction",
+        "name:ml": "\u0d15\u0d1e\u0d4d\u0d1e\u0d3f\u0d15\u0d4d\u0d15\u0d41\u0d34\u0d3f",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2917197208,
+      "lat": 9.5410817,
+      "lon": 76.5859717,
+      "tags": {
+        "name": "Pariyaram",
+        "name:en": "Pariyaram",
+        "name:ml": "\u0d2a\u0d30\u0d3f\u0d2f\u0d3e\u0d30\u0d02",
+        "place": "village",
+        "postal_code": "686021",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2917221862,
+      "lat": 9.5330062,
+      "lon": 76.6018106,
+      "tags": {
+        "name": "Thottakadu",
+        "name:en": "Thottakadu",
+        "name:ml": "\u0d24\u0d4b\u0d1f\u0d4d\u0d1f\u0d15\u0d4d\u0d15\u0d3e\u0d1f\u0d4d",
+        "place": "village",
+        "postal_code": "686539",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7796918"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2917286073,
+      "lat": 9.5011646,
+      "lon": 76.638361,
+      "tags": {
+        "name": "Karukachal",
+        "name:en": "Karukachal",
+        "name:ml": "\u0d15\u0d31\u0d41\u0d15\u0d1a\u0d4d\u0d1a\u0d3e\u0d7d",
+        "name:ta": "\u0b95\u0bb0\u0bc1\u0b95\u0b9a\u0bcd\u0b9a\u0bbe\u0bb2\u0bcd",
+        "place": "town",
+        "postal_code": "686540",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q1531311",
+        "wikimedia_commons": "Category:Karukachal",
+        "wikipedia": "en:Karukachal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2917300182,
+      "lat": 9.4635588,
+      "lon": 76.6362508,
+      "tags": {
+        "name": "Nedungadappally",
+        "name:en": "Nedungadappally",
+        "name:ml": "\u0d28\u0d46\u0d1f\u0d41\u0d19\u0d4d\u0d19\u0d3e\u0d1f\u0d2a\u0d4d\u0d2a\u0d33\u0d4d\u0d33\u0d3f",
+        "place": "village",
+        "postal_code": "686545",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q15261459",
+        "wikimedia_commons": "Category:Nedungadappally",
+        "wikipedia": "en:Nedungadappally"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2920441949,
+      "lat": 9.3820022,
+      "lon": 76.3873734,
+      "tags": {
+        "name": "Karumadi",
+        "name:ml": "\u0d15\u0d30\u0d41\u0d2e\u0d3e\u0d1f\u0d3f",
+        "place": "village",
+        "postal_code": "688561",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6373630",
+        "wikipedia": "en:Karumady"
+      }
+    },
+    {
+      "type": "node",
+      "id": 2920441974,
+      "lat": 9.3727932,
+      "lon": 76.4127498,
+      "tags": {
+        "name": "Thakazhy",
+        "name:ml": "\u0d24\u0d15\u0d34\u0d3f",
+        "place": "village",
+        "postal_code": "688562",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7709356",
+        "wikimedia_commons": "Category:Thakazhi",
+        "wikipedia": "en:Thakazhy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3274434774,
+      "lat": 9.5370149,
+      "lon": 76.3272131,
+      "tags": {
+        "alt_name": "Pathirapally",
+        "name": "Pathirappally",
+        "name:ml": "\u0d2a\u0d3e\u0d24\u0d3f\u0d30\u0d2a\u0d4d\u0d2a\u0d33\u0d4d\u0d33\u0d3f",
+        "place": "village",
+        "postal_code": "688521",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7144786"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3283724514,
+      "lat": 9.5266412,
+      "lon": 76.6450731,
+      "tags": {
+        "name": "Manthuruthy",
+        "name:en": "Manthuruthy",
+        "name:ml": "\u0d2e\u0d3e\u0d28\u0d4d\u0d24\u0d41\u0d30\u0d41\u0d24\u0d4d\u0d24\u0d3f",
+        "place": "village",
+        "postal_code": "686542",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3501450215,
+      "lat": 9.4594645,
+      "lon": 76.5546589,
+      "tags": {
+        "name": "Kurishummoodu",
+        "name:en": "Kurishummoodu",
+        "name:ml": "\u0d15\u0d41\u0d30\u0d3f\u0d36\u0d41\u0d02\u0d2e\u0d42\u0d1f\u0d4d",
+        "place": "suburb",
+        "postal_code": "686104",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3555653071,
+      "lat": 9.4390911,
+      "lon": 76.5437928,
+      "tags": {
+        "addr:city": "changanacherry",
+        "addr:postcode": "686102",
+        "addr:street": "MC Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "general",
+        "name": "NSS Medical Mission Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3875801457,
+      "lat": 9.5881304,
+      "lon": 76.489388,
+      "tags": {
+        "name": "Illikkal",
+        "name:en": "Illikkal",
+        "name:ml": "\u0d07\u0d32\u0d4d\u0d32\u0d3f\u0d15\u0d4d\u0d15\u0d7d",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3950645838,
+      "lat": 9.4917125,
+      "lon": 76.3262008,
+      "tags": {
+        "name": "Zakariya Bazar",
+        "name:ml": "\u0d38\u0d15\u0d4d\u0d15\u0d31\u0d3f\u0d2f \u0d2c\u0d38\u0d3e\u0d30\u0d4d\u200d",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3950646466,
+      "lat": 9.4859616,
+      "lon": 76.3268336,
+      "tags": {
+        "name": "Vattappally",
+        "name:ml": "\u0d35\u0d1f\u0d4d\u0d1f\u0d2a\u0d4d\u0d2a\u0d33\u0d4d\u0d33\u0d3f",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3950709121,
+      "lat": 9.4985499,
+      "lon": 76.3415027,
+      "tags": {
+        "name": "Mullakkal",
+        "name:ml": "\u0d2e\u0d41\u0d32\u0d4d\u0d32\u0d15\u0d4d\u0d15\u0d32\u0d4d\u200d",
+        "place": "suburb",
+        "wikidata": "Q6934118",
+        "wikipedia": "en:Mullakkal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3951439190,
+      "lat": 9.4883171,
+      "lon": 76.3201471,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "\u0d06\u0d32\u0d2a\u0d4d\u0d2a\u0d41\u0d34 \u0d2c\u0d40\u0d1a\u0d4d\u0d1a\u0d4d \u0d06\u0d36\u0d41\u0d2a\u0d24\u0d4d\u0d30\u0d3f",
+        "name:en": "Beach Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3960112275,
+      "lat": 9.4637587,
+      "lon": 76.5649489,
+      "tags": {
+        "name": "Madukamood",
+        "name:en": "Madukamood",
+        "name:ml": "\u0d2e\u0d1f\u0d41\u0d15\u0d4d\u0d15\u0d2e\u0d4d\u0d2e\u0d42\u0d1f\u0d4d",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3966783062,
+      "lat": 9.4934702,
+      "lon": 76.3384408,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Aryavaidhyasala Kottakkal Brach"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3981239205,
+      "lat": 9.4521739,
+      "lon": 76.342065,
+      "tags": {
+        "name": "Paravoor",
+        "name:ml": "\u0d2a\u0d30\u0d35\u0d42\u0d7c",
+        "place": "village",
+        "wikidata": "Q7136285",
+        "wikipedia": "en:Paravur, Alappuzha"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3984744125,
+      "lat": 9.4887581,
+      "lon": 76.3332043,
+      "tags": {
+        "amenity": "hospital",
+        "name": "District Ayurveda Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3990185250,
+      "lat": 9.4917118,
+      "lon": 76.3263059,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Shaheen Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 3990188976,
+      "lat": 9.4915739,
+      "lon": 76.3260062,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "Chekas Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4009501006,
+      "lat": 9.4979269,
+      "lon": 76.3337824,
+      "tags": {
+        "alt_name": "Vazhichery;Vazhicherri",
+        "name": "Vazhicherry",
+        "name:ml": "\u0d35\u0d34\u0d3f\u0d1a\u0d4d\u0d1a\u0d47\u0d30\u0d3f",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4586273674,
+      "lat": 9.5985255,
+      "lon": 76.6456438,
+      "tags": {
+        "name": "Kooroppada",
+        "name:en": "Kooroppada",
+        "name:ml": "\u0d15\u0d42\u0d30\u0d4b\u0d2a\u0d4d\u0d2a\u0d1f",
+        "place": "village",
+        "postal_code": "686502",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6430772",
+        "wikipedia": "en:Kooroppada"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4832296179,
+      "lat": 9.5880083,
+      "lon": 76.5823671,
+      "tags": {
+        "alt_name": "Manarcaud;Manarkad",
+        "name": "Manarcadu",
+        "name:en": "Manarcadu",
+        "name:ml": "\u0d2e\u0d23\u0d7c\u0d15\u0d3e\u0d1f\u0d4d",
+        "name:ta": "\u0bae\u0ba3\u0bb1\u0bcd\u0b95\u0bbe\u0b9f\u0bc1",
+        "place": "town",
+        "postal_code": "686019",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6746958",
+        "wikimedia_commons": "Category:Manarcaud",
+        "wikipedia": "en:Manarcaud"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4841649123,
+      "lat": 9.4620626,
+      "lon": 76.5600549,
+      "tags": {
+        "name": "Valiyakulam",
+        "name:en": "Valiyakulam",
+        "name:ml": "\u0d35\u0d32\u0d3f\u0d2f\u0d15\u0d41\u0d33\u0d02",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 4841844207,
+      "lat": 9.4598659,
+      "lon": 76.5537254,
+      "tags": {
+        "addr:street": "Chethipuzha, Kurishmoodu Road",
+        "amenity": "clinic",
+        "name": "ECHS Polyclinic",
+        "website": "https://echs.gov.in/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5183337756,
+      "lat": 9.3780479,
+      "lon": 76.5662695,
+      "tags": {
+        "addr:city": "Thiruvalla",
+        "addr:housenumber": "Opposit to DIET School",
+        "addr:postcode": "689101",
+        "addr:street": "Kayamkulam - Thiruvalla Road",
+        "amenity": "pharmacy",
+        "drive_through": "yes",
+        "healthcare": "pharmacy",
+        "name": "Jai Medicals",
+        "name:ml": "\u0d1c\u0d3e\u0d2f\u0d3f \u0d2e\u0d46\u0d21\u0d3f\u0d15\u0d4d\u0d15\u0d7d\u0d38\u0d4d",
+        "opening_hours": "Mo-Su 08:00-21:30",
+        "phone": "+91 4692 602901"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5202421551,
+      "lat": 9.3849092,
+      "lon": 76.5744966,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Southern Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5206868841,
+      "lat": 9.3739138,
+      "lon": 76.5647071,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Anjali Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5206868906,
+      "lat": 9.3779834,
+      "lon": 76.5671001,
+      "tags": {
+        "amenity": "doctors",
+        "healthcare": "optometrist",
+        "name": "Eye Specialist",
+        "time": "4.00 Pm-6.30 Pm"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5206868907,
+      "lat": 9.3779648,
+      "lon": 76.5670598,
+      "tags": {
+        "amenity": "doctors",
+        "healthcare": "doctor",
+        "name": "Civil Surgon"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5206868908,
+      "lat": 9.3776711,
+      "lon": 76.5669579,
+      "tags": {
+        "amenity": "doctors",
+        "healthcare": "doctor",
+        "name": "ENT Specialist"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5206868909,
+      "lat": 9.3771716,
+      "lon": 76.5661634,
+      "tags": {
+        "amenity": "doctors",
+        "healthcare": "doctor",
+        "name": "Physician",
+        "time": "Evening"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5206868910,
+      "lat": 9.377256,
+      "lon": 76.5661808,
+      "tags": {
+        "amenity": "doctors",
+        "healthcare": "doctor",
+        "name": "Orthopedic",
+        "time": "Evening"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5782067227,
+      "lat": 9.5008269,
+      "lon": 76.3534485,
+      "tags": {
+        "name": "Nehru Trophy Island Pavilion",
+        "place": "hamlet",
+        "website": "https://keralas.info/festival/nehru_trophy/2018/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5831631336,
+      "lat": 9.3187932,
+      "lon": 76.384753,
+      "tags": {
+        "name": "Thottappally",
+        "name:ml": "\u0d24\u0d4b\u0d1f\u0d4d\u0d1f\u0d2a\u0d4d\u0d2a\u0d33\u0d4d\u0d33\u0d3f",
+        "place": "village",
+        "postal_code": "688563",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7796931"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5886311489,
+      "lat": 9.3890006,
+      "lon": 76.494982,
+      "tags": {
+        "name": "Arthisserry",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 5919903059,
+      "lat": 9.3802885,
+      "lon": 76.5715741,
+      "tags": {
+        "addr:city": "Thiruvalla",
+        "addr:housenumber": "Near DYSP Office",
+        "addr:postcode": "689101",
+        "addr:street": "Kulakkad Road",
+        "amenity": "clinic",
+        "email": "drmathewvinod@gmail.com",
+        "healthcare": "dentist",
+        "healthcare:speciality": "general;RCT;crown_bridge;implants;cosmetic_dental_treatments;surgical_treatments;smile_designs;orthodontic_treatments;invicible_aligners;teeth_whitening;full_mouth_rehabilitations;preventive_treatments",
+        "name": "Mulamoottil Dental Clinic",
+        "opening_hours": "Mo-Sa 14:30-19:00",
+        "operator": "Dr Vinod Mathew Mulamoottil",
+        "payment:american_express": "yes",
+        "payment:cash": "yes",
+        "payment:credit_cards": "yes",
+        "payment:debit_cards": "yes",
+        "payment:mastercard": "yes",
+        "payment:visa": "yes",
+        "phone": "+91-9447219903",
+        "start_date": "1995",
+        "website": "http://www.dentalmulamoottil.com"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6950309040,
+      "lat": 9.4247684,
+      "lon": 76.5610439,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Nalukody P. O. , Changanassery",
+        "addr:postcode": "686548",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "emergency": "yes",
+        "healthcare:speciality": "general;ophthalmology;urology;gynaecology;paediatrics;dermatology;orthopaedics;covid19;vaccination",
+        "name": "St. Ritas Hospital",
+        "operator": "24*7",
+        "operator:type": "private",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6950328283,
+      "lat": 9.5531815,
+      "lon": 76.5666789,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Puthuppaly",
+        "addr:postcode": "686011",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Paret Mar Ivanios Hospital",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6950565346,
+      "lat": 9.3834711,
+      "lon": 76.5739265,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Thiruvalla, Alappuzha",
+        "addr:postcode": "689101",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Mary Queens Mission Hospital, Pathanamthitta",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6950692885,
+      "lat": 9.3828254,
+      "lon": 76.353406,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Ambalpuzha",
+        "addr:postcode": "688561",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Ursula Hospital (Tsunami Project Only)",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6951426302,
+      "lat": 9.565097,
+      "lon": 76.3100179,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Kattoor, Kalavoor",
+        "addr:postcode": "688522",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "St. Michael's Hospital",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6952987890,
+      "lat": 9.3733805,
+      "lon": 76.4142774,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Thakazhy, Alleppy",
+        "addr:postcode": "688562",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "R.B.M. Hospital",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6953393406,
+      "lat": 9.5929891,
+      "lon": 76.5218132,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Mangalam Plaza,Baker Junction",
+        "addr:postcode": "686001",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "fax": "2563508",
+        "healthcare": "hospital",
+        "name": "Mangalam Hospitals Pvt. Ltd.",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6953984017,
+      "lat": 9.5113473,
+      "lon": 76.6289359,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Sreerangom Road, Champakkara P.O",
+        "addr:postcode": "686540",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Sreerangom C.V.N. Kalari Chikilsakendram",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6954043473,
+      "lat": 9.3845084,
+      "lon": 76.5771022,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "International Complex, Tiruvilla",
+        "addr:postcode": "689101",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Eye Microsurgery and Laser Centre",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6956559041,
+      "lat": 9.4647194,
+      "lon": 76.5655781,
+      "tags": {
+        "addr:city": "Madukkumoodu",
+        "addr:district": "Kottayam",
+        "addr:full": "I E Nagar P.O., Madukkamoodu, Changanassery",
+        "addr:postcode": "686106",
+        "addr:state": "Kerala",
+        "addr:street": "Changanassery- Vazhoor Road",
+        "amenity": "hospital",
+        "name": "C.N.K. Hospital (P) Ltd.",
+        "operator:type": "private",
+        "phone": "+91-481 2722888",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6956664907,
+      "lat": 9.3023083,
+      "lon": 76.4338401,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Karuvatta, Haripad",
+        "addr:postcode": "690514",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Deepa Hospital",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6957131525,
+      "lat": 9.3627948,
+      "lon": 76.4530474,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "A. C Road",
+        "addr:postcode": "689573",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Lourdes Hospital, Alappuzha",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6957448257,
+      "lat": 9.3836418,
+      "lon": 76.6443975,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Kottathur, Eraviteroor",
+        "addr:postcode": "689542",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Kottakkattu Medicare Hospital",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "private",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6965674580,
+      "lat": 9.5850417,
+      "lon": 76.5141112,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Union Club Road, Karapuzha",
+        "addr:postcode": "686003",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Vasan Eye Care Hospital, Kottayam",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6965686396,
+      "lat": 9.5882941,
+      "lon": 76.519078,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Azad Road, Thirunakkara",
+        "addr:postcode": "686009",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Bhavana Hospital",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6965728797,
+      "lat": 9.3422959,
+      "lon": 76.5341829,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Niranam ( P O)",
+        "addr:postcode": "689621",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "fax": "+91 469 2710427",
+        "healthcare": "clinic",
+        "name": "S N Nursing Home",
+        "phone": "+91 469 2610234",
+        "source": "OpenGovernmentData"
+      }
+    },
+    {
+      "type": "node",
+      "id": 6966379104,
+      "lat": 9.3259274,
+      "lon": 76.6220614,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Pambatheeram, Puthencavu P.O., Chenganuur",
+        "addr:postcode": "689123",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Pambatheeram Ayurvedic Hospital",
+        "source": "OpenGovernmentData",
+        "website": "https://pambatheeram.in/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7074433045,
+      "lat": 9.5597973,
+      "lon": 76.5725564,
+      "tags": {
+        "amenity": "clinic",
+        "floor": "1",
+        "healthcare": "clinic",
+        "name": "flash32 dental clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7079663947,
+      "lat": 9.5410317,
+      "lon": 76.5858722,
+      "tags": {
+        "addr:street": "Kottayam-Kozhencherry Highway",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Navayoga Sidha Ayurvedhic Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7168846321,
+      "lat": 9.3978158,
+      "lon": 76.5791647,
+      "tags": {
+        "amenity": "hospital",
+        "description": "Government Homeo Hospital Thiruvalla",
+        "healthcare": "hospital",
+        "name": "Government Homeo Hospital Thiruvalla"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7171102463,
+      "lat": 9.4556311,
+      "lon": 76.6416995,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Thaluk hospital Mallappally"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7193311863,
+      "lat": 9.3859136,
+      "lon": 76.5779984,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7201164042,
+      "lat": 9.5353989,
+      "lon": 76.6459398,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Govt ayurvedic hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7206435081,
+      "lat": 9.5902208,
+      "lon": 76.5605304,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Welfast Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7210879749,
+      "lat": 9.30483,
+      "lon": 76.6353629,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Mulakuza, Chengannur",
+        "addr:postcode": "689505",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "contact:phone": "+91-479-2463000",
+        "healthcare": "hospital",
+        "name": "Century Hospital",
+        "source": "OpenGovernmentData",
+        "website": "http://centuryhospital.org/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7212102533,
+      "lat": 9.3916192,
+      "lon": 76.578698,
+      "tags": {
+        "addr:city": "Thiruvalla, Kerala",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Unique Enterprises, Pharmaceutical Distributors"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7214225745,
+      "lat": 9.5482078,
+      "lon": 76.5602806,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Ayurvedic Kerala Massage"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7222991640,
+      "lat": 9.5760936,
+      "lon": 76.5795496,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Inter University Centre For BioMedical Research & Superspeciality Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7305457462,
+      "lat": 9.5166515,
+      "lon": 76.5243049,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "life line hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7310317679,
+      "lat": 9.5705238,
+      "lon": 76.3286125,
+      "tags": {
+        "name": "Kalavoor",
+        "name:ml": "\u0d15\u0d32\u0d35\u0d42\u0d7c",
+        "place": "village",
+        "postal_code": "688522",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q3530107",
+        "wikimedia_commons": "Category:Kalavoor",
+        "wikipedia": "en:Kalavoor"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7333017825,
+      "lat": 9.443765,
+      "lon": 76.6150454,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Gov ayurveda Dispensary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7333813276,
+      "lat": 9.5265188,
+      "lon": 76.522083,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "sree narayana hosp"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7333913403,
+      "lat": 9.5081482,
+      "lon": 76.5265692,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Community Health Centre, Sachivothampuram"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7334846392,
+      "lat": 9.503215,
+      "lon": 76.6409811,
+      "tags": {
+        "addr:postcode": "686540",
+        "addr:street": "Kottayam-Kozhencherry Highway",
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Poothara Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7335175623,
+      "lat": 9.5911294,
+      "lon": 76.5212198,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "mannarkad medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7335224636,
+      "lat": 9.5132583,
+      "lon": 76.6385908,
+      "tags": {
+        "addr:street": "Changanassery - Vazhoor Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Devivilasam hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7339878595,
+      "lat": 9.5046678,
+      "lon": 76.6401674,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "general",
+        "name": "mercy hospital",
+        "operator": "dr mersy",
+        "operator:type": "private"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7366411087,
+      "lat": 9.387167,
+      "lon": 76.5783815,
+      "tags": {
+        "addr:city": "Thiruvalla",
+        "addr:postcode": "689101",
+        "addr:street": "Thiruvalla - Kumbazha road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "ophthalmology",
+        "name": "Eye Micro Surgery & Laser Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7371348174,
+      "lat": 9.5035936,
+      "lon": 76.6406574,
+      "tags": {
+        "amenity": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7372982940,
+      "lat": 9.3175292,
+      "lon": 76.3809759,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Thottapally PHC",
+        "operator": "DEPARTMENT OF HEALTH SERVICES",
+        "operator:type": "government",
+        "phone": "+91-4772297369"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7450495419,
+      "lat": 9.5471224,
+      "lon": 76.5142004,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Enthumkal clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7452246751,
+      "lat": 9.5331376,
+      "lon": 76.5159146,
+      "tags": {
+        "addr:city": "kottayam",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Bishop Jacob Memorial Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7463273360,
+      "lat": 9.441702,
+      "lon": 76.5440098,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Kottackal Medicine Store",
+        "shop": "butcher"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7463730917,
+      "lat": 9.4566151,
+      "lon": 76.5338847,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "skin specialist"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7463788136,
+      "lat": 9.44285,
+      "lon": 76.5453272,
+      "tags": {
+        "addr:city": "Perunna, Changanacherry",
+        "addr:postcode": "686101",
+        "addr:street": "KSRTC Bus Stand Perunna",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Santhigiri Ayurveda And Sidha Vaidhyasala"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7465462011,
+      "lat": 9.5069186,
+      "lon": 76.533211,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "National Homeopathy Research Institute In Mental Health"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7465462023,
+      "lat": 9.5068743,
+      "lon": 76.5328824,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Homeo research centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7465540883,
+      "lat": 9.4398009,
+      "lon": 76.5401004,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "PMH Chanaganacherry"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7465784758,
+      "lat": 9.3562258,
+      "lon": 76.6243605,
+      "tags": {
+        "addr:city": "othera",
+        "addr:housenumber": "parayil complex",
+        "addr:postcode": "689546",
+        "addr:street": "althara junction",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "nagarjuna pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7465876559,
+      "lat": 9.3560938,
+      "lon": 76.6240808,
+      "tags": {
+        "addr:city": "othera",
+        "addr:housenumber": "poikayil complex",
+        "addr:postcode": "689546",
+        "addr:street": "kallissery eraviperoor road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "carmel medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7465955018,
+      "lat": 9.4210424,
+      "lon": 76.5461314,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Pharma Lounge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7466365058,
+      "lat": 9.4474682,
+      "lon": 76.5983632,
+      "tags": {
+        "addr:postcode": "689581",
+        "addr:street": "Manthanam",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Dr athira's Medicare Family Health Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7466543397,
+      "lat": 9.4302124,
+      "lon": 76.5927081,
+      "tags": {
+        "addr:street": "Kunnnamthanam",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Sree Bhadra Homoeo Clinic",
+        "opening_hours:covid19": "off"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7467043878,
+      "lat": 9.3830495,
+      "lon": 76.6433007,
+      "tags": {
+        "addr:city": "Eraviperoor",
+        "addr:postcode": "689542",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "St. Marys Mission Hospital Eraviperoor"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7467329798,
+      "lat": 9.4299513,
+      "lon": 76.568035,
+      "tags": {
+        "addr:city": "Changanacherry",
+        "addr:postcode": "686548",
+        "addr:street": "kilimala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Sadiya homeo clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7467972956,
+      "lat": 9.4382454,
+      "lon": 76.5684154,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "ayurveda clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7468151743,
+      "lat": 9.436997,
+      "lon": 76.5400109,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Dr.R S Roy Amritha Ayurveda Medical Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7469474492,
+      "lat": 9.3780923,
+      "lon": 76.5656338,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "homeopathy clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7470291534,
+      "lat": 9.4643056,
+      "lon": 76.5662683,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Dr Alexander's peadiatric clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7470343861,
+      "lat": 9.3787973,
+      "lon": 76.5688656,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "paid ward"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7470586414,
+      "lat": 9.5640995,
+      "lon": 76.5251922,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7471594067,
+      "lat": 9.3253115,
+      "lon": 76.3781516,
+      "tags": {
+        "name": "Matheri",
+        "name:ml": "\u0d2e\u0d3e\u0d24\u0d4d\u0d24\u0d47\u0d30\u0d3f",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7471801434,
+      "lat": 9.5373818,
+      "lon": 76.6158053,
+      "tags": {
+        "addr:city": "Thottakkadu,Kottayam",
+        "addr:postcode": "686539",
+        "addr:street": "Thottakkadu-Kangazha Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "dentist",
+        "name": "Sarga Dental Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7472020208,
+      "lat": 9.5699171,
+      "lon": 76.5632582,
+      "tags": {
+        "addr:city": "Puthuppally,Kottayam",
+        "addr:postcode": "686018",
+        "addr:street": "Kottayam-Puthuppally Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Kochupurackal Medicals",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7472020238,
+      "lat": 9.5420562,
+      "lon": 76.5829381,
+      "tags": {
+        "addr:city": "Puthuppally,Kottayam",
+        "addr:postcode": "686011",
+        "addr:street": "Kottayam-Puthuppally Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Government Ayurveda Hospital,Kaitheppalam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7473089290,
+      "lat": 9.5612246,
+      "lon": 76.5289264,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7473089291,
+      "lat": 9.5612193,
+      "lon": 76.529031,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "santhis"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7473089292,
+      "lat": 9.5623037,
+      "lon": 76.5311929,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7475217624,
+      "lat": 9.5043856,
+      "lon": 76.3399587,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Matha Dental Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7475418095,
+      "lat": 9.5591602,
+      "lon": 76.528696,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "homeo clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476595536,
+      "lat": 9.587639,
+      "lon": 76.5424565,
+      "tags": {
+        "addr:city": "Kanjikuzhi, Kottayam",
+        "addr:postcode": "686004",
+        "addr:street": "Eranjal Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Sharon Medicals",
+        "opening_hours": "Mo-Sa 09:30-19:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476595554,
+      "lat": 9.5863988,
+      "lon": 76.5441585,
+      "tags": {
+        "addr:city": "Kanjikuzhi, Kottayam",
+        "addr:postcode": "686002",
+        "addr:street": "Puthuppally Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Triveny Medical Store",
+        "opening_hours": "Mo-Sa 09:00-18:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476595556,
+      "lat": 9.5888483,
+      "lon": 76.5382567,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686002",
+        "addr:street": "NH220",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Medical Store 24 Hrs",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476595572,
+      "lat": 9.5889159,
+      "lon": 76.5343133,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "Subjail Road",
+        "amenity": "pharmacy",
+        "brand": "Neethi Medical Store",
+        "brand:wikidata": "Q99960935",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Neethi Medical Store",
+        "opening_hours": "Mo-Sa 10:00-19:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476595574,
+      "lat": 9.5887884,
+      "lon": 76.5290947,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686002",
+        "addr:street": "Good shepeard Steet",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Meenachil Neethi Medical Store",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476606029,
+      "lat": 9.5895038,
+      "lon": 76.5266508,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "KK Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "F. R. U. District Hospital Kottayam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476606030,
+      "lat": 9.5894537,
+      "lon": 76.5267725,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "KK Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "MGM Medicals",
+        "opening_hours": "Mo-Su 08:00-20:30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476606031,
+      "lat": 9.5893488,
+      "lon": 76.5267094,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "KK Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Reliable Medicals",
+        "opening_hours": "Mo-Su 08:00-20:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476606032,
+      "lat": 9.5893959,
+      "lon": 76.5269697,
+      "tags": {
+        "addr:city": "Eerayilkadavu, Kottayam",
+        "addr:postcode": "686002",
+        "addr:street": "KK Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Hind Medicals",
+        "opening_hours": "Mo-Sa 09:00-20:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476606091,
+      "lat": 9.5841019,
+      "lon": 76.525761,
+      "tags": {
+        "addr:city": "Andheri chandhakadavu, Kottayam",
+        "addr:postcode": "686004",
+        "addr:street": "Market Lane Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Kottayam Andheri",
+        "opening_hours": "Tu-Sa 05:00-19:30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476606120,
+      "lat": 9.5894925,
+      "lon": 76.5195727,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "Azad Lane",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Bharath Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476797705,
+      "lat": 9.5906069,
+      "lon": 76.5212642,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "Temple Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Thadathil Medicals",
+        "opening_hours": "Mo-Su 08:00-20:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7476905986,
+      "lat": 9.5918826,
+      "lon": 76.5226769,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "Shastri Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Kalayil Medicals",
+        "opening_hours": "Mo-Su 08:30-20:30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7477007323,
+      "lat": 9.5943409,
+      "lon": 76.5297677,
+      "tags": {
+        "addr:city": "Nagampadam, Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "Medical Center road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "general",
+        "name": "S H Medical Center",
+        "name:ml": "\u0d0e\u0d38\u0d4d \u0d0e\u0d1a\u0d4d\u0d1a\u0d4d \u0d2e\u0d46\u0d21\u0d3f\u0d15\u0d4d\u0d15\u0d7d \u0d38\u0d46\u0d28\u0d4d\u0d31\u0d7c \u0d06\u0d36\u0d41\u0d2a\u0d24\u0d4d\u0d30\u0d3f",
+        "operator": "Sacred Heart Congregation",
+        "wheelchair": "yes"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7477007338,
+      "lat": 9.5891575,
+      "lon": 76.5171836,
+      "tags": {
+        "addr:city": "Puthenangady, Kottayam",
+        "addr:postcode": "686001",
+        "addr:street": "Temple Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "City Hospital,kottayam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7477888917,
+      "lat": 9.3264202,
+      "lon": 76.5732287,
+      "tags": {
+        "amenity": "hospital",
+        "emergency": "yes",
+        "healthcare": "hospital",
+        "name": "Commuity Health Centre Pandanadu",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "government",
+        "phone": "+91-479 2466678",
+        "ref": "1274"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7477932543,
+      "lat": 9.312983,
+      "lon": 76.5325707,
+      "tags": {
+        "amenity": "hospital",
+        "email": "molcmannar@gmail.com",
+        "emergency": "yes",
+        "healthcare": "hospital",
+        "name": "Community Health Centre Mannar",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "government",
+        "phone": "+91-479 2313920"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7478050450,
+      "lat": 9.3842458,
+      "lon": 76.3542936,
+      "tags": {
+        "amenity": "hospital",
+        "emergency": "yes",
+        "healthcare": "hospital",
+        "name": "Community Health Centre, Ambalapuzha",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "government",
+        "phone": "+91-477 2272129"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7478071899,
+      "lat": 9.4211517,
+      "lon": 76.3844786,
+      "tags": {
+        "amenity": "hospital",
+        "email": "chcchempumpuram@gmail.com",
+        "healthcare": "hospital",
+        "name": "Community Health Centre Chempupuram",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "government",
+        "phone": "+91-477 2736318",
+        "ref": "1242"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7478112471,
+      "lat": 9.3023481,
+      "lon": 76.5869354,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Naveen Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7478118870,
+      "lat": 9.3084046,
+      "lon": 76.5739298,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "durga medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7478118876,
+      "lat": 9.3093276,
+      "lon": 76.5671959,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "chemist shop,budhanoor"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7480338616,
+      "lat": 9.3793096,
+      "lon": 76.5761553,
+      "tags": {
+        "amenity": "hospital",
+        "description": "Vasan Eye Care Hospital",
+        "healthcare": "hospital",
+        "name": "Vasan Eye Care Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7480513661,
+      "lat": 9.4897926,
+      "lon": 76.3429576,
+      "tags": {
+        "amenity": "pharmacy",
+        "brand": "Neethi Medical Store",
+        "brand:wikidata": "Q99960935",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Neethi Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7480551249,
+      "lat": 9.4312923,
+      "lon": 76.5890546,
+      "tags": {
+        "amenity": "clinic",
+        "description": "Ayurvedic Dispensary",
+        "healthcare": "clinic",
+        "name": "Ayurvedic Dispensary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7482344709,
+      "lat": 9.3803334,
+      "lon": 76.5703341,
+      "tags": {
+        "addr:city": "Thiruvalla",
+        "addr:postcode": "689101",
+        "addr:street": "Kayamkulam - Thiruvalla Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Neethi medicals",
+        "operator": "Govt of Kerala"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7482414753,
+      "lat": 9.4451139,
+      "lon": 76.541557,
+      "tags": {
+        "addr:city": "changanacherry, Kottayam",
+        "addr:postcode": "686101",
+        "addr:street": "MC Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Samaritan Medical Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7482786648,
+      "lat": 9.438086,
+      "lon": 76.5441151,
+      "tags": {
+        "addr:city": "changanassery",
+        "addr:postcode": "686102",
+        "addr:street": "Alappuzha - Changanassery Highway",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Mavelil Medicals",
+        "opening_hours": "Tu-Sa 08:00-20:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7484012234,
+      "lat": 9.5671949,
+      "lon": 76.347376,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Goldenflower hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7485497905,
+      "lat": 9.3076613,
+      "lon": 76.4256842,
+      "tags": {
+        "amenity": "hospital",
+        "email": "karuvattaphc@gmail.com",
+        "emergency": "yes",
+        "healthcare": "hospital",
+        "name": "PHC Karuvatta",
+        "operator": "Department of Health Services",
+        "operator:type": "government",
+        "phone": "+91-4792491934"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7485511255,
+      "lat": 9.3650487,
+      "lon": 76.4773317,
+      "tags": {
+        "amenity": "hospital",
+        "email": "chcedathua@gmail.com",
+        "emergency": "yes",
+        "healthcare": "hospital",
+        "name": "Chc Edathuva",
+        "operator": "04772210750",
+        "operator:type": "government"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7485626460,
+      "lat": 9.4511953,
+      "lon": 76.4697604,
+      "tags": {
+        "amenity": "hospital",
+        "email": "chcveliyanadu@gmail.com",
+        "emergency": "yes",
+        "healthcare": "hospital",
+        "name": "Chc Veliyanad",
+        "operator": "Department of Health Services",
+        "operator:type": "government",
+        "phone": "+91-477 2753228"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7487884177,
+      "lat": 9.3719911,
+      "lon": 76.5786712,
+      "tags": {
+        "addr:city": "Thukalassery",
+        "addr:postcode": "689115",
+        "addr:street": "MC Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Priceless Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7488066657,
+      "lat": 9.5228467,
+      "lon": 76.3321041,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Bismiya Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7488075403,
+      "lat": 9.5237937,
+      "lon": 76.3319431,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Dr, Shaji (Disease Helpline Centre)"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7488509993,
+      "lat": 9.5434328,
+      "lon": 76.3313657,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Primary Health Center Aryad"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7488886308,
+      "lat": 9.3251314,
+      "lon": 76.4609577,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Veeyapuram Primary Health Centre",
+        "operator": "DEPARTMENT OF HEALTH SERVICES",
+        "operator:type": "government",
+        "phone": "+91-4792318533"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7488986775,
+      "lat": 9.5457468,
+      "lon": 76.5103986,
+      "tags": {
+        "addr:city": "Nattakom",
+        "addr:housenumber": "PHC Nattakom",
+        "addr:postcode": "686013",
+        "addr:street": "Mariyappally P O,MC Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Primary Health Centre, Nattakom",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "government",
+        "phone": "+91-481-2362299",
+        "ref": "1315"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7491705412,
+      "lat": 9.5919548,
+      "lon": 76.4351543,
+      "tags": {
+        "addr:city": "Kumarakom",
+        "addr:postcode": "686563",
+        "addr:street": "Kottayam - Kumarakom Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Kumarakom Government Homeo Dispensary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7494953065,
+      "lat": 9.5918794,
+      "lon": 76.4372722,
+      "tags": {
+        "addr:city": "Kumarakom",
+        "addr:postcode": "686563",
+        "addr:street": "Kumarakom Attipeedika Rd",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Chirathara Medicals",
+        "opening_hours": "Mo-Su 09:00-22:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7494953066,
+      "lat": 9.5913275,
+      "lon": 76.4372243,
+      "tags": {
+        "addr:city": "Kumarakom",
+        "addr:postcode": "686563",
+        "addr:street": "Kumarakom Attipeedika Rd",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Santhi General & Children's Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7494953067,
+      "lat": 9.5916377,
+      "lon": 76.4393197,
+      "tags": {
+        "addr:city": "Kumarakom",
+        "addr:postcode": "686563",
+        "addr:street": "Kumarakom-Cumbam Road",
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Prince Laboratory",
+        "opening_hours": "Mo-Su 09:00-22:00"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7497361107,
+      "lat": 9.5811036,
+      "lon": 76.4777964,
+      "tags": {
+        "addr:city": "Kottayam",
+        "addr:postcode": "686020",
+        "addr:street": "Illickal - Thiruvarppu Road",
+        "amenity": "hospital",
+        "emergency": "yes",
+        "healthcare": "hospital",
+        "name": "Primary Health Centre, Thiruvarppu",
+        "operator": "department of health services",
+        "operator:type": "government",
+        "ref": "1318"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7499012357,
+      "lat": 9.5993681,
+      "lon": 76.4374361,
+      "tags": {
+        "addr:city": "Kumarakom",
+        "addr:postcode": "686563",
+        "addr:street": "Chirathara Rd",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Health Sub Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7508548254,
+      "lat": 9.4337878,
+      "lon": 76.6269595,
+      "tags": {
+        "addr:city": "Mallappally",
+        "addr:street": "Thiruvalla- Mallapally Road",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Sastha Medical Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7509560462,
+      "lat": 9.540418,
+      "lon": 76.3313116,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Nucleus Lab and ECG"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7513425261,
+      "lat": 9.5291519,
+      "lon": 76.327211,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Prudent Care Dental Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7517790178,
+      "lat": 9.3425922,
+      "lon": 76.5351039,
+      "tags": {
+        "name": "Kadapra",
+        "name:ml": "\u0d15\u0d1f\u0d2a\u0d4d\u0d30",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7525218549,
+      "lat": 9.5167981,
+      "lon": 76.5247857,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Knanaya Medical Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7525227848,
+      "lat": 9.5197502,
+      "lon": 76.5248206,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Ivan Opticals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7615923489,
+      "lat": 9.5776878,
+      "lon": 76.5432188,
+      "tags": {
+        "name": "Devalokam",
+        "name:en": "Devalokam",
+        "name:ml": "\u0d26\u0d47\u0d35\u0d32\u0d4b\u0d15\u0d02",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7633227515,
+      "lat": 9.4221378,
+      "lon": 76.5626912,
+      "tags": {
+        "addr:city": "Nalukody",
+        "addr:postcode": "686548",
+        "addr:street": "thengana naalukodi",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "homeopathy",
+        "name": "Homeo clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7634358819,
+      "lat": 9.3662928,
+      "lon": 76.477019,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7634358820,
+      "lat": 9.3664582,
+      "lon": 76.4773382,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161905,
+      "lat": 9.3025999,
+      "lon": 76.6264967,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Alappuzha",
+        "addr:postcode": "689122",
+        "addr:state": "Kerala",
+        "amenity": "doctors",
+        "name": "Dr. Benny's Dentistree",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161906,
+      "lat": 9.307432,
+      "lon": 76.623438,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Chengannur",
+        "addr:postcode": "689122",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Cherian Memorial St. Lukes Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161907,
+      "lat": 9.3086081,
+      "lon": 76.5484216,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Alappuzha",
+        "addr:postcode": "689622",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Dr.Sam Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161908,
+      "lat": 9.3993753,
+      "lon": 76.354231,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Kakkazhom, Valanjavazhy, Ambalapuzha",
+        "addr:postcode": "688005",
+        "addr:state": "Kerala",
+        "amenity": "doctors",
+        "name": "Dr. K Radhakrishnan",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161909,
+      "lat": 9.4424187,
+      "lon": 76.4067291,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Nedumudy",
+        "addr:postcode": "688502",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "St. Mary's Homoeo Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161910,
+      "lat": 9.4712222,
+      "lon": 76.3442588,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Kaithavana",
+        "addr:postcode": "688003",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Sreerudra Ayurveda Multi Speciality Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161912,
+      "lat": 9.3783095,
+      "lon": 76.3570638,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Ambalapuzha",
+        "addr:postcode": "688561",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Bkm Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161921,
+      "lat": 9.4804431,
+      "lon": 76.3223502,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Beachward, Near Alappuzha Railway",
+        "addr:postcode": "688001",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "ESI Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161923,
+      "lat": 9.5831976,
+      "lon": 76.3061818,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Alappuzha",
+        "addr:postcode": "688522",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Jiji Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161924,
+      "lat": 9.3252402,
+      "lon": 76.377683,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Thottappally, Purakkad",
+        "addr:postcode": "688561",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Mathery Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161925,
+      "lat": 9.521445,
+      "lon": 76.3279022,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Thumpoly",
+        "addr:postcode": "688008",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Sanjeevani Siddhayur Healthcare",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161927,
+      "lat": 9.529629,
+      "lon": 76.348206,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Chempanthara",
+        "addr:postcode": "688521",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Life Care Family Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161930,
+      "lat": 9.370008,
+      "lon": 76.3610103,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Ambalapuzha",
+        "addr:postcode": "688561",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Palackal Unani Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161936,
+      "lat": 9.5118877,
+      "lon": 76.3200821,
+      "tags": {
+        "addr:city": "Alappuzha",
+        "addr:district": "Alappuzha",
+        "addr:full": "Mangalam, Kanjiramchira",
+        "addr:postcode": "688007",
+        "addr:state": "Kerala",
+        "addr:street": "Mangalam",
+        "amenity": "hospital",
+        "description": "Public Health Centre",
+        "healthcare": "hospital",
+        "name": "Urban Primary Health Centre, Mangalam",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161937,
+      "lat": 9.3116247,
+      "lon": 76.6083757,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Chengannur",
+        "addr:postcode": "689121",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Diabetic Health Care Centre",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161938,
+      "lat": 9.4823961,
+      "lon": 76.3258079,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Near Vettakaran Junction, Vattapally",
+        "addr:postcode": "688012",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Aby's Speciality",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161940,
+      "lat": 9.3376412,
+      "lon": 76.6011054,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Alappuzha",
+        "addr:postcode": "689124",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Msm Multispeciality Dental Clinic, kallissery",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161944,
+      "lat": 9.3842583,
+      "lon": 76.3576134,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Ambalapuzha",
+        "addr:postcode": "688561",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Surya Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161947,
+      "lat": 9.4912822,
+      "lon": 76.3249783,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:postcode": "688012",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Dr. Shamina Rasheed's Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161949,
+      "lat": 9.324931,
+      "lon": 76.616173,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Kizhakke Nada, Chengannur",
+        "addr:postcode": "689121",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Indukantham Ayurveda Hospital and Panchakarma Centre",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161951,
+      "lat": 9.3487294,
+      "lon": 76.5950601,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Pravinkoodu, Mazhukeer",
+        "addr:postcode": "689106",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Government Homeopathy Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161953,
+      "lat": 9.4659426,
+      "lon": 76.331265,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Vadackal",
+        "addr:postcode": "688003",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Matha Ayurvedic Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161954,
+      "lat": 9.3313585,
+      "lon": 76.5547331,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Parumala",
+        "addr:postcode": "689626",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Government Homeo Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161956,
+      "lat": 9.3075822,
+      "lon": 76.6233053,
+      "tags": {
+        "addr:city": "Chengannur",
+        "addr:district": "Alappuzha",
+        "addr:full": "Chengannur",
+        "addr:postcode": "689122",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "description": "Department of Oral and Maxillofacial Surgery",
+        "emergency": "yes",
+        "healthcare": "hospital",
+        "healthcare:speciality": "orthodontics;clinic;dentist",
+        "name": "Dental World",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161957,
+      "lat": 9.316443,
+      "lon": 76.53448,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Mannar",
+        "addr:postcode": "689622",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Ambalayam Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161959,
+      "lat": 9.4494025,
+      "lon": 76.3355474,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Punnapra",
+        "addr:postcode": "688003",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Assisi Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161960,
+      "lat": 9.491064,
+      "lon": 76.32215,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:postcode": "688001",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "ECHS Polyclinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161961,
+      "lat": 9.3195434,
+      "lon": 76.6191255,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:postcode": "689121",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Kottakkal Arya Vaidya Sala",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161966,
+      "lat": 9.5221238,
+      "lon": 76.3273685,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Poomkavu",
+        "addr:postcode": "688008",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Centre for Asthma and Allergy",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161969,
+      "lat": 9.5294275,
+      "lon": 76.3404512,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Vyasapuram Road, Thalavady, Vyasapuram",
+        "addr:postcode": "688521",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Nalanda Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161970,
+      "lat": 9.3055693,
+      "lon": 76.5624121,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Budhanoor",
+        "addr:postcode": "689624",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Ayush Public Health Centre",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161971,
+      "lat": 9.412204,
+      "lon": 76.475457,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Mithrakari",
+        "addr:postcode": "689595",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Primary Health Center Muttar",
+        "ref": "1238",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161973,
+      "lat": 9.576261,
+      "lon": 76.355492,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Ambalakkadavu, Mannanchery",
+        "addr:postcode": "688538",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Palmshade Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161974,
+      "lat": 9.4825504,
+      "lon": 76.3257898,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Vattapally",
+        "addr:postcode": "688012",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Dr.Abeys Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161975,
+      "lat": 9.3123758,
+      "lon": 76.6354983,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Piralassery, Nikarumpuram, Mulakuzha",
+        "addr:postcode": "689122",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Pavanatma Ayurveda Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161977,
+      "lat": 9.423067,
+      "lon": 76.473707,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Chemboothra, Mampuzhakary",
+        "addr:postcode": "689595",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Dr.Philip's Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161979,
+      "lat": 9.4787201,
+      "lon": 76.3440956,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Pazhaveedu",
+        "addr:postcode": "688009",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Pazhaveedu Medical Care",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161980,
+      "lat": 9.3100276,
+      "lon": 76.5646828,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Budhanoor",
+        "addr:postcode": "689624",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Ayurveda Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161983,
+      "lat": 9.3660789,
+      "lon": 76.4806853,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Edathua, Kuttanad Taluk",
+        "addr:postcode": "689573",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Kariparampil Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161984,
+      "lat": 9.3830646,
+      "lon": 76.373188,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Ambalapuzha Railway Station Road, Ambalapuzha",
+        "addr:postcode": "688561",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "VNM Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161985,
+      "lat": 9.508863,
+      "lon": 76.360736,
+      "tags": {
+        "addr:city": "Alappuzha",
+        "addr:district": "Alappuzha",
+        "addr:full": "Moonnatiinmugham, Kuppapuram",
+        "addr:postcode": "688006",
+        "addr:state": "Kerala",
+        "addr:street": "Nehrutrophy",
+        "amenity": "hospital",
+        "description": "Urban Primary Health Centre",
+        "healthcare": "hospital",
+        "name": "Urban Primary Health Centre, Nehrutrophy",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161986,
+      "lat": 9.5833519,
+      "lon": 76.3505067,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Kavunkal, Mannancherry",
+        "addr:postcode": "688538",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "general",
+        "name": "We One Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161988,
+      "lat": 9.3849904,
+      "lon": 76.356014,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Ambalapuzha",
+        "addr:postcode": "688561",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Dr. Jaya's Sreepadam Ayurveda Panchakarma Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161989,
+      "lat": 9.3733249,
+      "lon": 76.5096581,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Thalavady",
+        "addr:postcode": "689112",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Dr. Atma Gopi Memorial Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161990,
+      "lat": 9.4251591,
+      "lon": 76.4894555,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Kidangara",
+        "addr:postcode": "686102",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "description": "Community Health Centre",
+        "healthcare": "hospital",
+        "name": "Community Health Centre Kurathikad",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "government",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730161991,
+      "lat": 9.5077706,
+      "lon": 76.3510861,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Thathampally, Aryad",
+        "addr:postcode": "688013",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Alpha Palliative Care",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730162001,
+      "lat": 9.4909243,
+      "lon": 76.3380375,
+      "tags": {
+        "addr:district": "Alappuzha",
+        "addr:full": "Vellakkinar",
+        "addr:postcode": "688011",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Mathery Trust Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429687,
+      "lat": 9.3800531,
+      "lon": 76.5588898,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Anjalkutti Kavumbhagam, Thiruvalla",
+        "addr:postcode": "680301",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Ano Cure Speciality Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429693,
+      "lat": 9.384697,
+      "lon": 76.598904,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Tiruvalla - Vennikulam - Thadiyoor - Ranni Road, Panthalam, Manjadi",
+        "addr:postcode": "689105",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Karunya Medical Centre and Diabetic Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429701,
+      "lat": 9.3644796,
+      "lon": 76.5849997,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Kollam -Theni Highway, Thirumoolapuram, Thiruvalla",
+        "addr:postcode": "689115",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Sanjivini Multi Speciality Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429709,
+      "lat": 9.3743835,
+      "lon": 76.6135965,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Eraviperoor",
+        "addr:postcode": "689542",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "St.Mary's Mission Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429725,
+      "lat": 9.3789602,
+      "lon": 76.5876723,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Anjanam, Thymala, Manjadi Pathanamthitta, Thiruvalla",
+        "addr:postcode": "689105",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Sudarshanam Ayurveda Eye Hospital & Panchakarma Centre",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429726,
+      "lat": 9.3896939,
+      "lon": 76.5716902,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Ramanchira",
+        "addr:postcode": "689101",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Nakkada Mission Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429742,
+      "lat": 9.378322,
+      "lon": 76.5681186,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Thiruvalla",
+        "addr:postcode": "689101",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Rishi Ayurveda Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429743,
+      "lat": 9.3856306,
+      "lon": 76.6205491,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Eraviperoor",
+        "addr:postcode": "689541",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Vallamkulam Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7730429753,
+      "lat": 9.3807473,
+      "lon": 76.5581812,
+      "tags": {
+        "addr:district": "Pathanamthitta",
+        "addr:full": "Thiruvalla",
+        "addr:postcode": "689101",
+        "addr:state": "Kerala",
+        "amenity": "doctors",
+        "name": "Dr.Kurian Oommen",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212382,
+      "lat": 9.4390089,
+      "lon": 76.5478009,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Mannam Road, Changanassery",
+        "addr:postcode": "686102",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Sree Sankara Ayurveda Vaidyashala",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212386,
+      "lat": 9.5432932,
+      "lon": 76.5977549,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Pariyaram, Puthuppally",
+        "addr:postcode": "686021",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Leela Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212387,
+      "lat": 9.4971955,
+      "lon": 76.6297089,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Koothrapally, Karukachal",
+        "addr:postcode": "686540",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Sreeshylam Ayurveda Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212388,
+      "lat": 9.598346,
+      "lon": 76.5639493,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Vadavathoor",
+        "addr:postcode": "686010",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "ESI Hospital",
+        "operator": "Employees' State Insurance",
+        "operator:short": "ESI",
+        "operator:wikidata": "Q3595726",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212392,
+      "lat": 9.5991994,
+      "lon": 76.6445367,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Kooroppada",
+        "addr:postcode": "686502",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Nithya Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212393,
+      "lat": 9.5095851,
+      "lon": 76.533903,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Kuzhimattom",
+        "addr:postcode": "686532",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Kerala State Homeo Medical College and Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212395,
+      "lat": 9.5914418,
+      "lon": 76.5611036,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Kottayam - Kumily Road, Vadavathoor",
+        "addr:postcode": "686010",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "JK Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212399,
+      "lat": 9.499454,
+      "lon": 76.524933,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Kurichy",
+        "addr:postcode": "686532",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Dr. Shibi's Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212403,
+      "lat": 9.5073252,
+      "lon": 76.5265457,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Kurichy",
+        "addr:postcode": "686532",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Welfast Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212408,
+      "lat": 9.4462593,
+      "lon": 76.5390835,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Changanassery",
+        "addr:postcode": "686101",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Christeena Eye Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212409,
+      "lat": 9.4434046,
+      "lon": 76.538677,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Stadium Road, Changanassery",
+        "addr:postcode": "686101",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Unnithan's Ayurveda Hospital and Research Centre",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212413,
+      "lat": 9.5575863,
+      "lon": 76.5723519,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Manarcadu Thenganal Road, Puthuppally",
+        "addr:postcode": "686011",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "National Homeo Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212414,
+      "lat": 9.4473148,
+      "lon": 76.5418552,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Changanassery - Vazhoor Road",
+        "addr:postcode": "686101",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "The Homoeopathic Multi Speciality Hospital & Research Centre",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212415,
+      "lat": 9.479214,
+      "lon": 76.514694,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Cheruthuruthy, Thuruthy, Vazhappally",
+        "addr:postcode": "686535",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "St. Jude Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212416,
+      "lat": 9.4309248,
+      "lon": 76.5877619,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Thiruvalla - Mallappally Road, Paipad",
+        "addr:postcode": "689581",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Sree Bhadra Homoeo Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212426,
+      "lat": 9.582835,
+      "lon": 76.5216213,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Punnasseri",
+        "addr:postcode": "686001",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Ayu Life Heart Care Centre",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212429,
+      "lat": 9.4329244,
+      "lon": 76.5431334,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Perunna, Changanassery, Perunna",
+        "addr:postcode": "686102",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "name": "Amba Ayurveda Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212432,
+      "lat": 9.4521865,
+      "lon": 76.5472873,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Changanassery",
+        "addr:postcode": "686104",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Dr. Shenoy's Care",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212433,
+      "lat": 9.515702,
+      "lon": 76.52692,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Chingavanam",
+        "addr:postcode": "686532",
+        "addr:state": "Kerala",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Jacobs Hospital",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7733212440,
+      "lat": 9.5443209,
+      "lon": 76.5534555,
+      "tags": {
+        "addr:district": "Kottayam",
+        "addr:full": "Eravinalloor",
+        "addr:postcode": "686011",
+        "addr:state": "Kerala",
+        "amenity": "clinic",
+        "name": "Medical Clinic",
+        "source": "Local Knowledge"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7817373827,
+      "lat": 9.3841323,
+      "lon": 76.5898857,
+      "tags": {
+        "name": "Manjadi",
+        "name:ml": "\u0d2e\u0d1e\u0d4d\u0d1e\u0d3e\u0d1f\u0d3f",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7843245130,
+      "lat": 9.3223327,
+      "lon": 76.6330163,
+      "tags": {
+        "name": "Puthencavu",
+        "name:ml": "\u0d2a\u0d41\u0d24\u0d4d\u0d24\u0d7b\u0d15\u0d3e\u0d35\u0d4d",
+        "place": "village",
+        "postal_code": "689123",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7262215",
+        "wikipedia": "en:Puthencavu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7843245136,
+      "lat": 9.370971,
+      "lon": 76.5789803,
+      "tags": {
+        "name": "Thukalassery",
+        "name:ml": "\u0d24\u0d41\u0d15\u0d32\u0d36\u0d4d\u0d36\u0d47\u0d30\u0d3f",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7843245137,
+      "lat": 9.3666313,
+      "lon": 76.5842261,
+      "tags": {
+        "name": "Thirumoolapuram",
+        "name:ml": "\u0d24\u0d3f\u0d30\u0d41\u0d2e\u0d42\u0d32\u0d2a\u0d41\u0d30\u0d02",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7843245138,
+      "lat": 9.3587884,
+      "lon": 76.5881013,
+      "tags": {
+        "name": "Kuttoor",
+        "name:ml": "\u0d15\u0d41\u0d31\u0d4d\u0d31\u0d42\u0d7c",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 7843245139,
+      "lat": 9.3369438,
+      "lon": 76.6025196,
+      "tags": {
+        "alt_name": "Kallisserry;Kallishery",
+        "name": "Kallissery",
+        "name:ml": "\u0d15\u0d32\u0d4d\u0d32\u0d3f\u0d36\u0d47\u0d30\u0d3f",
+        "place": "village",
+        "postal_code": "689124",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6353866",
+        "wikipedia": "en:Kallissery"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8045771198,
+      "lat": 9.5706027,
+      "lon": 76.3246474,
+      "tags": {
+        "amenity": "doctors",
+        "healthcare": "doctor"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8075455507,
+      "lat": 9.3198636,
+      "lon": 76.6115334,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Mammen Memorial Hospital, Chengannur"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8259228302,
+      "lat": 9.4459456,
+      "lon": 76.3995045,
+      "tags": {
+        "name": "Poopalli",
+        "name:ml": "\u0d2a\u0d42\u0d2a\u0d4d\u0d2a\u0d33\u0d4d\u0d33\u0d3f",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8259228303,
+      "lat": 9.408063,
+      "lon": 76.4115308,
+      "tags": {
+        "name": "Champakulam",
+        "name:ml": "\u0d1a\u0d2e\u0d4d\u0d2a\u0d15\u0d4d\u0d15\u0d41\u0d33\u0d02",
+        "place": "village",
+        "postal_code": "688505",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q5069924"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8280740784,
+      "lat": 9.5684192,
+      "lon": 76.5699902,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8320477669,
+      "lat": 9.4559885,
+      "lon": 76.6263582,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "homeo clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8321398858,
+      "lat": 9.5829905,
+      "lon": 76.6084965,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Arya Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8353815016,
+      "lat": 9.3238097,
+      "lon": 76.4606461,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8396551432,
+      "lat": 9.5786149,
+      "lon": 76.5521972,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "healthcare:speciality": "dentist;paediatrics",
+        "name": "BG Smiles Dental Clinic",
+        "phone": "+918089056884"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8417260211,
+      "lat": 9.3934202,
+      "lon": 76.5788126,
+      "tags": {
+        "addr:postcode": "689101",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "location": "9.3771936,76.5685048",
+        "name": "Thiruvalla medical mission hospital",
+        "operator": "PRIVATE",
+        "operator:type": "private"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8418831838,
+      "lat": 9.512458,
+      "lon": 76.568496,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "VAKATHANAM GOVERNMENT HOSPITAL"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8419787885,
+      "lat": 9.587959,
+      "lon": 76.5831301,
+      "tags": {
+        "amenity": "pharmacy",
+        "brand": "Neethi Medical Store",
+        "brand:wikidata": "Q99960935",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Neethi Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8419808840,
+      "lat": 9.5860683,
+      "lon": 76.5837421,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "ECHS POLYCLINIC",
+        "operator:type": "government",
+        "phone": "+91-481 2372661"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8421832720,
+      "lat": 9.5876211,
+      "lon": 76.5825785,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "healthcare:speciality": "ayurveda",
+        "name": "Oushadhi Ayurvedic",
+        "operator": "Government-owned corporation"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8421848578,
+      "lat": 9.5877943,
+      "lon": 76.5823621,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "She Pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8421855758,
+      "lat": 9.5869834,
+      "lon": 76.5837808,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "CAREWELL MEDICAL CLINIC"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8440971006,
+      "lat": 9.4474698,
+      "lon": 76.5978989,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "dental clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8504500401,
+      "lat": 9.5811456,
+      "lon": 76.4742489,
+      "tags": {
+        "name": "Thiruvarppu",
+        "name:en": "Thiruvarppu",
+        "name:ml": "\u0d24\u0d3f\u0d30\u0d41\u0d35\u0d3e\u0d7c\u0d2a\u0d4d\u0d2a\u0d4d",
+        "place": "suburb",
+        "wikidata": "Q7785525",
+        "wikipedia": "en:Thiruvarpu"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8518536703,
+      "lat": 9.5650045,
+      "lon": 76.4191854,
+      "tags": {
+        "name": "Naalupanku",
+        "name:ml": "\u0d28\u0d3e\u0d32\u0d41\u0d2a\u0d19\u0d4d\u0d15\u0d4d",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8543100130,
+      "lat": 9.5588786,
+      "lon": 76.4923113,
+      "tags": {
+        "name": "Malarikkal",
+        "name:en": "Malarikkal",
+        "name:ml": "\u0d2e\u0d32\u0d30\u0d3f\u0d15\u0d4d\u0d15\u0d7d",
+        "place": "hamlet",
+        "tourism": "yes",
+        "wikidata": "Q106238770",
+        "wikimedia_commons": "Category:Malarikkal",
+        "wikipedia": "en:Malarikkal"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559546198,
+      "lat": 9.5016344,
+      "lon": 76.3286995,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559546207,
+      "lat": 9.5049408,
+      "lon": 76.3283705,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559546209,
+      "lat": 9.507441,
+      "lon": 76.3281243,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559546210,
+      "lat": 9.5090026,
+      "lon": 76.3279685,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560024,
+      "lat": 9.5220947,
+      "lon": 76.327602,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560029,
+      "lat": 9.5325055,
+      "lon": 76.327317,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560037,
+      "lat": 9.5391243,
+      "lon": 76.3271455,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560042,
+      "lat": 9.5539973,
+      "lon": 76.3275992,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560044,
+      "lat": 9.5603922,
+      "lon": 76.3278856,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560054,
+      "lat": 9.5691404,
+      "lon": 76.3275443,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560056,
+      "lat": 9.5693632,
+      "lon": 76.3275443,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560058,
+      "lat": 9.5701801,
+      "lon": 76.3275695,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559560059,
+      "lat": 9.5701553,
+      "lon": 76.3275695,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8559774961,
+      "lat": 9.4156102,
+      "lon": 76.3490955,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8563042819,
+      "lat": 9.4703745,
+      "lon": 76.3425217,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Sri ANJANEYA MEDICAL SHOP"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8563861551,
+      "lat": 9.3023052,
+      "lon": 76.4337764,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Deepa Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8564003787,
+      "lat": 9.3175998,
+      "lon": 76.4263568,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "ARM Medical center"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8564003794,
+      "lat": 9.3152818,
+      "lon": 76.4283396,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "TB hospital Karuvatta"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8566334442,
+      "lat": 9.4664276,
+      "lon": 76.3408911,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Neeti Medical Shop"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8566348721,
+      "lat": 9.4652502,
+      "lon": 76.3327546,
+      "tags": {
+        "amenity": "doctors",
+        "healthcare": "doctor",
+        "name": "Homeo"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8571391923,
+      "lat": 9.4641586,
+      "lon": 76.3404478,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "HOMEO DISPENSARY"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8585182803,
+      "lat": 9.4941498,
+      "lon": 76.339012,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Ayurvedique pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8657691153,
+      "lat": 9.5919551,
+      "lon": 76.5223142,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Udaya Medicals",
+        "opening_hours": "24/7"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8697501493,
+      "lat": 9.5887402,
+      "lon": 76.5527817,
+      "tags": {
+        "addr:postcode": "686018",
+        "addr:street": "Kalathipady-Anathanam Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Doctors Speciality Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8701895653,
+      "lat": 9.4820819,
+      "lon": 76.5478887,
+      "tags": {
+        "addr:city": "Changanacherry",
+        "addr:postcode": "686106",
+        "addr:street": "Chethipuzha, Kurishmoodu Road",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "healthcare:speciality": "orthodontics",
+        "name": "Meleparambil Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8724684990,
+      "lat": 9.5925402,
+      "lon": 76.4358845,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Bhartiya Jan Aushadhi kendra"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8725224061,
+      "lat": 9.5951407,
+      "lon": 76.4690987,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Neethi medical store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8728719951,
+      "lat": 9.5881185,
+      "lon": 76.4890537,
+      "tags": {
+        "amenity": "pharmacy",
+        "description": "English marunukal",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Annu Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8728719953,
+      "lat": 9.5880691,
+      "lon": 76.4891315,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Needi Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8730361734,
+      "lat": 9.5881078,
+      "lon": 76.4897551,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Varikad Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8730660731,
+      "lat": 9.5920082,
+      "lon": 76.5219772,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "drug House"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8743127036,
+      "lat": 9.5987001,
+      "lon": 76.5857058,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "DDRC SRL Diagnosis Centre",
+        "phone": "+919496005015",
+        "website": "https://www.ddrcsrl.com/"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8754881488,
+      "lat": 9.5902245,
+      "lon": 76.498195,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Smart Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8828054372,
+      "lat": 9.321041,
+      "lon": 76.6158612,
+      "tags": {
+        "addr:city": "Chengannur",
+        "addr:housenumber": "Thamarasseril Building,",
+        "addr:postcode": "689121",
+        "addr:street": "Temple Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "ophthalmology",
+        "name": "Oommen's Eye Hospital, Chengannur",
+        "phone": "+91-479 245 3416"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8849897115,
+      "lat": 9.5952585,
+      "lon": 76.517328,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8869720305,
+      "lat": 9.487803,
+      "lon": 76.3224164,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Alapuzha Government Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8878923117,
+      "lat": 9.3958322,
+      "lon": 76.6141187,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Sree Anjaneya Diabetic and Medical Centre",
+        "opening_hours": "24/7",
+        "survey:date": "2021-06-30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8943608184,
+      "lat": 9.3973381,
+      "lon": 76.6345009,
+      "tags": {
+        "name": "Kallooppara",
+        "name:ml": "\u0d15\u0d32\u0d4d\u0d32\u0d42\u0d2a\u0d4d\u0d2a\u0d3e\u0d31",
+        "place": "village",
+        "population": "17719",
+        "wikidata": "Q6353921",
+        "wikipedia": "en:Kallooppara"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8987954179,
+      "lat": 9.4761775,
+      "lon": 76.4555815,
+      "tags": {
+        "name": "Kavalam",
+        "name:en": "Kavalam",
+        "name:ml": "\u0d15\u0d3e\u0d35\u0d3e\u0d32\u0d02",
+        "place": "village",
+        "postal_code": "688506",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6379045",
+        "wikimedia_commons": "Category:Kavalam",
+        "wikipedia": "en:Kavalam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8995791009,
+      "lat": 9.3667026,
+      "lon": 76.4767576,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Community Health Centre Edathuva",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "government"
+      }
+    },
+    {
+      "type": "node",
+      "id": 8995791015,
+      "lat": 9.5314505,
+      "lon": 76.6036987,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Family Health Centre Thottakkad",
+        "operator": "Department of Health and Family Welfare",
+        "operator:type": "government"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9003228329,
+      "lat": 9.4098255,
+      "lon": 76.6355253,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Community Health Centre Kalloopara",
+        "operator": "Department of Health and Family Welafare",
+        "operator:type": "government"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9056402439,
+      "lat": 9.4268424,
+      "lon": 76.5459758,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Hairgraaft-hair transplation hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9072954673,
+      "lat": 9.368737,
+      "lon": 76.5083871,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9078403053,
+      "lat": 9.4637683,
+      "lon": 76.5794438,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Ayurvedic Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9125637900,
+      "lat": 9.3794818,
+      "lon": 76.5448321,
+      "tags": {
+        "addr:city": "peringara",
+        "addr:postcode": "689108",
+        "addr:street": "Peringara-Chathenkery Road",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "healthcare:speciality": "dentist",
+        "name": "Holy Queen Dental Clinic",
+        "opening_hours": "Mo-Sa 09:30-18:00",
+        "operator:type": "private"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9237526382,
+      "lat": 9.3260722,
+      "lon": 76.5768622,
+      "tags": {
+        "alt_name": "Pandavar Nadu",
+        "name": "Pandanad",
+        "name:ml": "\u0d2a\u0d3e\u0d23\u0d4d\u0d1f\u0d28\u0d3e\u0d1f\u0d4d",
+        "place": "village",
+        "postal_code": "689506",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7130486",
+        "wikipedia": "en:Pandanad"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9237526414,
+      "lat": 9.3437311,
+      "lon": 76.5230985,
+      "tags": {
+        "name": "Niranam",
+        "name:ml": "\u0d28\u0d3f\u0d30\u0d23\u0d02",
+        "place": "village",
+        "postal_code": "689621",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q12064156",
+        "wikimedia_commons": "Category:Niranam",
+        "wikipedia": "en:Niranam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9259264768,
+      "lat": 9.4785022,
+      "lon": 76.3348311,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Urban Primary Health Centre, Mullathu Valappu",
+        "operator": "National Urban Health Mission",
+        "operator:type": "government"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9267276117,
+      "lat": 9.5075418,
+      "lon": 76.3284096,
+      "tags": {
+        "addr:city": "Alappuzha",
+        "addr:housenumber": "Arattuvazhi",
+        "addr:postcode": "688007",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Sanjos Hospital and Research Center, Arattuvazhi",
+        "survey:date": "2021-11-18"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9301737684,
+      "lat": 9.444144,
+      "lon": 76.5395628,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Denta Care Dental Clinic"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9301765977,
+      "lat": 9.4450177,
+      "lon": 76.5413009,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Samaritan Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9301796456,
+      "lat": 9.442944,
+      "lon": 76.5366875,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Cure Center"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9301895636,
+      "lat": 9.4451147,
+      "lon": 76.5335392,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Vijaya Memorial Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9363389522,
+      "lat": 9.3818003,
+      "lon": 76.5584438,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Urban family health centre",
+        "survey:date": "2021-12-24"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9363458721,
+      "lat": 9.3787271,
+      "lon": 76.5692184,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Govt. Taluk hospital thiruvalla",
+        "survey:date": "2021-12-24"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9364880517,
+      "lat": 9.4135287,
+      "lon": 76.585476,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Govt ayurvedha hospital, Thiruvalla",
+        "opening_hours": "09:00-14:00",
+        "survey:date": "2021-12-25"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9365011417,
+      "lat": 9.3978113,
+      "lon": 76.5791661,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Homeo Dispensary, Kuttapuzha",
+        "survey:date": "2021-12-25"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9370952010,
+      "lat": 9.3918532,
+      "lon": 76.5474942,
+      "tags": {
+        "addr:city": "PERIGARA",
+        "addr:postcode": "689591",
+        "addr:street": "Swamipalam- Mepral Road",
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "healthcare:speciality": "homeopathy",
+        "name": "GOVT HOMOEO DISPENSARY PERIMGARA"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9373662363,
+      "lat": 9.4701612,
+      "lon": 76.3479344,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Govt Ayurveda Panchakarma Hospital, Kaithavana"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9375289275,
+      "lat": 9.5043691,
+      "lon": 76.3208793,
+      "tags": {
+        "amenity": "clinic",
+        "description": "Reg No. 5373",
+        "healthcare": "clinic",
+        "name": "Pallipadan's Homeo Clinic, Malikamukku."
+      }
+    },
+    {
+      "type": "node",
+      "id": 9375303881,
+      "lat": 9.5070808,
+      "lon": 76.3201665,
+      "tags": {
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "J P Health Care -Neethi Lab ,Mallikamukku"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9393743114,
+      "lat": 9.4738609,
+      "lon": 76.6281905,
+      "tags": {
+        "name": "Santhipuram",
+        "name:en": "Santhipuram",
+        "name:ml": "\u0d36\u0d3e\u0d28\u0d4d\u0d24\u0d3f\u0d2a\u0d41\u0d30\u0d02",
+        "place": "village",
+        "postal_code": "686545",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9393759989,
+      "lat": 9.4562977,
+      "lon": 76.6256345,
+      "tags": {
+        "name": "Mukkoor",
+        "name:en": "Mukkoor",
+        "name:ml": "\u0d2e\u0d41\u0d15\u0d4d\u0d15\u0d42\u0d7c",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9419616346,
+      "lat": 9.4941781,
+      "lon": 76.4702667,
+      "tags": {
+        "name": "Kainady",
+        "name:en": "Kainady",
+        "name:ml": "\u0d15\u0d48\u0d28\u0d1f\u0d3f",
+        "place": "hamlet",
+        "postal_code": "686534",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6348076",
+        "wikipedia": "en:Kainady"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9442075336,
+      "lat": 9.412278,
+      "lon": 76.556104,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Pushpagiri Dental Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9502758030,
+      "lat": 9.4561726,
+      "lon": 76.6209277,
+      "tags": {
+        "name": "Palackathakidi",
+        "name:en": "Palackathakidi",
+        "name:ml": "\u0d2a\u0d3e\u0d32\u0d2f\u0d4d\u0d15\u0d4d\u0d15\u0d3e\u0d24\u0d4d\u0d24\u0d15\u0d3f\u0d1f\u0d3f",
+        "place": "village",
+        "postal_code": "689581"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9527403764,
+      "lat": 9.4785048,
+      "lon": 76.5822899,
+      "tags": {
+        "name": "Perumpanachy",
+        "name:en": "Perumpanachy",
+        "name:ml": "\u0d2a\u0d46\u0d30\u0d41\u0d2e\u0d4d\u0d2a\u0d28\u0d1a\u0d4d\u0d1a\u0d3f",
+        "place": "village",
+        "postal_code": "686536",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7171071",
+        "wikipedia": "en:Perumpanachy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9572582503,
+      "lat": 9.478066,
+      "lon": 76.6416396,
+      "tags": {
+        "name": "Kochuparambu",
+        "name:en": "Kochuparambu",
+        "name:ml": "\u0d15\u0d4a\u0d1a\u0d4d\u0d1a\u0d41\u0d2a\u0d31\u0d2e\u0d4d\u0d2a\u0d4d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9592609917,
+      "lat": 9.4556004,
+      "lon": 76.3353955,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Primary Health Centre Punnapra North"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9592609919,
+      "lat": 9.4527085,
+      "lon": 76.347669,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Govt Ayurveda Dispensary"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9600858715,
+      "lat": 9.4260289,
+      "lon": 76.3399616,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Health Sub Center"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9651025728,
+      "lat": 9.4338265,
+      "lon": 76.6273287,
+      "tags": {
+        "name": "Chengaroor",
+        "name:ml": "\u0d1a\u0d46\u0d19\u0d4d\u0d19\u0d30\u0d42\u0d30\u0d4d\u200d",
+        "place": "village",
+        "postal_code": "689594",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9651043899,
+      "lat": 9.4449457,
+      "lon": 76.6218952,
+      "tags": {
+        "name": "Pulinthanam",
+        "name:en": "Pulinthanam",
+        "name:ml": "\u0d2a\u0d41\u0d33\u0d3f\u0d28\u0d4d\u0d24\u0d3e\u0d28\u0d02",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9689313965,
+      "lat": 9.4691919,
+      "lon": 76.4660816,
+      "tags": {
+        "name": "Narakathara",
+        "name:en": "Narakathara",
+        "name:ml": "\u0d28\u0d3e\u0d30\u0d15\u0d24\u0d4d\u0d24\u0d31",
+        "place": "village",
+        "postal_code": "688506",
+        "wikidata": "Q6965299",
+        "wikipedia": "en:Narakathara"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9691484845,
+      "lat": 9.4584285,
+      "lon": 76.494881,
+      "tags": {
+        "alt_name": "Kumaramkary",
+        "alt_name:ml": "\u0d15\u0d41\u0d2e\u0d30\u0d19\u0d4d\u0d15\u0d30\u0d3f",
+        "name": "Kumarankary",
+        "name:en": "Kumarankary",
+        "name:ml": "\u0d15\u0d41\u0d2e\u0d30\u0d19\u0d4d\u0d15\u0d30\u0d3f;\u0d15\u0d41\u0d2e\u0d30\u0d02\u0d15\u0d30\u0d3f",
+        "place": "village",
+        "postal_code": "686103",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q28174232"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9713022294,
+      "lat": 9.4964567,
+      "lon": 76.5052632,
+      "tags": {
+        "name": "Neelamperoor",
+        "name:en": "Neelamperoor",
+        "name:ml": "\u0d28\u0d40\u0d32\u0d02\u0d2a\u0d47\u0d30\u0d42\u0d7c",
+        "place": "village",
+        "postal_code": "686534",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9778674530,
+      "lat": 9.5638636,
+      "lon": 76.5253121,
+      "tags": {
+        "addr:housenumber": "Poozhikkattu Buildings",
+        "amenity": "pharmacy",
+        "name": "Janaushadhi Pharmacy Mooledom",
+        "phone": "+91-9400315882"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9853534893,
+      "lat": 9.3835048,
+      "lon": 76.6395921,
+      "tags": {
+        "addr:city": "Eraviperoor",
+        "addr:postcode": "689542",
+        "addr:street": "Thiruvalla - Pathanamthitta road",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Zion Dental & Implant clinic",
+        "opening_hours": "Mo-Sa 09:30-17:30"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9909585717,
+      "lat": 9.4892033,
+      "lon": 76.4972249,
+      "tags": {
+        "name": "Eara",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9929202288,
+      "lat": 9.4747025,
+      "lon": 76.5766845,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Ak Homeopathic Speciality Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9979987868,
+      "lat": 9.4633145,
+      "lon": 76.636205,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "healthcare": "pharmacy",
+        "name": "Kuttappuzha Medical Store"
+      }
+    },
+    {
+      "type": "node",
+      "id": 9995067861,
+      "lat": 9.4305538,
+      "lon": 76.5870401,
+      "tags": {
+        "name": "Vellappally",
+        "name:ml": "\u0d35\u0d46\u0d33\u0d4d\u0d33\u0d3e\u0d2a\u0d4d\u0d2a\u0d33\u0d4d\u0d33\u0d3f",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10033500993,
+      "lat": 9.4776772,
+      "lon": 76.5916744,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10048634966,
+      "lat": 9.5720722,
+      "lon": 76.3475691,
+      "tags": {
+        "name": "Mannancherry",
+        "name:ml": "\u0d2e\u0d23\u0d4d\u0d23\u0d1e\u0d4d\u0d1a\u0d47\u0d30\u0d3f",
+        "place": "village",
+        "postal_code": "688538",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6750744"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10052022702,
+      "lat": 9.3833013,
+      "lon": 76.3678474,
+      "tags": {
+        "name": "Ambalappuzha",
+        "name:kn": "\u0c85\u0c82\u0cac\u0cb2\u0caa\u0ccd\u0caa\u0cc1\u0c9d",
+        "name:ml": "\u0d05\u0d2e\u0d4d\u0d2a\u0d32\u0d2a\u0d4d\u0d2a\u0d41\u0d34",
+        "name:ta": "\u0b85\u0bae\u0bcd\u0baa\u0bb2\u0baa\u0bcd\u0baa\u0bc1\u0bb4\u0bbe",
+        "place": "town",
+        "wikidata": "Q4740987",
+        "wikimedia_commons": "Category:Ambalappuzha",
+        "wikipedia": "en:Ambalappuzha"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10063028849,
+      "lat": 9.4830094,
+      "lon": 76.3884816,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "St. Antony's Hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10106853321,
+      "lat": 9.4804837,
+      "lon": 76.5239579,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "udaya hsopital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10106872892,
+      "lat": 9.4774222,
+      "lon": 76.518696,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "fhc"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10110417418,
+      "lat": 9.4759367,
+      "lon": 76.5579245,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "PHC"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10110448630,
+      "lat": 9.4834272,
+      "lon": 76.5262364,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "kannamali auyervedha hsopital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10137525404,
+      "lat": 9.3717042,
+      "lon": 76.46105,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "Kallarackal Pneuma Health Centre"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10140069339,
+      "lat": 9.4492085,
+      "lon": 76.4134933,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10143187334,
+      "lat": 9.3542852,
+      "lon": 76.6234922,
+      "tags": {
+        "name": "Othera",
+        "name:ml": "\u0d13\u0d24\u0d31",
+        "place": "village",
+        "postal_code": "689546",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7108656",
+        "wikipedia": "en:Othera"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10143187335,
+      "lat": 9.3338188,
+      "lon": 76.6496799,
+      "tags": {
+        "name": "Nellickal",
+        "name:ml": "\u0d28\u0d46\u0d32\u0d4d\u0d32\u0d3f\u0d15\u0d4d\u0d15\u0d7d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10143187336,
+      "lat": 9.3147976,
+      "lon": 76.6487953,
+      "tags": {
+        "name": "Neervilakom",
+        "name:ml": "\u0d28\u0d40\u0d7c\u0d35\u0d3f\u0d33\u0d3e\u0d15\u0d02",
+        "place": "village",
+        "postal_code": "689122",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6986964",
+        "wikipedia": "en:Neervilakom"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10157734755,
+      "lat": 9.4785368,
+      "lon": 76.3867435,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "SUB CENTRE"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10219741797,
+      "lat": 9.3877404,
+      "lon": 76.5751803,
+      "tags": {
+        "amenity": "pharmacy",
+        "dispensing": "yes",
+        "drive_through": "no",
+        "healthcare": "pharmacy",
+        "name": "Believers Church City Clinic Pharmacy",
+        "operator": "Believers Church Medical College"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10272065713,
+      "lat": 9.3314532,
+      "lon": 76.4418765,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10574432902,
+      "lat": 9.310354,
+      "lon": 76.6001538,
+      "tags": {
+        "name": "Perissery",
+        "name:ml": "\u0d2a\u0d46\u0d30\u0d3f\u0d36\u0d4d\u0d36\u0d47\u0d30\u0d3f",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10574432903,
+      "lat": 9.3011801,
+      "lon": 76.5869772,
+      "tags": {
+        "name": "Puliyoor",
+        "name:ml": "\u0d2a\u0d41\u0d32\u0d3f\u0d2f\u0d42\u0d7c",
+        "place": "village",
+        "postal_code": "689510",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10574432904,
+      "lat": 9.3772752,
+      "lon": 76.5577876,
+      "tags": {
+        "name": "Kavumbhagom",
+        "name:ml": "\u0d15\u0d3e\u0d35\u0d41\u0d02\u0d2d\u0d3e\u0d17\u0d02",
+        "place": "suburb",
+        "wikidata": "Q6379363"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10694213206,
+      "lat": 9.4980819,
+      "lon": 76.3425216,
+      "tags": {
+        "addr:housenumber": "14/2348",
+        "addr:postcode": "688011",
+        "addr:street": "Mullakkal",
+        "amenity": "doctors",
+        "email": "gangarajiv08@gmail.com",
+        "healthcare": "doctor",
+        "name": "Dr Ganga Kailas, Consultant Psychologist",
+        "phone": "8111928730"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10720542837,
+      "lat": 9.5415096,
+      "lon": 76.5340261,
+      "tags": {
+        "amenity": "hospital",
+        "healthcare": "hospital",
+        "name": "FHC Panachikkad"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10875963260,
+      "lat": 9.4673195,
+      "lon": 76.4942703,
+      "tags": {
+        "name": "Valady",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10887472960,
+      "lat": 9.5178612,
+      "lon": 76.5242666,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Neethi Medical"
+      }
+    },
+    {
+      "type": "node",
+      "id": 10978346010,
+      "lat": 9.5006053,
+      "lon": 76.342031,
+      "tags": {
+        "name": "Alappuzha",
+        "note": "city, see node 245584105",
+        "place": "town",
+        "wikidata": "Q585026"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11169822301,
+      "lat": 9.5502557,
+      "lon": 76.5617219,
+      "tags": {
+        "name": "Eravinalloor",
+        "name:en": "Eravinalloor",
+        "name:ml": "\u0d07\u0d30\u0d35\u0d3f\u0d28\u0d32\u0d4d\u0d32\u0d42\u0d7c",
+        "place": "village",
+        "wikidata": "Q5385067",
+        "wikipedia": "en:Eravinalloor"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11169822302,
+      "lat": 9.5296406,
+      "lon": 76.5406613,
+      "tags": {
+        "name": "Paruthumpara",
+        "name:en": "Paruthumpara",
+        "name:ml": "\u0d2a\u0d30\u0d41\u0d24\u0d4d\u0d24\u0d41\u0d02\u0d2a\u0d3e\u0d31",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11169822303,
+      "lat": 9.5147711,
+      "lon": 76.5393836,
+      "tags": {
+        "name": "Kuzhimattom",
+        "name:en": "Kuzhimattom",
+        "name:ml": "\u0d15\u0d41\u0d34\u0d3f\u0d2e\u0d31\u0d4d\u0d31\u0d02",
+        "place": "village",
+        "postal_code": "686533",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6449216",
+        "wikipedia": "en:Kuzhimattom"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11169822304,
+      "lat": 9.4832063,
+      "lon": 76.5257188,
+      "tags": {
+        "name": "Thuruthy",
+        "name:en": "Thuruthy",
+        "name:ml": "\u0d24\u0d41\u0d30\u0d41\u0d24\u0d4d\u0d24\u0d3f",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11169822305,
+      "lat": 9.4166567,
+      "lon": 76.5498236,
+      "tags": {
+        "name": "Idinjillam",
+        "name:ml": "\u0d07\u0d1f\u0d3f\u0d1e\u0d4d\u0d1e\u0d3f\u0d32\u0d4d\u0d32\u0d02",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11169822306,
+      "lat": 9.3985843,
+      "lon": 76.5661186,
+      "tags": {
+        "name": "Muthoor",
+        "name:ml": "\u0d2e\u0d41\u0d24\u0d4d\u0d24\u0d42\u0d7c",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11169822307,
+      "lat": 9.4391495,
+      "lon": 76.5656883,
+      "tags": {
+        "name": "Thrikkodithanam",
+        "name:en": "Thrikkodithanam",
+        "name:ml": "\u0d24\u0d43\u0d15\u0d4d\u0d15\u0d4a\u0d1f\u0d3f\u0d24\u0d4d\u0d24\u0d3e\u0d28\u0d02",
+        "place": "village",
+        "postal_code": "686105",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7798160",
+        "wikipedia": "en:Thrikkodithanam"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11169822308,
+      "lat": 9.4256564,
+      "lon": 76.5620636,
+      "tags": {
+        "name": "Nalukody",
+        "name:ml": "\u0d28\u0d3e\u0d32\u0d41\u0d15\u0d4b\u0d1f\u0d3f",
+        "place": "village",
+        "postal_code": "686548",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q16135440"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11507875519,
+      "lat": 9.5644208,
+      "lon": 76.3091191,
+      "tags": {
+        "name": "Kattoor",
+        "name:ml": "\u0d15\u0d3e\u0d1f\u0d4d\u0d1f\u0d42\u0d7c",
+        "place": "village",
+        "wikidata": "Q6378354"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11694743488,
+      "lat": 9.5635502,
+      "lon": 76.4674894,
+      "tags": {
+        "alt_name": "Vettikkad",
+        "name": "Vettikad",
+        "name:ml": "\u0d35\u0d46\u0d1f\u0d4d\u0d1f\u0d3f\u0d15\u0d4d\u0d15\u0d3e\u0d1f\u0d4d",
+        "place": "hamlet",
+        "wikidata": "Q124745253"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11696994421,
+      "lat": 9.4065788,
+      "lon": 76.4131762,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Carmel Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11697143095,
+      "lat": 9.4097469,
+      "lon": 76.411612,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11700296175,
+      "lat": 9.406707,
+      "lon": 76.4114235,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11738134431,
+      "lat": 9.4869061,
+      "lon": 76.3381348,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "pharmacy heal and care"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11738139554,
+      "lat": 9.481723,
+      "lon": 76.3372973,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "Deena medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11738139555,
+      "lat": 9.4817931,
+      "lon": 76.3373409,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy",
+        "name": "smila care pharma"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11757443036,
+      "lat": 9.566064,
+      "lon": 76.5946592,
+      "tags": {
+        "name": "Payyappady",
+        "name:ml": "\u0d2a\u0d2f\u0d4d\u0d2f\u0d2a\u0d4d\u0d2a\u0d3e\u0d1f\u0d3f",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11758917816,
+      "lat": 9.4103341,
+      "lon": 76.454792,
+      "tags": {
+        "alt_name": "Kodupunna",
+        "name": "Koduppunna",
+        "name:ml": "\u0d15\u0d4a\u0d1f\u0d41\u0d2a\u0d4d\u0d2a\u0d41\u0d28\u0d4d\u0d28",
+        "place": "village",
+        "wikidata": "Q15143915",
+        "wikipedia": "en:Koduppunna"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11758940778,
+      "lat": 9.3835364,
+      "lon": 76.4449249,
+      "tags": {
+        "alt_name": "Thayamkary",
+        "name": "Thayankary",
+        "name:ml": "\u0d24\u0d3e\u0d2f\u0d19\u0d4d\u0d15\u0d30\u0d3f",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11759372196,
+      "lat": 9.3661184,
+      "lon": 76.4772034,
+      "tags": {
+        "name": "Edathua",
+        "name:ml": "\u0d0e\u0d1f\u0d24\u0d4d\u0d35\u0d3e",
+        "place": "village",
+        "postal_code": "689573",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q116177757"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11762371942,
+      "lat": 9.5968399,
+      "lon": 76.501985,
+      "tags": {
+        "name": "Kummanam",
+        "name:ml": "\u0d15\u0d41\u0d2e\u0d4d\u0d2e\u0d28\u0d02",
+        "place": "village",
+        "postal_code": "686005",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q6443959"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11762371943,
+      "lat": 9.5821741,
+      "lon": 76.4988038,
+      "tags": {
+        "name": "Veloor",
+        "name:ml": "\u0d35\u0d47\u0d33\u0d42\u0d7c",
+        "place": "village",
+        "wikidata": "Q7919308"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11812414720,
+      "lat": 9.318127,
+      "lon": 76.4437672,
+      "tags": {
+        "name": "Ayaparampu",
+        "name:ml": "\u0d06\u0d2f\u0d3e\u0d2a\u0d31\u0d2e\u0d4d\u0d2a\u0d4d",
+        "place": "village",
+        "postal_code": "690517",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11822818378,
+      "lat": 9.5376009,
+      "lon": 76.3418517,
+      "tags": {
+        "amenity": "doctors",
+        "healthcare": "doctor",
+        "healthcare:speciality": "dermatology",
+        "name": "Serravia"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11826398360,
+      "lat": 9.5305009,
+      "lon": 76.3367349,
+      "tags": {
+        "name": "Aryad",
+        "name:ml": "\u0d06\u0d30\u0d4d\u0d2f\u0d3e\u0d1f\u0d4d",
+        "place": "village",
+        "postal_code": "688538",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q4802627"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11826461852,
+      "lat": 9.3051971,
+      "lon": 76.4469975,
+      "tags": {
+        "name": "Cheruthana",
+        "name:ml": "\u0d1a\u0d46\u0d31\u0d41\u0d24\u0d28",
+        "place": "village",
+        "postal_code": "690517",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q5092630"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11826538457,
+      "lat": 9.5420932,
+      "lon": 76.3422722,
+      "tags": {
+        "name": "Komalapuram",
+        "name:ml": "\u0d15\u0d4b\u0d2e\u0d33\u0d2a\u0d41\u0d30\u0d02",
+        "place": "village",
+        "postal_code": "688006",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q2243908"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11826808428,
+      "lat": 9.5169054,
+      "lon": 76.3339447,
+      "tags": {
+        "name": "Aryad South",
+        "name:ml": "\u0d06\u0d30\u0d4d\u0d2f\u0d3e\u0d1f\u0d4d \u0d24\u0d46\u0d15\u0d4d\u0d15\u0d4d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11834278021,
+      "lat": 9.3432746,
+      "lon": 76.5788008,
+      "tags": {
+        "name": "Thiruvanvandoor",
+        "name:ml": "\u0d24\u0d3f\u0d30\u0d41\u0d35\u0d28\u0d4d\u200d\u0d35\u0d23\u0d4d\u0d1f\u0d42\u0d30\u0d4d\u200d",
+        "place": "village",
+        "wikidata": "Q7785521"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11870288393,
+      "lat": 9.5201962,
+      "lon": 76.3186695,
+      "tags": {
+        "name": "Thumpoly",
+        "place": "village",
+        "postal_code": "688008",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q7798865"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11870635835,
+      "lat": 9.5424809,
+      "lon": 76.311389,
+      "tags": {
+        "name": "Omanappuzha",
+        "name:ml": "\u0d13\u0d2e\u0d28\u0d2a\u0d4d\u0d2a\u0d41\u0d34",
+        "place": "village",
+        "wikidata": "Q13110856"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11876087826,
+      "lat": 9.3715502,
+      "lon": 76.5194685,
+      "tags": {
+        "alt_name": "Nedumpram",
+        "name": "Nedumpuram",
+        "name:ml": "\u0d28\u0d46\u0d1f\u0d41\u0d2e\u0d4d\u0d2a\u0d41\u0d31\u0d02",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11883257216,
+      "lat": 9.4833289,
+      "lon": 76.4094226,
+      "tags": {
+        "name": "Venattukadu",
+        "name:ml": "\u0d35\u0d47\u0d23\u0d3e\u0d1f\u0d4d\u0d1f\u0d41\u0d15\u0d3e\u0d1f\u0d4d",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11883257217,
+      "lat": 9.4925085,
+      "lon": 76.391446,
+      "tags": {
+        "name": "Kuttamangalam",
+        "place": "hamlet",
+        "postal_code": "688501",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11899322268,
+      "lat": 9.4205301,
+      "lon": 76.4944567,
+      "tags": {
+        "name": "Kidangara",
+        "name:ml": "\u0d15\u0d3f\u0d1f\u0d19\u0d4d\u0d19\u0d31",
+        "place": "village",
+        "postal_code": "686102",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11909257991,
+      "lat": 9.3396991,
+      "lon": 76.3853782,
+      "tags": {
+        "name": "Illichira",
+        "name:ml": "\u0d07\u0d32\u0d4d\u0d32\u0d3f\u0d1a\u0d4d\u0d1a\u0d3f\u0d31",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11914508423,
+      "lat": 9.4472958,
+      "lon": 76.4708729,
+      "tags": {
+        "name": "Veliyanadu",
+        "name:ml": "\u0d35\u0d46\u0d33\u0d3f\u0d2f\u0d28\u0d3e\u0d1f\u0d4d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 11914588298,
+      "lat": 9.4356657,
+      "lon": 76.4849454,
+      "tags": {
+        "alt_name": "Kunnamkary",
+        "alt_name_2": "Kunnankary",
+        "name": "Kunnamkari",
+        "name:ml": "\u0d15\u0d41\u0d28\u0d4d\u0d28\u0d02\u0d15\u0d30\u0d3f",
+        "place": "village",
+        "postal_code": "686102",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12474186945,
+      "lat": 9.5003469,
+      "lon": 76.5519065,
+      "tags": {
+        "name": "Pathamuttom",
+        "name:ml": "\u0d2a\u0d24\u0d4d\u0d24\u0d3e\u0d2e\u0d41\u0d31\u0d4d\u0d31\u0d02",
+        "place": "village",
+        "postal_code": "686532",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 12878437124,
+      "lat": 9.568587,
+      "lon": 76.6019154,
+      "tags": {
+        "name": "Vennimala",
+        "name:ml": "\u0d35\u0d46\u0d28\u0d4d\u0d28\u0d3f\u0d2e\u0d32",
+        "place": "village",
+        "wikidata": "Q85812944"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13020348080,
+      "lat": 9.3947765,
+      "lon": 76.4344115,
+      "tags": {
+        "alt_name": "Kandamkary;Kandenkery",
+        "name": "Kandankary",
+        "name:ml": "\u0d15\u0d23\u0d4d\u0d1f\u0d19\u0d4d\u0d15\u0d30\u0d3f",
+        "place": "hamlet"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13021382536,
+      "lat": 9.3209473,
+      "lon": 76.6230319,
+      "tags": {
+        "name": "Angadikkal",
+        "name:ml": "\u0d05\u0d19\u0d4d\u0d19\u0d3e\u0d1f\u0d3f\u0d15\u0d4d\u0d15\u0d7d",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13028073237,
+      "lat": 9.3138522,
+      "lon": 76.5408654,
+      "tags": {
+        "name": "Kurattikkadu",
+        "name:ml": "\u0d15\u0d41\u0d30\u0d1f\u0d4d\u0d1f\u0d3f\u0d15\u0d4d\u0d15\u0d3e\u0d1f\u0d4d",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13029281652,
+      "lat": 9.3887454,
+      "lon": 76.4173367,
+      "tags": {
+        "name": "Chirayakom",
+        "name:ml": "\u0d1a\u0d3f\u0d31\u0d2f\u0d15\u0d02",
+        "place": "hamlet",
+        "postal_code": "688562",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13352989744,
+      "lat": 9.541555,
+      "lon": 76.5844414,
+      "tags": {
+        "addr:city": "Puthuppally",
+        "addr:postcode": "686011",
+        "addr:street": "Njaliakuzhi-Ericade Road",
+        "amenity": "clinic",
+        "healthcare": "clinic",
+        "name": "Lakshmi Clinic",
+        "operator": "Private",
+        "operator:type": "private"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13593376663,
+      "lat": 9.4899674,
+      "lon": 76.3201815,
+      "tags": {
+        "amenity": "pharmacy"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13593390706,
+      "lat": 9.5292606,
+      "lon": 76.3272645,
+      "tags": {
+        "amenity": "pharmacy",
+        "name": "P.S. Medicals"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13597631686,
+      "lat": 9.328794,
+      "lon": 76.6461078,
+      "tags": {
+        "name": "Arattupuzha",
+        "name:ml": "\u0d06\u0d31\u0d3e\u0d1f\u0d4d\u0d1f\u0d41\u0d2a\u0d41\u0d34",
+        "place": "village",
+        "postal_code": "689123",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month",
+        "wikidata": "Q4784449",
+        "wikipedia": "en:Arattupuzha"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13597631687,
+      "lat": 9.3631654,
+      "lon": 76.6283717,
+      "tags": {
+        "name": "Kozhimala",
+        "name:ml": "\u0d15\u0d4b\u0d34\u0d3f\u0d2e\u0d32",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13597631688,
+      "lat": 9.3758462,
+      "lon": 76.6123136,
+      "tags": {
+        "name": "Vallamkulam",
+        "name:ml": "\u0d35\u0d33\u0d4d\u0d33\u0d02\u0d15\u0d41\u0d33\u0d02",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13597631690,
+      "lat": 9.3102523,
+      "lon": 76.637347,
+      "tags": {
+        "name": "Piralassery",
+        "name:ml": "\u0d2a\u0d3f\u0d30\u0d33\u0d36\u0d4d\u0d36\u0d47\u0d30\u0d3f",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13646953126,
+      "lat": 9.4073313,
+      "lon": 76.5842425,
+      "tags": {
+        "name": "Kizhakken Muthoor",
+        "name:ml": "\u0d15\u0d3f\u0d34\u0d15\u0d4d\u0d15\u0d28\u0d4d\u200d \u0d2e\u0d41\u0d24\u0d4d\u0d24\u0d42\u0d30\u0d4d\u200d",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13646953130,
+      "lat": 9.3621057,
+      "lon": 76.5633563,
+      "tags": {
+        "name": "Venpala",
+        "name:ml": "\u0d35\u0d46\u0d7a\u0d2a\u0d3e\u0d32",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13646953131,
+      "lat": 9.3661385,
+      "lon": 76.500197,
+      "tags": {
+        "name": "Thalavady",
+        "name:ml": "\u0d24\u0d32\u0d35\u0d1f\u0d3f",
+        "place": "village",
+        "postal_code": "689572",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633376,
+      "lat": 9.4468002,
+      "lon": 76.5973915,
+      "tags": {
+        "name": "Manthanam",
+        "name:ml": "\u0d2e\u0d3e\u0d28\u0d4d\u0d24\u0d3e\u0d28\u0d02",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633378,
+      "lat": 9.3800474,
+      "lon": 76.5438844,
+      "tags": {
+        "name": "Peringara",
+        "name:ml": "\u0d2a\u0d46\u0d30\u0d3f\u0d19\u0d4d\u0d19\u0d30",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633379,
+      "lat": 9.3951154,
+      "lon": 76.5346069,
+      "tags": {
+        "name": "Mepral",
+        "name:ml": "\u0d2e\u0d47\u0d2a\u0d4d\u0d30\u0d3e\u0d7d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633381,
+      "lat": 9.4588813,
+      "lon": 76.6021119,
+      "tags": {
+        "name": "Venkotta",
+        "name:ml": "\u0d35\u0d46\u0d19\u0d4d\u0d15\u0d4b\u0d1f\u0d4d\u0d1f",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633383,
+      "lat": 9.4571771,
+      "lon": 76.5336692,
+      "tags": {
+        "name": "Mathumoola",
+        "name:ml": "\u0d2e\u0d24\u0d41\u0d2e\u0d42\u0d32",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633384,
+      "lat": 9.4463168,
+      "lon": 76.5299088,
+      "tags": {
+        "name": "Vandipetta",
+        "name:ml": "\u0d35\u0d23\u0d4d\u0d1f\u0d3f\u0d2a\u0d4d\u0d2a\u0d47\u0d1f\u0d4d\u0d1f",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633385,
+      "lat": 9.4442258,
+      "lon": 76.5536428,
+      "tags": {
+        "name": "Fathimapuram",
+        "name:ml": "\u0d2b\u0d3e\u0d24\u0d4d\u0d24\u0d3f\u0d2e\u0d3e\u0d2a\u0d41\u0d30\u0d02",
+        "place": "suburb",
+        "postal_code": "686102",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633387,
+      "lat": 9.3970902,
+      "lon": 76.6128778,
+      "tags": {
+        "name": "Kaviyoor",
+        "name:ml": "\u0d15\u0d35\u0d3f\u0d2f\u0d42\u0d7c",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13737633388,
+      "lat": 9.4243708,
+      "lon": 76.6178396,
+      "tags": {
+        "name": "Mundiappally",
+        "name:ml": "\u0d2e\u0d41\u0d23\u0d4d\u0d1f\u0d3f\u0d2f\u0d2a\u0d4d\u0d2a\u0d33\u0d4d\u0d33\u0d3f",
+        "place": "village",
+        "postal_code": "689581",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13763334106,
+      "lat": 9.5613152,
+      "lon": 76.5423365,
+      "tags": {
+        "name": "Kollad",
+        "name:ml": "\u0d15\u0d4a\u0d32\u0d4d\u0d32\u0d3e\u0d1f\u0d4d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13763334110,
+      "lat": 9.4551539,
+      "lon": 76.5659037,
+      "tags": {
+        "name": "Kodinattumkunnu",
+        "name:ml": "\u0d15\u0d4a\u0d1f\u0d3f\u0d28\u0d3e\u0d1f\u0d4d\u0d1f\u0d41\u0d02\u0d15\u0d41\u0d28\u0d4d\u0d28\u0d4d",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13763334111,
+      "lat": 9.4693885,
+      "lon": 76.5454407,
+      "tags": {
+        "name": "Vadakkekara",
+        "name:ml": "\u0d35\u0d1f\u0d15\u0d4d\u0d15\u0d47\u0d15\u0d4d\u0d15\u0d30",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13763334115,
+      "lat": 9.5506075,
+      "lon": 76.6095834,
+      "tags": {
+        "name": "Meenadom",
+        "name:ml": "\u0d2e\u0d40\u0d28\u0d1f\u0d02",
+        "place": "village",
+        "postal_code": "686516",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13763334116,
+      "lat": 9.5417915,
+      "lon": 76.6449235,
+      "tags": {
+        "name": "South Pampady",
+        "name:ml": "\u0d2a\u0d3e\u0d2e\u0d4d\u0d2a\u0d3e\u0d1f\u0d3f \u0d24\u0d46\u0d15\u0d4d\u0d15\u0d4d",
+        "place": "village"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13791077002,
+      "lat": 9.3315491,
+      "lon": 76.6061826,
+      "tags": {
+        "name": "Mundancavu",
+        "name:ml": "\u0d2e\u0d41\u0d23\u0d4d\u0d1f\u0d7b\u0d15\u0d3e\u0d35\u0d4d",
+        "place": "suburb"
+      }
+    },
+    {
+      "type": "node",
+      "id": 13791077003,
+      "lat": 9.309491,
+      "lon": 76.564693,
+      "tags": {
+        "name": "Budhanoor",
+        "name:ml": "\u0d2c\u0d41\u0d27\u0d28\u0d42\u0d7c",
+        "place": "village",
+        "postal_code": "689510",
+        "source": "https://www.data.gov.in/resource/all-india-pincode-directory-till-last-month"
+      }
+    },
+    {
+      "type": "node",
+      "id": 14130292474,
+      "lat": 9.5005173,
+      "lon": 76.3421602,
+      "tags": {
+        "name": "Mullackal",
+        "place": "suburb",
+        "wikidata": "Q101580691"
+      }
+    },
+    {
+      "type": "node",
+      "id": 14366283331,
+      "lat": 9.5846454,
+      "lon": 76.3515083,
+      "tags": {
+        "amenity": "pharmacy",
+        "healthcare": "pharmacy"
+      }
+    }
+  ]
+}

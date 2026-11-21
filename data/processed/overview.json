@@ -1,0 +1,45 @@
+{
+  "event_id": "kerala-2018-demo",
+  "generated_at": "2026-11-21T18:41:00Z",
+  "aoi": {
+    "name": "Alappuzha & Kuttanad Basin, Kerala, India",
+    "bbox": [76.3, 9.3, 76.6, 9.6],
+    "center": [76.45, 9.45]
+  },
+  "kpis": {
+    "flooded_area_ha": 38656.52,
+    "flooded_area_km2": 386.57,
+    "estimated_exposed_population": 257456,
+    "affected_roads_km": 713.06,
+    "affected_road_segments": 2619,
+    "affected_settlements": 55,
+    "total_facilities": 324,
+    "facilities_exposed": 38,
+    "hospitals_exposed": 28
+  },
+  "provenance": {
+    "flooded_area": {
+      "source": "Sentinel-1A C-SAR (ESA/Copernicus) cross-referenced with KSDMA 2018 flood mapping",
+      "date": "2018-08-21",
+      "method": "Multi-temporal amplitude change with permanent waterbody exclusion and topological validity sanitization (EPSG:32643)"
+    },
+    "population_exposure": {
+      "source": "Census of India 2011 / WorldPop 2018 District aggregate model",
+      "year": 2018,
+      "method": "Aggregate settlement density model: 386.57 km² × 1,480 pop/km² × 0.45 settlement coefficient = 257,456",
+      "uncertainty": "First-order aggregate estimate; assumes 45% settlement coverage in rural/wetland terrain"
+    },
+    "roads_and_infrastructure": {
+      "source": "OpenStreetMap contributors & Kerala PWD GIS",
+      "extraction_date": "2026-11-21",
+      "method": "Geometric network intersection with flood footprint in UTM 43N"
+    }
+  },
+  "layer_readiness": {
+    "flood_extent": "available",
+    "affected_roads": "available",
+    "facilities": "available",
+    "settlements": "available",
+    "candidate_routing": "available"
+  }
+}

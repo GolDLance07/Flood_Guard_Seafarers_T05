@@ -1,0 +1,42 @@
+{
+  "data/processed/flood_extent.geojson": {
+    "size_kb": 1513.48,
+    "sha256": "be104a5b94dbfa2470b94bbadd7b7efec95880bdecabe77d5e2a39eb3fad0687"
+  },
+  "data/processed/flood_metadata.json": {
+    "size_kb": 2.13,
+    "sha256": "6525f287d6bc5f025a2a3fd3e0fcf48c24bb187f91f8fcc97a0e6ba9059a97a7"
+  },
+  "data/processed/affected_roads.geojson": {
+    "size_kb": 1611.58,
+    "sha256": "2bf4efba1d92256e5ed1917132ed089dae4ac7e9210d8589b2072c1324d1f78c"
+  },
+  "data/processed/facilities.geojson": {
+    "size_kb": 87.61,
+    "sha256": "520ba753b719ec954d59ea1aaad92195bc1de31d02c4103aff2c475425abfacf"
+  },
+  "data/processed/settlements.geojson": {
+    "size_kb": 32.53,
+    "sha256": "73fd40aebdb989ea4c5afe8376003041f971d2a6b635f5e1a28c855e6719f97e"
+  },
+  "data/processed/overview.json": {
+    "size_kb": 1.6,
+    "sha256": "a576d9efcd5c4bb1a8ed7f18e81f9b856641a00cfb7b819b265d8dfad07aa016"
+  },
+  "data/processed/impact.json": {
+    "size_kb": 0.28,
+    "sha256": "e5516cf20cd286876614ae4e8a6593dafb84c8f81d8c34b3bf19294474cf9edf"
+  },
+  "data/processed/routing_graph.json": {
+    "size_kb": 11595.93,
+    "sha256": "6a716a719238510c5c1d1ff968da404f02b034c737d06c4c905133f57ac30221"
+  },
+  "data/metadata/datasets.json": {
+    "size_kb": 2.79,
+    "sha256": "f0680d5cfbcbd6434ac688e8c0a6386e74bda4fb2b4fe8863b1607b971db0267"
+  },
+  "docs/data_verification_log.md": {
+    "size_kb": 4.92,
+    "sha256": "2a0e51c22071a6e7d43cdec5fe227a7dedc9c495d8608c5d4adc25d0b8eab1c7"
+  }
+}

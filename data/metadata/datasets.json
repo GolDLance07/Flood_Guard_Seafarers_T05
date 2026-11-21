@@ -1,0 +1,77 @@
+{
+  "event_id": "kerala-2018-demo",
+  "event_name": "Kerala Floods — August 2018",
+  "aoi": {
+    "name": "Alappuzha & Kuttanad Basin, Kerala, India",
+    "bbox": [76.30, 9.30, 76.60, 9.60],
+    "crs": "EPSG:4326"
+  },
+  "datasets": [
+    {
+      "layer": "sentinel1_event",
+      "product_id": "S1A_IW_GRDH_1SDV_20180821T004109_20180821T004134_023337_0289D5_B2B2.SAFE",
+      "copernicus_cog_id": "211ae2d0-a8d4-495b-af81-1899c0c2d628",
+      "acquisition_date": "2018-08-21T00:41:09.643Z",
+      "sensor": "Sentinel-1A C-SAR",
+      "mode": "IW",
+      "polarisation": "VV+VH",
+      "relative_orbit": 144,
+      "orbit_direction": "ASCENDING",
+      "source": "Copernicus Data Space Ecosystem",
+      "verification_status": "VERIFIED_METADATA"
+    },
+    {
+      "layer": "sentinel1_baseline",
+      "product_id": "S1A_IW_GRDH_1SDV_20180809T004108_20180809T004133_023162_02842B_FEE2.SAFE",
+      "copernicus_cog_id": "d76aa011-63c1-4598-bdc8-ad04a10ee3e8",
+      "acquisition_date": "2018-08-09T00:41:08.927Z",
+      "sensor": "Sentinel-1A C-SAR",
+      "mode": "IW",
+      "polarisation": "VV+VH",
+      "relative_orbit": 144,
+      "orbit_direction": "ASCENDING",
+      "source": "Copernicus Data Space Ecosystem",
+      "verification_status": "VERIFIED_METADATA"
+    },
+    {
+      "layer": "flood_extent",
+      "product_id": "ALPZA_FD.geojson",
+      "title": "Alappuzha August 2018 Flood Inundation Extent",
+      "source": "Kerala State Disaster Management Authority (KSDMA) / ISRO NRSC Sentinel-1 SAR Mapping",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "local_path": "data/raw/reference/alappuzha_flood_2018.geojson",
+      "verification_status": "VERIFIED_AND_DOWNLOADED"
+    },
+    {
+      "layer": "permanent_water",
+      "product_id": "kpwd.gis-waterbodies.geojson",
+      "title": "Kerala PWD Waterbodies & Vembanad Lake Network",
+      "source": "Kerala Public Works Department GIS Spatial Data",
+      "format": "GeoJSON",
+      "crs": "EPSG:4326",
+      "local_path": "data/raw/reference/alappuzha_permanent_water.geojson",
+      "verification_status": "VERIFIED_AND_DOWNLOADED"
+    },
+    {
+      "layer": "roads",
+      "title": "OpenStreetMap High-Resolution Road Network",
+      "source": "OpenStreetMap (Overpass API query)",
+      "format": "GeoJSON",
+      "segment_count": 11870,
+      "crs": "EPSG:4326",
+      "local_path": "data/raw/osm/alappuzha_roads_detailed.json",
+      "verification_status": "VERIFIED_AND_DOWNLOADED"
+    },
+    {
+      "layer": "facilities",
+      "title": "OpenStreetMap Healthcare & Emergency Facilities",
+      "source": "OpenStreetMap (Overpass API query)",
+      "format": "GeoJSON",
+      "feature_count": 488,
+      "crs": "EPSG:4326",
+      "local_path": "data/raw/osm/alappuzha_facilities_and_places.json",
+      "verification_status": "VERIFIED_AND_DOWNLOADED"
+    }
+  ]
+}
