@@ -9,9 +9,13 @@ import {
   Building2,
   HeartPulse,
   Home,
-  Info
+  Info,
+  ArrowRight,
+  ArrowLeft,
+  Phone,
+  Check,
+  UploadCloud
 } from 'lucide-react';
-import { Badge } from '../common/Badge';
 import { submitCitizenIncident } from '../../services/api';
 import type { IncidentCategory, IncidentSeverity, IncidentSubmissionResult } from '../../types/citizen';
 
@@ -25,19 +29,21 @@ interface CitizenReportTabProps {
 }
 
 const CATEGORIES: { id: IncidentCategory; label: string; icon: React.ComponentType<{ className?: string }>; description: string }[] = [
-  { id: 'waterlogging', label: 'Severe Waterlogging', icon: Waves, description: 'Standing water on roads or residential blocks' },
-  { id: 'flooded_road', label: 'Submerged Road / Bridge', icon: AlertTriangle, description: 'Roadway impassable for light or heavy vehicles' },
+  { id: 'waterlogging', label: 'Severe Waterlogging', icon: Waves, description: 'Standing water entering homes or residential lanes' },
+  { id: 'flooded_road', label: 'Submerged Road / Bridge', icon: AlertTriangle, description: 'Roadway impassable for vehicles or pedestrians' },
   { id: 'stranded_citizens', label: 'Stranded People', icon: Users, description: 'Families trapped on upper floors or isolated terrain' },
-  { id: 'infrastructure_damage', label: 'Infrastructure Failure', icon: Building2, description: 'Embankment breach, fallen power lines, collapsed culverts' },
-  { id: 'medical_emergency', label: 'Medical Emergency', icon: HeartPulse, description: 'Patients requiring immediate dialysis, insulin, or medical transport' },
-  { id: 'shelter_need', label: 'Shelter / Food Need', icon: Home, description: 'Displaced community in need of emergency camp provisions' },
-  { id: 'other', label: 'Other Hazard', icon: Info, description: 'Other flood-related safety hazards' },
+  { id: 'infrastructure_damage', label: 'Infrastructure Breach', icon: Building2, description: 'Embankment breach, fallen power lines, collapsed culvert' },
+  { id: 'medical_emergency', label: 'Medical Emergency', icon: HeartPulse, description: 'Patients requiring urgent dialysis, oxygen, or hospital transfer' },
+  { id: 'shelter_need', label: 'Shelter / Food Need', icon: Home, description: 'Displaced families requiring emergency camp provisions' },
+  { id: 'other', label: 'Other Hazard', icon: Info, description: 'Other flood-related safety hazard' },
 ];
 
 export const CitizenReportTab: React.FC<CitizenReportTabProps> = ({
   currentRegion,
   onReportSubmitted
 }) => {
+  const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+
   const [category, setCategory] = useState<IncidentCategory>('waterlogging');
   const [severity, setSeverity] = useState<IncidentSeverity>('medium');
   const [title, setTitle] = useState('');
@@ -98,8 +104,7 @@ export const CitizenReportTab: React.FC<CitizenReportTabProps> = ({
     setSelectedFile(file);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     if (!title.trim()) {
       setError('Please provide a brief title describing the incident.');
       return;
@@ -125,297 +130,406 @@ export const CitizenReportTab: React.FC<CitizenReportTabProps> = ({
       setLastSubmission(result);
       onReportSubmitted(result);
 
-      // Save to localStorage history
       try {
         const existing = JSON.parse(localStorage.getItem('floodguard_my_reports') || '[]');
         existing.unshift(result);
         localStorage.setItem('floodguard_my_reports', JSON.stringify(existing.slice(0, 50)));
       } catch {}
-
-      // Reset form
-      setTitle('');
-      setDescription('');
-      setPeopleCount('');
-      setSelectedFile(null);
     } catch (err: any) {
-      setError(err?.message || 'Failed to submit incident report. Please try again.');
+      setError(err.message || 'Failed to submit report. Please check connection.');
     } finally {
       setSubmitting(false);
     }
   };
 
-  return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6">
-      {/* Header & Truth Notice */}
-      <div className="pb-4 border-b border-[#1E2D4A] space-y-2">
-        <div className="flex items-center space-x-2">
-          <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-            Report Emergency Observation
-          </h1>
-          <span className="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-amber-950/80 border border-amber-700/60 text-amber-300">
-            Crowd Telemetry
-          </span>
-        </div>
-        <p className="text-xs sm:text-sm text-slate-400">
-          Transmit on-ground flood observations to official disaster response teams and district emergency controllers.
-        </p>
+  const handleReset = () => {
+    setLastSubmission(null);
+    setStep(1);
+    setTitle('');
+    setDescription('');
+    setPeopleCount('');
+    setSelectedFile(null);
+    setError(null);
+  };
 
-        {/* Mandatory Safety Notice */}
-        <div className="p-3 bg-amber-950/30 border border-amber-700/40 rounded-xl text-xs text-amber-200/90 flex items-start space-x-2.5">
-          <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-          <div className="leading-relaxed">
-            <strong>Critical Advisory:</strong> If you are in immediate life-threatening danger, do NOT wait for online verification.
-            Call District Disaster Control directly at <strong>1077</strong> or National Emergency Response at <strong>112</strong>.
+  if (lastSubmission) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 my-8 bg-[#091522] border border-emerald-500/50 rounded-3xl shadow-2xl space-y-6 text-center select-none font-sans">
+        <div className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-400 text-emerald-400 mx-auto flex items-center justify-center">
+          <CheckCircle2 className="w-8 h-8" />
+        </div>
+
+        <div>
+          <span className="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">
+            REPORT TRANSMITTED TO DISTRICT COMMAND
+          </span>
+          <h2 className="text-xl sm:text-2xl font-extrabold text-white mt-1">
+            Emergency Incident Logged
+          </h2>
+          <p className="text-xs text-slate-300 mt-2">
+            Your field observation has been dispatched to district disaster controllers and rescue teams.
+          </p>
+        </div>
+
+        {/* Tracking ID Badge */}
+        <div className="p-4 bg-[#060D17] border border-[#142B42] rounded-2xl max-w-sm mx-auto space-y-1">
+          <span className="text-[10px] text-slate-400 font-mono uppercase">Official Tracking Number</span>
+          <div className="text-xl font-black font-mono text-cyan-300 tracking-wider">
+            {lastSubmission.tracking_number}
           </div>
+          <span className="text-[10px] text-slate-500 font-mono block">Keep this code to track response status</span>
+        </div>
+
+        <div className="p-3 bg-amber-950/40 border border-amber-800/60 rounded-xl text-xs text-amber-200">
+          If flood waters are actively rising and you are in immediate life danger, call <strong>1077</strong> (Disaster Control) or <strong>112</strong> immediately.
+        </div>
+
+        <button
+          onClick={handleReset}
+          className="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold font-mono shadow-cyan-glow transition cursor-pointer"
+        >
+          Submit Another Report
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-3xl mx-auto p-4 sm:p-6 space-y-6 select-none font-sans">
+      {/* Wizard Progress Stepper */}
+      <div className="bg-[#091522] border border-[#142B42] rounded-2xl p-3.5 sm:p-4">
+        <div className="flex items-center justify-between text-xs font-mono mb-2">
+          <span className="text-cyan-400 font-bold">
+            STEP {step} OF 4 &bull; {step === 1 ? 'Hazard Type' : step === 2 ? 'Severity & Description' : step === 3 ? 'Exact Location' : 'Evidence & Contact'}
+          </span>
+          <span className="text-slate-500 font-mono">{Math.round((step / 4) * 100)}% Complete</span>
+        </div>
+        <div className="w-full bg-[#060D17] rounded-full h-1.5 border border-[#142B42]">
+          <div
+            className="bg-cyan-400 h-1.5 rounded-full transition-all duration-300"
+            style={{ width: `${(step / 4) * 100}%` }}
+          />
         </div>
       </div>
 
-      {/* Submission Success Banner */}
-      {lastSubmission && (
-        <div className="bg-emerald-950/60 border border-emerald-500/60 rounded-2xl p-5 shadow-2xl space-y-3 animate-in fade-in">
-          <div className="flex items-center space-x-2.5 text-emerald-300 font-bold text-sm sm:text-base">
-            <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-emerald-400" />
-            <span>Incident Transmitted Successfully</span>
-          </div>
-
-          <div className="bg-[#070D18] p-3.5 rounded-xl border border-emerald-900/60 space-y-2 text-xs">
-            <div className="flex items-center justify-between">
-              <span className="text-slate-400">Tracking Code:</span>
-              <span className="font-mono font-bold text-emerald-300 text-sm tracking-wider">
-                {lastSubmission.tracking_number}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-slate-400">Current Status:</span>
-              <Badge variant="amber" size="sm">
-                SUBMITTED (UNVERIFIED)
-              </Badge>
-            </div>
-            <p className="text-[11px] text-slate-300 leading-relaxed pt-1 border-t border-[#1E2D4A]">
-              {lastSubmission.safety_disclaimer}
-            </p>
-          </div>
-
-          <button
-            onClick={() => setLastSubmission(null)}
-            className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition"
-          >
-            Submit Another Report &rarr;
-          </button>
+      {error && (
+        <div className="p-3 bg-rose-950/60 border border-rose-600/70 rounded-xl text-xs text-rose-200 font-mono flex justify-between items-center">
+          <span>{error}</span>
+          <button onClick={() => setError(null)} className="text-rose-400 font-bold ml-2">×</button>
         </div>
       )}
 
-      {/* Submission Form */}
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {error && (
-          <div className="p-3.5 bg-rose-950/60 border border-rose-700/60 rounded-xl text-xs text-rose-300 flex items-center space-x-2">
-            <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-            <span>{error}</span>
+      {/* STEP 1: Hazard Category */}
+      {step === 1 && (
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-lg font-extrabold text-white">What is the nature of the emergency?</h2>
+            <p className="text-xs text-slate-400 mt-0.5">Select the category that best describes the immediate hazard.</p>
           </div>
-        )}
 
-        {/* 1. Incident Category Selection */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider">
-            1. What is the nature of the emergency? *
-          </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {CATEGORIES.map((cat) => {
               const Icon = cat.icon;
               const isSelected = category === cat.id;
               return (
                 <button
-                  type="button"
                   key={cat.id}
-                  onClick={() => setCategory(cat.id)}
-                  className={`flex flex-col items-start p-3 rounded-xl border text-left transition cursor-pointer ${
-                    isSelected
-                      ? 'bg-emerald-500/20 border-emerald-500/60 text-emerald-300 shadow-md shadow-emerald-950/40'
-                      : 'bg-[#0D1626] border-[#1E2D4A] text-slate-300 hover:border-slate-600'
-                  }`}
-                >
-                  <Icon className={`w-4 h-4 mb-1.5 ${isSelected ? 'text-emerald-400' : 'text-slate-400'}`} />
-                  <span className="text-xs font-bold">{cat.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 2. Estimated Severity */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider">
-            2. Estimated Severity *
-          </label>
-          <div className="grid grid-cols-4 gap-2">
-            {(['low', 'medium', 'high', 'critical'] as IncidentSeverity[]).map((sev) => {
-              const isSelected = severity === sev;
-              const colors = {
-                low: 'bg-emerald-950/60 border-emerald-500 text-emerald-300',
-                medium: 'bg-cyan-950/60 border-cyan-500 text-cyan-300',
-                high: 'bg-amber-950/60 border-amber-500 text-amber-300',
-                critical: 'bg-rose-950/60 border-rose-500 text-rose-300',
-              }[sev];
-
-              return (
-                <button
                   type="button"
-                  key={sev}
-                  onClick={() => setSeverity(sev)}
-                  className={`py-2 px-3 rounded-xl text-xs font-bold capitalize transition border text-center cursor-pointer ${
-                    isSelected ? colors : 'bg-[#0D1626] border-[#1E2D4A] text-slate-400 hover:text-white'
+                  onClick={() => setCategory(cat.id)}
+                  className={`p-4 rounded-2xl border text-left transition cursor-pointer flex items-start space-x-3.5 ${
+                    isSelected
+                      ? 'bg-gradient-to-br from-cyan-950/60 to-[#0D1D2D] border-cyan-400 text-white shadow-cyan-glow'
+                      : 'bg-[#091522] border-[#142B42] text-slate-300 hover:border-slate-500 hover:bg-[#0D1D2D]'
                   }`}
                 >
-                  {sev}
+                  <div className={`p-2.5 rounded-xl border flex-shrink-0 ${
+                    isSelected ? 'bg-cyan-500/20 border-cyan-500 text-cyan-300' : 'bg-[#060D17] border-[#142B42] text-slate-400'
+                  }`}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-sm text-white">{cat.label}</div>
+                    <p className="text-xs text-slate-400 mt-1 leading-relaxed">{cat.description}</p>
+                  </div>
                 </button>
               );
             })}
           </div>
-        </div>
 
-        {/* 3. Location Capture */}
-        <div className="space-y-2 bg-[#0D1626] p-4 rounded-2xl border border-[#1E2D4A]">
-          <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-slate-200 uppercase tracking-wider flex items-center space-x-1.5">
-              <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-              <span>3. Incident Location *</span>
-            </label>
+          <div className="flex justify-end pt-2">
+            <button
+              onClick={() => setStep(2)}
+              className="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold font-mono shadow-cyan-glow flex items-center space-x-2 transition cursor-pointer"
+            >
+              <span>Continue to Step 2</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* STEP 2: Severity & Description */}
+      {step === 2 && (
+        <div className="bg-[#091522] border border-[#142B42] rounded-3xl p-5 sm:p-6 space-y-5">
+          <div>
+            <h2 className="text-lg font-extrabold text-white">Estimated Severity &amp; Situation Details</h2>
+            <p className="text-xs text-slate-400 mt-0.5">Indicate danger level and concise summary.</p>
+          </div>
+
+          {/* Severity Selector */}
+          <div className="space-y-2">
+            <label className="text-xs font-mono text-slate-400 uppercase">Emergency Severity Level *</label>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {[
+                { id: 'low', label: 'Low', sub: 'Monitoring' },
+                { id: 'medium', label: 'Medium', sub: 'Action needed' },
+                { id: 'high', label: 'High', sub: 'Urgent rescue' },
+                { id: 'critical', label: 'Critical', sub: 'Life-threatening' },
+              ].map((sev) => (
+                <button
+                  key={sev.id}
+                  type="button"
+                  onClick={() => setSeverity(sev.id as IncidentSeverity)}
+                  className={`p-3 rounded-xl border text-center transition cursor-pointer ${
+                    severity === sev.id
+                      ? sev.id === 'critical'
+                        ? 'bg-rose-950/80 border-rose-500 text-rose-200 shadow-danger-glow'
+                        : sev.id === 'high'
+                        ? 'bg-amber-950/80 border-amber-500 text-amber-200 shadow-amber-glow'
+                        : 'bg-cyan-950/80 border-cyan-400 text-cyan-200 shadow-cyan-glow'
+                      : 'bg-[#060D17] border-[#142B42] text-slate-400 hover:border-slate-600'
+                  }`}
+                >
+                  <div className="text-xs font-bold font-mono uppercase">{sev.label}</div>
+                  <div className="text-[10px] text-slate-400 mt-0.5">{sev.sub}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Incident Title */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono text-slate-400 uppercase">Brief Incident Title *</label>
+            <input
+              type="text"
+              placeholder="e.g. 4-foot water inside residential block, road cut off"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full bg-[#060D17] border border-[#142B42] rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+            />
+          </div>
+
+          {/* Detailed Observations */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono text-slate-400 uppercase">Detailed Observations (Optional)</label>
+            <textarea
+              rows={3}
+              placeholder="Describe current water trend (rising/falling), elderly/infants needing evacuation, or specific landmarks..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full bg-[#060D17] border border-[#142B42] rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+            />
+          </div>
+
+          {/* Affected People Count */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono text-slate-400 uppercase">Number of People Trapped / Affected</label>
+            <input
+              type="number"
+              placeholder="e.g. 5"
+              value={peopleCount}
+              onChange={(e) => setPeopleCount(e.target.value)}
+              className="w-full sm:w-48 bg-[#060D17] border border-[#142B42] rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
+            />
+          </div>
+
+          <div className="flex justify-between pt-2">
+            <button
+              onClick={() => setStep(1)}
+              className="px-4 py-2 rounded-xl border border-[#142B42] text-xs text-slate-400 hover:text-white flex items-center space-x-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
+            </button>
+            <button
+              onClick={() => {
+                if (!title.trim()) {
+                  setError('Please provide a brief title describing the incident.');
+                  return;
+                }
+                setError(null);
+                setStep(3);
+              }}
+              className="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold font-mono shadow-cyan-glow flex items-center space-x-2 transition cursor-pointer"
+            >
+              <span>Continue to Location</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* STEP 3: Exact Location */}
+      {step === 3 && (
+        <div className="bg-[#091522] border border-[#142B42] rounded-3xl p-5 sm:p-6 space-y-5">
+          <div>
+            <h2 className="text-lg font-extrabold text-white">Pinpoint Hazard Location</h2>
+            <p className="text-xs text-slate-400 mt-0.5">Use GPS or provide nearest landmark address.</p>
+          </div>
+
+          {/* GPS Auto Button */}
+          <div className="p-4 bg-[#060D17] border border-[#142B42] rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div>
+              <span className="text-xs font-bold text-white flex items-center space-x-1.5">
+                <Navigation className="w-4 h-4 text-cyan-400" />
+                <span>Automatic Device Geolocation</span>
+              </span>
+              <p className="text-[11px] text-slate-400 mt-0.5">
+                Acquire high-precision satellite coordinates from your phone or browser.
+              </p>
+            </div>
             <button
               type="button"
               onClick={handleUseCurrentLocation}
               disabled={locating}
-              className="flex items-center space-x-1 px-2.5 py-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-lg text-xs font-semibold transition cursor-pointer disabled:opacity-50"
+              className="px-4 py-2 bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 rounded-xl text-xs font-mono font-bold flex items-center space-x-2 transition cursor-pointer flex-shrink-0"
             >
-              <Navigation className={`w-3 h-3 ${locating ? 'animate-spin' : ''}`} />
-              <span>{locating ? 'Locating...' : 'Use My GPS'}</span>
+              <MapPin className="w-3.5 h-3.5" />
+              <span>{locating ? 'Acquiring GPS...' : 'Use My Current Location'}</span>
             </button>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 pt-1">
-            <div>
-              <span className="text-[10px] text-slate-400">Latitude</span>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1">
+              <label className="text-[10px] font-mono text-slate-400 uppercase">Latitude</label>
               <input
                 type="number"
-                step="any"
+                step="0.0001"
                 value={latitude}
                 onChange={(e) => setLatitude(parseFloat(e.target.value))}
-                required
-                className="w-full bg-[#070D18] border border-[#1E2D4A] rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:border-emerald-400 focus:outline-none"
+                className="w-full bg-[#060D17] border border-[#142B42] rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan-400"
               />
             </div>
-            <div>
-              <span className="text-[10px] text-slate-400">Longitude</span>
+            <div className="space-y-1">
+              <label className="text-[10px] font-mono text-slate-400 uppercase">Longitude</label>
               <input
                 type="number"
-                step="any"
+                step="0.0001"
                 value={longitude}
                 onChange={(e) => setLongitude(parseFloat(e.target.value))}
-                required
-                className="w-full bg-[#070D18] border border-[#1E2D4A] rounded-lg px-2.5 py-1.5 text-xs text-white font-mono focus:border-emerald-400 focus:outline-none"
+                className="w-full bg-[#060D17] border border-[#142B42] rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan-400"
               />
             </div>
           </div>
 
-          <div>
-            <span className="text-[10px] text-slate-400">Landmark or Street Address</span>
+          {/* Landmark / Street Address */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono text-slate-400 uppercase">Landmark or Street Address</label>
             <input
               type="text"
+              placeholder="e.g. Near Convent Square Bridge, Kalarcode, Alappuzha"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              placeholder="e.g. Near Convent Square Bridge, Kalarcode"
-              className="w-full bg-[#070D18] border border-[#1E2D4A] rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none mt-0.5"
+              className="w-full bg-[#060D17] border border-[#142B42] rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
             />
+          </div>
+
+          <div className="flex justify-between pt-2">
+            <button
+              onClick={() => setStep(2)}
+              className="px-4 py-2 rounded-xl border border-[#142B42] text-xs text-slate-400 hover:text-white flex items-center space-x-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
+            </button>
+            <button
+              onClick={() => setStep(4)}
+              className="px-6 py-2.5 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold font-mono shadow-cyan-glow flex items-center space-x-2 transition cursor-pointer"
+            >
+              <span>Continue to Evidence</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
+      )}
 
-        {/* 4. Description & Details */}
-        <div className="space-y-3">
+      {/* STEP 4: Evidence & Contact */}
+      {step === 4 && (
+        <div className="bg-[#091522] border border-[#142B42] rounded-3xl p-5 sm:p-6 space-y-5">
           <div>
-            <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1">
-              Brief Incident Summary *
-            </label>
+            <h2 className="text-lg font-extrabold text-white">Photo Evidence &amp; Responder Callback</h2>
+            <p className="text-xs text-slate-400 mt-0.5">Attach photo verification and emergency contact number.</p>
+          </div>
+
+          {/* File Upload Box */}
+          <div className="p-5 bg-[#060D17] border-2 border-dashed border-[#142B42] hover:border-cyan-500/50 rounded-2xl text-center space-y-2">
+            <UploadCloud className="w-8 h-8 text-cyan-400 mx-auto" />
+            <div className="text-xs font-bold text-white">Upload On-Ground Photographic Evidence</div>
+            <p className="text-[11px] text-slate-400">JPEG, PNG, WEBP up to 10MB (helps responders calibrate boat vs truck)</p>
             <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="e.g. 2-foot standing water cutting off residential lane"
-              required
-              className="w-full bg-[#0D1626] border border-[#1E2D4A] rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none"
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/heic,application/pdf"
+              onChange={handleFileChange}
+              className="hidden"
+              id="citizen-photo-upload"
             />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1">
-              Detailed Observation Notes
+            <label
+              htmlFor="citizen-photo-upload"
+              className="inline-block mt-2 px-4 py-2 bg-[#142B42] hover:bg-[#1A344B] text-cyan-300 rounded-xl text-xs font-mono font-semibold cursor-pointer border border-[#203A52]"
+            >
+              {selectedFile ? selectedFile.name : 'Select File from Device'}
             </label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={3}
-              placeholder="Note current water trend (rising/falling), elderly or children stranded, passable vehicles..."
-              className="w-full bg-[#0D1626] border border-[#1E2D4A] rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none"
-            />
+            {fileError && <div className="text-xs text-rose-400 font-mono mt-1">{fileError}</div>}
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1">
-                Estimated People Affected
-              </label>
-              <input
-                type="number"
-                min="0"
-                value={peopleCount}
-                onChange={(e) => setPeopleCount(e.target.value)}
-                placeholder="e.g. 15"
-                className="w-full bg-[#0D1626] border border-[#1E2D4A] rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider mb-1">
-                Callback Phone (Optional)
-              </label>
+          {/* Contact Phone */}
+          <div className="space-y-1.5">
+            <label className="text-xs font-mono text-slate-400 uppercase">Contact Phone Number (For Rescue Dispatchers)</label>
+            <div className="relative">
+              <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
               <input
                 type="tel"
+                placeholder="e.g. +91 98470 12345"
                 value={contactPhone}
                 onChange={(e) => setContactPhone(e.target.value)}
-                placeholder="e.g. 98470XXXXX"
-                className="w-full bg-[#0D1626] border border-[#1E2D4A] rounded-xl px-3 py-2 text-xs text-white placeholder-slate-500 focus:border-emerald-400 focus:outline-none"
+                className="w-full bg-[#060D17] border border-[#142B42] rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
               />
             </div>
           </div>
-        </div>
 
-        {/* 5. Optional Photograph Attachment */}
-        <div className="bg-[#0D1626] p-4 rounded-2xl border border-[#1E2D4A] space-y-2">
-          <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider">
-            Optional Ground Photo (Max 10MB)
-          </label>
-          <input
-            type="file"
-            accept="image/jpeg,image/png,image/webp,image/heic,application/pdf"
-            onChange={handleFileChange}
-            className="w-full text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border file:border-emerald-500/40 file:text-xs file:font-semibold file:bg-emerald-500/10 file:text-emerald-300 hover:file:bg-emerald-500/20 cursor-pointer"
-          />
-          {fileError && (
-            <span className="text-[10px] text-rose-400 block">{fileError}</span>
-          )}
-          {selectedFile && !fileError && (
-            <span className="text-[10px] text-emerald-400 block font-mono">
-              Ready to attach: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(0)} KB)
-            </span>
-          )}
-        </div>
+          {/* Review Summary */}
+          <div className="p-3.5 bg-[#060D17] border border-[#142B42] rounded-2xl text-xs font-mono space-y-1 text-slate-300">
+            <div className="text-[10px] text-cyan-400 uppercase font-bold">REPORT SUMMARY</div>
+            <div>Category: <span className="text-white font-bold">{category}</span> &bull; Severity: <span className="text-amber-400 uppercase font-bold">{severity}</span></div>
+            <div>Title: <span className="text-white">{title}</span></div>
+            <div>Location: <span className="text-cyan-300">{latitude.toFixed(4)}°N, {longitude.toFixed(4)}°E</span></div>
+          </div>
 
-        {/* Submit Action */}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition disabled:opacity-50 shadow-xl shadow-emerald-950/60 cursor-pointer"
-        >
-          {submitting ? 'Transmitting Incident Report...' : 'Transmit Emergency Report to Responders'}
-        </button>
-      </form>
+          <div className="flex justify-between pt-2">
+            <button
+              onClick={() => setStep(3)}
+              className="px-4 py-2 rounded-xl border border-[#142B42] text-xs text-slate-400 hover:text-white flex items-center space-x-1.5 cursor-pointer"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Back</span>
+            </button>
+            <button
+              onClick={handleSubmit}
+              disabled={submitting}
+              className="px-8 py-3 bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white rounded-xl text-xs font-bold font-mono shadow-danger-glow flex items-center space-x-2 transition cursor-pointer"
+            >
+              {submitting ? (
+                <span>Transmitting Incident...</span>
+              ) : (
+                <>
+                  <Check className="w-4 h-4" />
+                  <span>Transmit Emergency Report</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

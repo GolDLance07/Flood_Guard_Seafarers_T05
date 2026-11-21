@@ -4,8 +4,7 @@ import {
   Building2,
   Navigation,
   MapPin,
-  Phone,
-  Info
+  Phone
 } from 'lucide-react';
 import type { FeatureCollection } from 'geojson';
 import type { RouteCoordinate, RouteResponse } from '../../types/api';
@@ -67,15 +66,15 @@ export const ResourcesWorkspace: React.FC<ResourcesWorkspaceProps> = ({
   const facilities = facilitiesGeoJSON?.features || [];
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#07111F] text-slate-200 overflow-hidden select-none">
-      {/* Sub-navigation Ribbon */}
-      <div className="h-11 px-4 bg-[#0A1828] border-b border-[#1E3550] flex items-center justify-between z-10 flex-shrink-0">
-        <div className="flex items-center space-x-1 sm:space-x-2">
+    <div className="flex-1 flex flex-col h-full bg-[#060D17] text-slate-200 overflow-hidden select-none font-sans relative">
+      {/* Sub-Navigation Ribbon */}
+      <div className="h-12 px-4 bg-[#091522] border-b border-[#142B42] flex items-center justify-between z-10 flex-shrink-0">
+        <div className="flex items-center space-x-1.5 sm:space-x-2">
           <button
             onClick={() => setActiveSubTab('routing')}
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               activeSubTab === 'routing'
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-cyan-glow'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/50 border border-transparent'
             }`}
           >
@@ -85,9 +84,9 @@ export const ResourcesWorkspace: React.FC<ResourcesWorkspaceProps> = ({
 
           <button
             onClick={() => setActiveSubTab('shelters')}
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               activeSubTab === 'shelters'
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-teal-glow'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/50 border border-transparent'
             }`}
           >
@@ -97,9 +96,9 @@ export const ResourcesWorkspace: React.FC<ResourcesWorkspaceProps> = ({
 
           <button
             onClick={() => setActiveSubTab('facilities')}
-            className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
               activeSubTab === 'facilities'
-                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40'
+                ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-cyan-glow'
                 : 'text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/50 border border-transparent'
             }`}
           >
@@ -108,8 +107,9 @@ export const ResourcesWorkspace: React.FC<ResourcesWorkspaceProps> = ({
           </button>
         </div>
 
-        <div className="text-[11px] text-slate-400 font-mono hidden md:block">
-          Resources & Evacuation Infrastructure
+        <div className="text-[11px] text-slate-400 font-mono hidden md:flex items-center space-x-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+          <span>RELIEF LOGISTICS &amp; EVACUATION ENGINE</span>
         </div>
       </div>
 
@@ -143,104 +143,137 @@ export const ResourcesWorkspace: React.FC<ResourcesWorkspaceProps> = ({
 
         {/* SUB-TAB 2: Shelter Registry */}
         {activeSubTab === 'shelters' && (
-          <div className="w-full h-full p-4 sm:p-6 overflow-y-auto space-y-4">
-            <div className="p-4 bg-[#10243A] border border-[#1E3550] rounded-xl flex justify-between items-center">
+          <div className="w-full h-full p-4 sm:p-6 overflow-y-auto space-y-4 max-w-6xl mx-auto">
+            <div className="p-4 bg-[#091522] border border-[#142B42] rounded-2xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
               <div>
-                <h2 className="text-sm font-bold text-white flex items-center space-x-2">
+                <h2 className="text-sm font-bold text-white flex items-center space-x-2 font-mono">
                   <Home className="w-4 h-4 text-emerald-400" />
-                  <span>Designated Emergency Relief Shelters</span>
+                  <span>District Verified Relief Camp Registry</span>
                 </h2>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Verified disaster relief camps, live capacity vs occupancy, and local nodal officers
+                <p className="text-xs text-slate-400 font-mono mt-0.5">
+                  DDMA Alappuzha officially designated relief shelters with verified capacity and provisions
                 </p>
               </div>
-              <Badge variant="emerald">{shelters.length} Shelters Verified</Badge>
+              <Badge variant="emerald" size="md">STATE MONITORED</Badge>
             </div>
 
-            {shelters.length === 0 ? (
-              <div className="text-center py-16 text-slate-500 text-xs max-w-md mx-auto">
-                <Info className="w-8 h-8 text-slate-600 mb-2 mx-auto" />
-                <span className="font-bold block text-white mb-1">No Shelters Connected for This Jurisdiction</span>
-                <span>To register operational relief camps for this area, district collectors must provide shelter GPS coordinates, contact phone, and total capacity.</span>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                {shelters.map((s: any) => (
-                  <div
-                    key={s.id || s.name}
-                    className="p-3.5 bg-[#10243A] border border-[#1E3550] hover:border-cyan-500/50 rounded-xl space-y-2 transition-all"
-                  >
-                    <div className="flex justify-between items-start">
-                      <h3 className="font-bold text-white text-xs leading-snug">{s.name}</h3>
-                      <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-950 text-emerald-300 border border-emerald-600">
-                        {s.operational_status || 'ACTIVE'}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {shelters.map((sh) => (
+                <div
+                  key={sh.id}
+                  className="p-4 bg-[#0D1D2D] border border-[#142B42] rounded-2xl space-y-3 shadow-lg hover:border-slate-600 transition"
+                >
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h3 className="text-sm font-bold text-white">{sh.name}</h3>
+                      <div className="text-xs text-slate-400 flex items-center space-x-1 mt-0.5">
+                        <MapPin className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+                        <span>{sh.address}</span>
+                      </div>
+                    </div>
+                    <Badge variant={sh.operational_status === 'ACTIVE' ? 'emerald' : 'amber'} size="sm">
+                      {sh.operational_status}
+                    </Badge>
+                  </div>
+
+                  {/* Capacity Bar */}
+                  <div className="space-y-1">
+                    <div className="flex justify-between text-xs font-mono">
+                      <span className="text-slate-400">Occupancy:</span>
+                      <span className="text-white font-bold">
+                        {sh.current_occupancy ?? 0} / {sh.capacity || 100} beds ({Math.round(((sh.current_occupancy ?? 0) / (sh.capacity || 1)) * 100)}%)
                       </span>
                     </div>
-
-                    <div className="text-[11px] text-slate-400 line-clamp-1 flex items-center space-x-1">
-                      <MapPin className="w-3 h-3 text-cyan-400 flex-shrink-0" />
-                      <span>{s.address || s.location_name || 'Designated relief facility'}</span>
+                    <div className="w-full bg-[#060D17] rounded-full h-2 border border-[#142B42]">
+                      <div
+                        className="bg-emerald-400 h-2 rounded-full transition-all"
+                        style={{ width: `${Math.min(100, Math.round(((sh.current_occupancy ?? 0) / (sh.capacity || 1)) * 100))}%` }}
+                      />
                     </div>
+                  </div>
 
-                    <div className="pt-2 border-t border-[#1E3550]/60 flex items-center justify-between text-xs">
-                      <div>
-                        <span className="text-slate-500 block text-[10px]">Capacity</span>
-                        <span className="font-mono font-bold text-white">{s.capacity || '—'}</span>
-                      </div>
-                      <div className="text-right">
-                        <span className="text-slate-500 block text-[10px]">Current Occupancy</span>
-                        <span className="font-mono font-bold text-cyan-400">{s.current_occupancy || 0}</span>
-                      </div>
-                    </div>
+                  {/* Provisions tags */}
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {(sh.amenities || ['Drinking Water', 'Medical Volunteer Post', 'Power Backup']).map((sup, idx) => (
+                      <span
+                        key={idx}
+                        className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#060D17] text-slate-300 border border-[#142B42]"
+                      >
+                        {sup.replace(/_/g, ' ')}
+                      </span>
+                    ))}
+                  </div>
 
-                    {s.contact_phone && (
-                      <div className="pt-1 text-[11px] text-slate-400 flex items-center space-x-1 font-mono">
-                        <Phone className="w-3 h-3 text-emerald-400" />
-                        <span>{s.contact_phone}</span>
-                      </div>
+                  {/* Actions */}
+                  <div className="pt-2 border-t border-[#142B42] flex justify-between items-center text-xs font-mono">
+                    <span className="text-slate-400">Coord: {sh.latitude.toFixed(3)}°N, {sh.longitude.toFixed(3)}°E</span>
+                    {sh.contact_phone && (
+                      <a
+                        href={`tel:${sh.contact_phone}`}
+                        className="px-2.5 py-1 bg-emerald-600/20 text-emerald-300 border border-emerald-500/40 rounded-lg flex items-center space-x-1 hover:bg-emerald-600/30"
+                      >
+                        <Phone className="w-3 h-3" />
+                        <span>{sh.contact_phone}</span>
+                      </a>
                     )}
                   </div>
-                ))}
-              </div>
-            )}
+                </div>
+              ))}
+            </div>
           </div>
         )}
 
         {/* SUB-TAB 3: Critical Facilities */}
         {activeSubTab === 'facilities' && (
-          <div className="w-full h-full p-4 sm:p-6 overflow-y-auto space-y-4">
-            <div className="p-4 bg-[#10243A] border border-[#1E3550] rounded-xl flex justify-between items-center">
+          <div className="w-full h-full p-4 sm:p-6 overflow-y-auto space-y-4 max-w-6xl mx-auto">
+            <div className="p-4 bg-[#091522] border border-[#142B42] rounded-2xl flex justify-between items-center">
               <div>
-                <h2 className="text-sm font-bold text-white flex items-center space-x-2">
+                <h2 className="text-sm font-bold text-white flex items-center space-x-2 font-mono">
                   <Building2 className="w-4 h-4 text-cyan-400" />
-                  <span>Critical Infrastructure & Facilities Atlas</span>
+                  <span>Regional Critical Infrastructure Atlas</span>
                 </h2>
-                <p className="text-xs text-slate-400 mt-0.5">
-                  Hospitals, clinics, educational relief shelters, and police stations
+                <p className="text-xs text-slate-400 font-mono mt-0.5">
+                  Hospitals, emergency medical outposts, power substations, and evacuation shelters
                 </p>
               </div>
-              <Badge variant="cyan">{facilities.length} Facilities Cataloged</Badge>
+              <Badge variant="cyan" size="md">{facilities.length} Mapped Assets</Badge>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {facilities.slice(0, 30).map((f: any, i: number) => {
-                const isFlooded = f.properties?.inside_flood_extent;
+              {facilities.slice(0, 30).map((f: any, idx: number) => {
+                const props = f.properties || {};
+                const isFlooded = props.inside_flood_extent;
                 return (
                   <div
-                    key={f.id || i}
-                    className="p-3 bg-[#10243A] border border-[#1E3550] rounded-xl flex justify-between items-start"
-                  >
-                    <div>
-                      <h4 className="font-bold text-white text-xs">{f.properties?.name || 'Critical Facility'}</h4>
-                      <span className="text-[10px] font-mono text-slate-400 uppercase">{f.properties?.category || 'hospital'}</span>
-                    </div>
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold ${
+                    key={idx}
+                    className={`p-3.5 rounded-xl border space-y-2 ${
                       isFlooded
-                        ? 'bg-rose-950 text-rose-300 border border-rose-700'
-                        : 'bg-emerald-950 text-emerald-300 border border-emerald-700'
-                    }`}>
-                      {isFlooded ? 'FLOOD EXPOSED' : 'PASSABLE'}
-                    </span>
+                        ? 'bg-rose-950/30 border-rose-800/60'
+                        : 'bg-[#0D1D2D] border-[#142B42]'
+                    }`}
+                  >
+                    <div className="flex justify-between items-start">
+                      <span className="text-xs font-bold text-white truncate max-w-[200px]">
+                        {props.name || 'Critical Facility'}
+                      </span>
+                      <span
+                        className={`text-[9px] uppercase px-1.5 py-0.5 rounded font-mono font-bold ${
+                          isFlooded ? 'bg-rose-950 text-rose-300 border border-rose-700' : 'bg-emerald-950 text-emerald-300 border border-emerald-700'
+                        }`}
+                      >
+                        {isFlooded ? 'Inundated' : 'Accessible'}
+                      </span>
+                    </div>
+
+                    <div className="text-[11px] text-slate-400 font-mono">
+                      Category: <span className="text-cyan-300 uppercase">{props.category || 'Hospital'}</span>
+                    </div>
+
+                    {props.bed_count && (
+                      <div className="text-[10px] text-slate-500 font-mono">
+                        Bed Capacity: {props.bed_count} Units
+                      </div>
+                    )}
                   </div>
                 );
               })}

@@ -3,26 +3,26 @@
 
 :root {
   color-scheme: dark;
-  --bg-midnight: #07111F;
-  --bg-deep: #091522;
-  --surface-elevated: #10243A;
+  --bg-deepest: #060D17;
+  --bg-midnight: #091522;
+  --bg-dark: #0D1D2D;
+  
+  --surface-primary: #10243A;
   --surface-secondary: #142B42;
+  --surface-elevated: #1A344B;
+  
   --border-line: #203A52;
+  --border-subtle: #142B42;
+  --border-bright: #16B8D4;
+
   --accent-cyan: #16B8D4;
   --accent-teal: #18A58B;
   --accent-amber: #F0A83B;
   --accent-red: #E45555;
+  
   --text-primary: #E8F0F7;
   --text-muted: #8DA3B8;
-  
-  --bg-base: #07111F;
-  --surface-primary: #10243A;
-  --surface-translucent: rgba(16, 36, 58, 0.85);
-  --border-subtle: #203A52;
-  --border-muted: rgba(32, 58, 82, 0.7);
-  --accent-cyan-bright: #38BDF8;
-  --accent-emerald: #10B981;
-  --accent-rose: #E45555;
+  --text-dim: #546E7A;
 }
 
 html, body, #root {
@@ -31,7 +31,7 @@ html, body, #root {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #07111F;
+  background-color: #060D17;
   color: #E8F0F7;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
@@ -40,32 +40,66 @@ html, body, #root {
 .bg-geo-grid {
   background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(22, 184, 212, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(22, 184, 212, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(22, 184, 212, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(22, 184, 212, 0.05) 1px, transparent 1px);
 }
 
 .bg-dot-grid {
   background-size: 16px 16px;
-  background-image: radial-gradient(rgba(22, 184, 212, 0.12) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(22, 184, 212, 0.15) 1px, transparent 1px);
+}
+
+/* Glassmorphic & Tactical Surfaces */
+.panel-glass {
+  background: rgba(9, 21, 34, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(32, 58, 82, 0.7);
+}
+
+.panel-glass-deep {
+  background: rgba(6, 13, 23, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(26, 52, 75, 0.8);
+}
+
+.panel-surface {
+  background-color: #0D1D2D;
+  border: 1px solid #142B42;
+}
+
+.panel-inset {
+  background-color: #060D17;
+  border: 1px solid #10243A;
+}
+
+/* Subtle Technical Borders & Glows */
+.tech-border {
+  border: 1px solid rgba(22, 184, 212, 0.25);
 }
 
 .shadow-cyan-glow {
-  box-shadow: 0 0 16px -2px rgba(22, 184, 212, 0.25);
+  box-shadow: 0 0 20px -2px rgba(22, 184, 212, 0.28);
 }
 
 .shadow-teal-glow {
-  box-shadow: 0 0 16px -2px rgba(24, 165, 139, 0.25);
+  box-shadow: 0 0 20px -2px rgba(24, 165, 139, 0.28);
+}
+
+.shadow-amber-glow {
+  box-shadow: 0 0 20px -2px rgba(240, 168, 59, 0.32);
 }
 
 .shadow-danger-glow {
-  box-shadow: 0 0 16px -2px rgba(228, 85, 85, 0.3);
+  box-shadow: 0 0 20px -2px rgba(228, 85, 85, 0.35);
 }
 
 /* Coordinate label tag styling */
 .geo-tag {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 10px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
@@ -81,14 +115,14 @@ html, body, #root {
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(7, 13, 24, 0.8);
+  background: rgba(6, 13, 23, 0.85);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(30, 45, 74, 0.9);
+  background: rgba(26, 52, 75, 0.9);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(6, 182, 212, 0.5);
+  background: rgba(22, 184, 212, 0.6);
 }
 
 /* Tabular numbers for numerical KPIs */
@@ -98,32 +132,32 @@ html, body, #root {
 
 /* MapLibre popup custom styling */
 .maplibregl-popup-content {
-  background: #0D1626 !important;
-  color: #F1F5F9 !important;
-  border: 1px solid #1E2D4A !important;
-  border-radius: 10px !important;
+  background: #091522 !important;
+  color: #E8F0F7 !important;
+  border: 1px solid #203A52 !important;
+  border-radius: 12px !important;
   padding: 12px 14px !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 16px 32px -8px rgba(0, 0, 0, 0.75) !important;
   font-family: inherit !important;
 }
 .maplibregl-popup-anchor-top .maplibregl-popup-tip {
-  border-bottom-color: #0D1626 !important;
+  border-bottom-color: #091522 !important;
 }
 .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
-  border-top-color: #0D1626 !important;
+  border-top-color: #091522 !important;
 }
 .maplibregl-popup-anchor-left .maplibregl-popup-tip {
-  border-right-color: #0D1626 !important;
+  border-right-color: #091522 !important;
 }
 .maplibregl-popup-anchor-right .maplibregl-popup-tip {
-  border-left-color: #0D1626 !important;
+  border-left-color: #091522 !important;
 }
 .maplibregl-popup-close-button {
-  color: #94A3B8 !important;
+  color: #8DA3B8 !important;
   font-size: 16px !important;
   padding: 4px 8px !important;
 }
 .maplibregl-popup-close-button:hover {
-  color: #F1F5F9 !important;
+  color: #E8F0F7 !important;
   background-color: transparent !important;
 }
