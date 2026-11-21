@@ -306,7 +306,10 @@ class CWCService:
                 "hfl_m": s["hfl_m"],
                 "proximity_km": s.get("distance_km", 0.0),
                 "relevance": s["relevance"],
-                "upstream_gateway_status": "OFFLINE_SSL_EXPIRED",
+                "threshold_type": "HISTORICAL_GAUGE_THRESHOLDS",
+                "live_gauge_reading_m": None,
+                "data_provenance": "HISTORICAL_CWC_ATLAS_THRESHOLDS",
+                "upstream_gateway_status": "TELEMETRY_PORTAL_OFFLINE",
                 "note": "CWC NWDP portal certificate currently unreachable; baseline thresholds mapped from CWC Hydrological Atlas."
             })
 
@@ -316,12 +319,14 @@ class CWCService:
         return {
             "provider": "Central Water Commission (CWC) & Copernicus CEMS GloFAS",
             "observation_type": "river_discharge_and_water_levels",
+            "threshold_type": "HISTORICAL_GAUGE_THRESHOLDS",
+            "data_provenance": "COPERNICUS_GLOFAS_MODEL_PLUS_CWC_HISTORICAL_THRESHOLDS",
             "basin_name": basin_name or ("Pamba & Manimala Basin" if lat < 11 else "Regional River Basin"),
             "target_coordinates": [lon, lat],
             "observation_timestamp": now_iso,
             "fetch_timestamp": now_iso,
-            "current_discharge_m3_s": glofas_data.get("current_discharge_m3_s", 0.82),
-            "median_discharge_m3_s": glofas_data.get("median_discharge_m3_s", 0.80),
+            "current_discharge_m3_s": glofas_data.get("current_discharge_m3_s"),
+            "median_discharge_m3_s": glofas_data.get("median_discharge_m3_s"),
             "flow_status": glofas_data.get("flow_status", "NORMAL"),
             "trend_7day": glofas_data.get("trend_7day", []),
             "station_count": len(stations_status),
@@ -356,30 +361,33 @@ class CWCService:
                         "median_baseline_m3_s": medians[idx] if idx < len(medians) else None
                     })
 
-                cur = discharges[0] if discharges and discharges[0] is not None else 0.82
-                med = medians[0] if medians and medians[0] is not None else 0.80
+                cur = discharges[0] if discharges and discharges[0] is not None else None
+                med = medians[0] if medians and medians[0] is not None else None
                 status_label = "NORMAL"
-                if cur > med * 2.5:
-                    status_label = "HIGH_DISCHARGE"
-                elif cur > med * 1.5:
-                    status_label = "ELEVATED_FLOW"
+                if cur is not None and med is not None:
+                    if cur > med * 2.5:
+                        status_label = "HIGH_DISCHARGE"
+                    elif cur > med * 1.5:
+                        status_label = "ELEVATED_FLOW"
+                elif cur is None:
+                    status_label = "INSUFFICIENT_DATA"
 
                 return {
-                    "current_discharge_m3_s": round(cur, 2),
-                    "median_discharge_m3_s": round(med, 2),
+                    "current_discharge_m3_s": round(cur, 2) if cur is not None else None,
+                    "median_discharge_m3_s": round(med, 2) if med is not None else None,
                     "flow_status": status_label,
                     "trend_7day": trend[:7],
-                    "status": "LIVE"
+                    "status": "LIVE" if cur is not None else "UNAVAILABLE"
                 }
         except Exception:
             pass
 
         return {
-            "current_discharge_m3_s": 0.84,
-            "median_discharge_m3_s": 0.81,
-            "flow_status": "NORMAL",
+            "current_discharge_m3_s": None,
+            "median_discharge_m3_s": None,
+            "flow_status": "DATA_UNAVAILABLE",
             "trend_7day": [],
-            "status": "RECENT"
+            "status": "UNAVAILABLE"
         }
 
 cwc_service = CWCService()

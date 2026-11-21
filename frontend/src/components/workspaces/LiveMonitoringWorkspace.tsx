@@ -123,8 +123,17 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
   const alertsList = liveData?.alerts?.alerts || liveData?.active_alerts || [];
   const providerStatus = liveData?.provider_status || {};
 
-  const alertLevel = alert?.level || 'NORMAL';
-  const alertVariant = alertLevel === 'ADVISORY' ? 'rose' : alertLevel === 'ELEVATED' ? 'amber' : 'emerald';
+  const alertLevel = alert?.level || alert?.risk_level || 'NORMAL';
+  const alertVariant: 'rose' | 'amber' | 'emerald' | 'slate' =
+    alertLevel === 'ADVISORY'
+      ? 'rose'
+      : alertLevel === 'ELEVATED' || alertLevel === 'PARTIAL_DATA'
+      ? 'amber'
+      : alertLevel === 'INSUFFICIENT_DATA'
+      ? 'slate'
+      : 'emerald';
+
+  const stationsRequestIdRef = useRef(0);
 
   // Load available regions on component mount
   useEffect(() => {
@@ -159,11 +168,16 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
   // Load CWC stations for the selected region
   useEffect(() => {
     if (!region?.id) return;
+    const reqId = ++stationsRequestIdRef.current;
     fetchMonitoringStations(region.id)
       .then(res => {
-        if (Array.isArray(res)) setStations(res);
+        if (reqId === stationsRequestIdRef.current && Array.isArray(res)) {
+          setStations(res);
+        }
       })
-      .catch(() => setStations([]));
+      .catch(() => {
+        if (reqId === stationsRequestIdRef.current) setStations([]);
+      });
   }, [region?.id]);
 
   // 7-day discharge trend bar rows
@@ -595,9 +609,17 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
                 ? 'bg-rose-950/70 border-rose-500/50 text-rose-400'
                 : alertVariant === 'amber'
                 ? 'bg-amber-950/70 border-amber-500/50 text-amber-400'
+                : alertVariant === 'slate'
+                ? 'bg-slate-900/80 border-slate-700/60 text-slate-300'
                 : 'bg-emerald-950/70 border-emerald-500/50 text-emerald-400'
             }`}>
-              {alertVariant === 'emerald' ? <ShieldCheck className="w-6 h-6" /> : <AlertTriangle className="w-6 h-6" />}
+              {alertVariant === 'emerald' ? (
+                <ShieldCheck className="w-6 h-6" />
+              ) : alertVariant === 'slate' ? (
+                <Info className="w-6 h-6" />
+              ) : (
+                <AlertTriangle className="w-6 h-6" />
+              )}
             </div>
             <div className="space-y-1">
               <div className="flex items-center space-x-2">
@@ -605,11 +627,13 @@ export const LiveMonitoringWorkspace: React.FC<LiveMonitoringWorkspaceProps> = (
                   Environmental Readiness Status • {region.name}
                 </span>
                 <Badge variant={alertVariant} size="sm">
-                  {alert?.badge || 'Normal Conditions'}
+                  {alert?.badge || (alertLevel === 'INSUFFICIENT_DATA' ? 'Insufficient Precursor Telemetry' : 'Normal Conditions')}
                 </Badge>
               </div>
               <p className="text-xs text-slate-300 leading-relaxed max-w-3xl">
-                {alert?.summary || `Stable meteorological and hydrological conditions across ${region.name}.`}
+                {alert?.summary || (alertLevel === 'INSUFFICIENT_DATA'
+                  ? 'Key meteorological and river gauge feeds are currently unavailable for this region. Inundation risk cannot be reliably computed without precursor telemetry.'
+                  : `Stable meteorological and hydrological conditions across ${region.name}.`)}
               </p>
             </div>
           </div>

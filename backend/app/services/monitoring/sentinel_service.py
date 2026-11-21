@@ -74,6 +74,9 @@ class SentinelService:
                         "acquisition_end": content_date.get("End"),
                         "footprint_geojson": p.get("Footprint"),
                         "catalogue_link": f"https://browser.dataspace.copernicus.eu/?zoom=10&lat={center_lat}&lng={center_lon}&item={p.get('Id')}",
+                        "observation_nature": "SAR_CATALOGUE_ACQUISITION_DISCOVERY",
+                        "classification_status": "UNPROCESSED_RAW_SCENE",
+                        "data_provenance": "COPERNICUS_CDSE_METADATA_DISCOVERY",
                         "processing_status": "CATALOGUE_INDEXED_RAW_READY",
                         "pipeline_capability": "Ready for SAR thresholding ingestion."
                     })
@@ -86,6 +89,9 @@ class SentinelService:
                 return {
                     "provider": "Copernicus Data Space Ecosystem (CDSE) / European Space Agency",
                     "observation_type": "satellite_sar_acquisitions",
+                    "observation_nature": "SAR_CATALOGUE_ACQUISITION_DISCOVERY",
+                    "data_provenance": "COPERNICUS_CDSE_CATALOGUE",
+                    "classification_disclaimer": "Sentinel-1 SAR acquisition discovery represents metadata of satellite passes and radar footprint coverage. It does not represent classified surface water inundation.",
                     "aoi_bbox": bbox,
                     "target_relative_orbit": self.nominal_relative_orbit,
                     "total_acquisitions_found": len(products),
@@ -104,6 +110,9 @@ class SentinelService:
             return {
                 "provider": "Copernicus Data Space Ecosystem (CDSE)",
                 "observation_type": "satellite_sar_acquisitions",
+                "observation_nature": "SAR_CATALOGUE_ACQUISITION_DISCOVERY",
+                "data_provenance": "COPERNICUS_CDSE_CATALOGUE",
+                "classification_disclaimer": "Sentinel-1 SAR acquisition discovery represents metadata of satellite passes and radar footprint coverage. It does not represent classified surface water inundation.",
                 "aoi_bbox": bbox,
                 "target_relative_orbit": self.nominal_relative_orbit,
                 "total_acquisitions_found": 0,

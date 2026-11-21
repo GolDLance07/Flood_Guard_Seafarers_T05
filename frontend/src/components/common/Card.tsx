@@ -4,7 +4,7 @@ interface CardProps {
   children: React.ReactNode;
   className?: string;
   elevated?: boolean;
-  borderAccent?: 'cyan' | 'emerald' | 'amber' | 'rose' | 'none';
+  borderAccent?: 'cyan' | 'emerald' | 'amber' | 'rose' | 'slate' | 'none';
   onClick?: () => void;
 }
 
@@ -21,6 +21,7 @@ export const Card: React.FC<CardProps> = ({
     emerald: 'border-emerald-500/40 hover:border-emerald-400/70',
     amber: 'border-amber-500/40 hover:border-amber-400/70',
     rose: 'border-rose-500/40 hover:border-rose-400/70',
+    slate: 'border-slate-600/50 hover:border-slate-500/70',
   }[borderAccent];
 
   const bgClass = elevated ? 'bg-[#16243A]' : 'bg-[#0D1626]';

@@ -191,6 +191,7 @@ class IMDService:
                     return {
                         "provider": "India Meteorological Department (IMD)",
                         "observation_type": "current_weather",
+                        "data_provenance": "OFFICIAL_GOVERNMENT_OBSERVATION",
                         "location": f"{data.get('Station', district)}, {state}",
                         "coordinates": [lon, lat],
                         "temperature_c": float(temp_raw) if temp_raw is not None else 28.0,
@@ -256,6 +257,7 @@ class IMDService:
                     return {
                         "provider": "India Meteorological Department (IMD)",
                         "observation_type": "district_rainfall",
+                        "data_provenance": "OFFICIAL_GOVERNMENT_OBSERVATION",
                         "district": data.get("District", district),
                         "state": state,
                         "rainfall_24h_mm": daily_actual,
@@ -343,6 +345,7 @@ class IMDService:
                 return {
                     "provider": "Open-Meteo ECMWF/GFS Seamless (IMD Observation Fallback)",
                     "observation_type": "current_weather",
+                    "data_provenance": "FALLBACK_MODEL_OBSERVATION",
                     "location": f"{district}, {state}",
                     "coordinates": [lon, lat],
                     "temperature_c": cur.get("temperature_2m", 28.5),
@@ -365,6 +368,7 @@ class IMDService:
         return {
             "provider": "India Meteorological Department (IMD)",
             "observation_type": "current_weather",
+            "data_provenance": "UNAVAILABLE",
             "location": f"{district}, {state}",
             "coordinates": [lon, lat],
             "temperature_c": None,
@@ -403,6 +407,7 @@ class IMDService:
                 return {
                     "provider": "Open-Meteo High-Resolution Model (Precipitation Baseline)",
                     "observation_type": "district_rainfall",
+                    "data_provenance": "FALLBACK_MODEL_OBSERVATION",
                     "district": district,
                     "state": state,
                     "rainfall_24h_mm": rain_24h,
@@ -421,6 +426,7 @@ class IMDService:
         return {
             "provider": "India Meteorological Department (IMD)",
             "observation_type": "district_rainfall",
+            "data_provenance": "UNAVAILABLE",
             "district": district,
             "state": state,
             "rainfall_24h_mm": None,

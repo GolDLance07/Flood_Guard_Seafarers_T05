@@ -2,6 +2,12 @@ import math
 import requests
 from typing import Dict, Any, List, Optional
 
+class RegionNotFoundError(ValueError):
+    """Raised when an explicitly requested region cannot be resolved in catalog or geocoder."""
+    def __init__(self, region_id: str):
+        self.region_id = region_id
+        super().__init__(f"Region '{region_id}' could not be resolved in the regional catalogue or geocoder.")
+
 class RegionService:
     """
     Geographical Region Service for Live Environmental Monitoring.
@@ -281,22 +287,31 @@ class RegionService:
             pass
         return []
 
-    def resolve_region(self, region_id_or_query: Optional[str] = None) -> Dict[str, Any]:
-        """Resolves a region parameter into a guaranteed valid region dictionary."""
-        if not region_id_or_query:
+    def resolve_region(self, region_id_or_query: Optional[Any] = None) -> Dict[str, Any]:
+        """
+        Resolves a region parameter into a guaranteed valid region dictionary.
+        - When region_id_or_query is None or empty: returns the deliberate documented default ('kerala-alappuzha').
+        - When region_id_or_query is already a region dict: returns it directly.
+        - When region_id_or_query is provided but cannot be found in catalog or geocoded: raises RegionNotFoundError.
+        """
+        if isinstance(region_id_or_query, dict):
+            return region_id_or_query
+
+        if not region_id_or_query or not str(region_id_or_query).strip():
             return self.get_default_region()
 
-        reg = self.get_region_by_id(region_id_or_query)
+        cleaned = str(region_id_or_query).strip()
+        reg = self.get_region_by_id(cleaned)
         if reg:
             return reg
 
-        # Try dynamic search
-        search_res = self._geocode_query(region_id_or_query)
+        # Try dynamic search via geocoder
+        search_res = self._geocode_query(cleaned)
         if search_res:
             return search_res[0]
 
-        # Graceful fallback to default
-        return self.get_default_region()
+        # Explicit invalid-region handling: do NOT silently substitute Kerala
+        raise RegionNotFoundError(cleaned)
 
     @staticmethod
     def haversine_distance_km(lat1: float, lon1: float, lat2: float, lon2: float) -> float:

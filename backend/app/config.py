@@ -14,13 +14,17 @@ PROCESSED_DATA_DIR = DATA_DIR / "processed"
 RAW_DATA_DIR = DATA_DIR / "raw"
 METADATA_DIR = DATA_DIR / "metadata"
 
-CORS_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "http://127.0.0.1:3000",
-    "http://127.0.0.1:5173",
-    "*"
-]
+_cors_env = os.environ.get("CORS_ORIGINS")
+if _cors_env:
+    CORS_ORIGINS = [o.strip() for o in _cors_env.split(",") if o.strip()]
+else:
+    CORS_ORIGINS = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+        "*"
+    ]
 
 API_VERSION = "1.0.0"
 DEFAULT_EVENT_ID = "kerala-2018-demo"

@@ -1,8 +1,24 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 from backend.app.services.monitoring import monitoring_aggregator
+from backend.app.services.monitoring.region_service import RegionNotFoundError
 
 router = APIRouter(prefix="/api/live", tags=["live_monitoring"])
+
+def _handle_region_error(exc: RegionNotFoundError):
+    raise HTTPException(
+        status_code=404,
+        detail={
+            "error": {
+                "code": "REGION_NOT_FOUND",
+                "message": f"Region '{exc.region_id}' could not be resolved in the regional catalogue or geocoder.",
+                "details": {
+                    "requested_region": exc.region_id,
+                    "supported_regions": [r["id"] for r in region_service.list_regions()]
+                }
+            }
+        }
+    )
 
 @router.get("/overview")
 def get_live_overview(region: Optional[str] = Query(None)):
@@ -10,7 +26,10 @@ def get_live_overview(region: Optional[str] = Query(None)):
     Get live environmental telemetry (real-time weather, 24h rainfall,
     GloFAS river discharge, and Sentinel-1 pass tracking) for the selected region.
     """
-    overview = monitoring_aggregator.get_monitoring_overview(region_id=region)
+    try:
+        overview = monitoring_aggregator.get_monitoring_overview(region_id=region)
+    except RegionNotFoundError as e:
+        _handle_region_error(e)
 
     weather = overview.get("weather", {})
     rivers = overview.get("rivers", {})
@@ -67,7 +86,10 @@ def get_live_satellite_acquisitions(
     limit: int = Query(5, ge=1, le=20)
 ):
     """Search Copernicus Data Space Ecosystem for Sentinel-1 acquisitions."""
-    sats = monitoring_aggregator.get_satellites(region_id=region, limit=limit)
+    try:
+        sats = monitoring_aggregator.get_satellites(region_id=region, limit=limit)
+    except RegionNotFoundError as e:
+        _handle_region_error(e)
     sched = sats.get("orbital_pass_schedule", {})
     return {
         **sched,

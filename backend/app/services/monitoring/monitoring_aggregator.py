@@ -32,24 +32,15 @@ class MonitoringAggregator:
         alerts = self.get_alerts(region["id"])
         satellites = self.get_satellites(region["id"])
 
-        # Precursor readiness evaluation
-        rain_24h = rainfall.get("rainfall_24h_mm") or 0.0
-        discharge = rivers.get("current_discharge_m3_s") or 0.8
-        median = rivers.get("median_discharge_m3_s") or 0.8
-        active_alerts_count = alerts.get("active_alerts_count", 0)
-
-        risk_level = "NORMAL"
-        risk_badge = "Normal Conditions"
-        risk_summary = f"Stable meteorological conditions and normal river inflow across {region['name']}."
-
-        if active_alerts_count > 0 or rain_24h > 65.0 or (median > 0 and discharge > (median * 2.5)):
-            risk_level = "ADVISORY"
-            risk_badge = "Flood Watch / Advisory In Effect"
-            risk_summary = f"Elevated precursor indicators: 24h rainfall {rain_24h:.1f} mm, delta discharge {discharge:.1f} m³/s, or active NDMA alerts."
-        elif rain_24h > 20.0 or (median > 0 and discharge > (median * 1.5)):
-            risk_level = "ELEVATED"
-            risk_badge = "Elevated Precursor Inflow"
-            risk_summary = f"Moderate precipitation ({rain_24h:.1f} mm/24h) and elevated runoff detected in {region['name']}."
+        # Precursor readiness evaluation (Strict provenance: never invent numeric defaults for missing inputs)
+        active_alerts = alerts.get("alerts", [])
+        readiness = self.compute_environmental_risk(
+            rainfall_data=rainfall,
+            hydrology_data=rivers,
+            warnings_list=active_alerts,
+            region_name=region["name"],
+            region_state=region.get("state", "India")
+        )
 
         result = {
             "status": "success",
@@ -67,19 +58,105 @@ class MonitoringAggregator:
                 "type": region.get("type", "district"),
                 "cwc_basin": region.get("cwc_basin", "")
             },
-            "environmental_readiness": {
-                "level": risk_level,
-                "badge": risk_badge,
-                "summary": risk_summary,
-                "methodology": "Precursor correlation of observed 24h precipitation (IMD/Open-Meteo), river inflow ratio (GloFAS/CWC), and official CAP alerts (NDMA SACHET).",
-                "scientific_disclaimer": "Rainfall and river discharge are environmental precursors, not confirmed surface inundation detection. Satellite radar confirmation is required for physical flood extent classification."
-            },
+            "environmental_readiness": readiness,
             "weather": weather,
             "rainfall": rainfall,
             "rivers": rivers,
             "alerts": alerts,
             "satellites": satellites,
             "provider_status": self.get_provider_status()
+        }
+
+        monitoring_cache.set(cache_key, result, now_iso)
+        return result
+
+    def compute_environmental_risk(
+        self,
+        rainfall_data: Dict[str, Any],
+        hydrology_data: Dict[str, Any],
+        warnings_list: List[Dict[str, Any]],
+        region_name: str = "the region",
+        region_state: str = "the region"
+    ) -> Dict[str, Any]:
+        """
+        Computes environmental readiness status strictly adhering to data provenance.
+        Never replaces missing telemetry with invented defaults or normal baseline.
+        """
+        rain_24h = rainfall_data.get("rainfall_24h_mm")
+        rainfall_available = rain_24h is not None and rainfall_data.get("freshness_status") != "UNAVAILABLE"
+
+        discharge = hydrology_data.get("current_discharge_m3_s")
+        median = hydrology_data.get("median_discharge_m3_s")
+        rivers_available = discharge is not None and hydrology_data.get("freshness_status") != "UNAVAILABLE"
+
+        active_alerts_count = len(warnings_list) if warnings_list else 0
+
+        # Distinguish unavailable data from legitimate 0.0 measurements
+        if not rainfall_available and not rivers_available:
+            risk_level = "INSUFFICIENT_DATA"
+            risk_badge = "Insufficient Precursor Telemetry"
+            risk_summary = f"Real-time precipitation and hydrological inflow telemetry are currently unavailable for {region_name}. Precursor risk level cannot be determined without active observational data."
+            data_sufficiency = "INADEQUATE"
+            telemetry_gap = "Missing precipitation and river telemetry"
+        elif active_alerts_count > 0:
+            risk_level = "ADVISORY"
+            risk_badge = "Official Disaster Advisory Active"
+            risk_summary = f"Official emergency alerts issued by NDMA SACHET for {region_state}."
+            data_sufficiency = "COMPLETE" if (rainfall_available and rivers_available) else "PARTIAL"
+            telemetry_gap = None if data_sufficiency == "COMPLETE" else "Partial precursor feeds"
+        elif rainfall_available and rain_24h > 65.0:
+            risk_level = "ADVISORY"
+            risk_badge = "Heavy Precursor Rainfall"
+            risk_summary = f"Heavy 24-hour recorded precipitation ({rain_24h:.1f} mm) in {region_name} exceeding flood precursor threshold (65.0 mm)."
+            data_sufficiency = "COMPLETE" if rivers_available else "PARTIAL"
+            telemetry_gap = None if rivers_available else "Missing river discharge"
+        elif rivers_available and median and median > 0 and discharge > (median * 2.5):
+            risk_level = "ADVISORY"
+            risk_badge = "Critical River Discharge Precursor"
+            risk_summary = f"Basin discharge ({discharge:.1f} m³/s) is exceeding 2.5x seasonal median baseline ({median:.1f} m³/s) for {region_name}."
+            data_sufficiency = "COMPLETE" if rainfall_available else "PARTIAL"
+            telemetry_gap = None if rainfall_available else "Missing precipitation telemetry"
+        elif (rainfall_available and rain_24h > 20.0) or (rivers_available and median and median > 0 and discharge > (median * 1.5)):
+            risk_level = "ELEVATED"
+            risk_badge = "Elevated Precursor Inflow"
+            parts = []
+            if rainfall_available and rain_24h > 20.0:
+                parts.append(f"moderate precipitation ({rain_24h:.1f} mm/24h)")
+            if rivers_available and median and median > 0 and discharge > (median * 1.5):
+                parts.append(f"elevated river inflow ({discharge:.1f} m³/s)")
+            risk_summary = f"Elevated precursor indicators: {', '.join(parts)} detected across {region_name}."
+            data_sufficiency = "COMPLETE" if (rainfall_available and rivers_available) else "PARTIAL"
+            telemetry_gap = None if data_sufficiency == "COMPLETE" else "Partial telemetry coverage"
+        elif rainfall_available and rivers_available:
+            risk_level = "NORMAL"
+            risk_badge = "Normal Precursor Baseline"
+            risk_summary = f"Precursor observations indicate stable meteorological conditions ({rain_24h:.1f} mm/24h) and normal river inflow ({discharge:.1f} m³/s) across {region_name}."
+            data_sufficiency = "COMPLETE"
+            telemetry_gap = None
+        else:
+            available_metric = f"precipitation {rain_24h:.1f} mm/24h" if rainfall_available else f"river discharge {discharge:.1f} m³/s"
+            missing_metric = "river discharge" if not rivers_available else "precipitation"
+            risk_level = "PARTIAL_DATA"
+            risk_badge = "Partial Precursor Telemetry"
+            risk_summary = f"Observed {available_metric} is within baseline, but {missing_metric} is currently unavailable for {region_name}."
+            data_sufficiency = "PARTIAL"
+            telemetry_gap = f"Missing {missing_metric}"
+
+        return {
+            "level": risk_level,
+            "badge": risk_badge,
+            "summary": risk_summary,
+            "data_sufficiency": data_sufficiency,
+            "telemetry_gap": telemetry_gap,
+            "indicator_nature": "ENVIRONMENTAL_PRECURSOR_INDICATOR",
+            "metrics": {
+                "rainfall_24h_mm": rain_24h,
+                "current_discharge_m3_s": discharge,
+                "median_discharge_m3_s": median,
+                "active_warnings_count": active_alerts_count
+            },
+            "methodology": "Precursor correlation of observed 24h precipitation (IMD/Open-Meteo), river inflow ratio (GloFAS/CWC), and official CAP alerts (NDMA SACHET).",
+            "scientific_disclaimer": "Precursor indicators (rainfall, river discharge, official alerts) track meteorological and hydrological potential. They are environmental precursors, NOT confirmed surface water inundation or predicted flood extent boundaries. Satellite SAR radar confirmation is required for physical flood extent classification."
         }
 
         monitoring_cache.set(cache_key, result, now_iso)

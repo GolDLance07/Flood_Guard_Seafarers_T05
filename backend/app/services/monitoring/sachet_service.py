@@ -65,6 +65,7 @@ class SachetService:
                 return {
                     "provider": "National Disaster Management Authority (NDMA SACHET)",
                     "observation_type": "disaster_alerts",
+                    "data_provenance": "OFFICIAL_GOVERNMENT_CAP_FEED",
                     "region": f"{district_name or state_name or 'All India'}, India",
                     "state": state_name or target_state.title(),
                     "total_active_alerts_india": len(raw_alerts),
@@ -82,6 +83,7 @@ class SachetService:
             return {
                 "provider": "National Disaster Management Authority (NDMA SACHET)",
                 "observation_type": "disaster_alerts",
+                "data_provenance": "UNAVAILABLE",
                 "region": f"{district_name or state_name or 'All India'}, India",
                 "state": state_name or target_state.title(),
                 "total_active_alerts_india": 0,

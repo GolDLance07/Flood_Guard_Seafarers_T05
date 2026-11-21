@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Header, type WorkspaceTab } from './components/Header';
 import { MapComponent } from './components/MapComponent';
 import { LayerControls, type LayerVisibility } from './components/LayerControls';
@@ -70,6 +70,7 @@ export const App: React.FC = () => {
   const [monitoringRegionId, setMonitoringRegionId] = useState<string>(() => {
     return localStorage.getItem('floodguard_monitoring_region_id') || 'kerala-alappuzha';
   });
+  const liveRequestIdRef = useRef(0);
 
   const loadAllData = async () => {
     try {
@@ -112,14 +113,19 @@ export const App: React.FC = () => {
 
   const pollLiveData = async (regionId?: string) => {
     const target = regionId || monitoringRegionId;
+    const reqId = ++liveRequestIdRef.current;
     try {
       setLiveLoading(true);
       const live = await fetchLiveOverview(target);
-      setLiveData(live);
+      if (reqId === liveRequestIdRef.current) {
+        setLiveData(live);
+      }
     } catch (err: any) {
       console.error('Failed to poll live telemetry:', err);
     } finally {
-      setLiveLoading(false);
+      if (reqId === liveRequestIdRef.current) {
+        setLiveLoading(false);
+      }
     }
   };
 

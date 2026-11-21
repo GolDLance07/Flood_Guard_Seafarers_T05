@@ -4,6 +4,7 @@ from .cwc_service import cwc_service
 from .sachet_service import sachet_service
 from .sentinel_service import sentinel_service
 from .monitoring_cache import monitoring_cache
+from .region_service import region_service, RegionNotFoundError
 
 __all__ = [
     "monitoring_aggregator",
@@ -12,4 +13,6 @@ __all__ = [
     "sachet_service",
     "sentinel_service",
     "monitoring_cache",
+    "region_service",
+    "RegionNotFoundError",
 ]
