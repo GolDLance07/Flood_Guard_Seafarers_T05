@@ -1,6 +1,13 @@
 import os
 from pathlib import Path
 
+try:
+    from dotenv import load_dotenv
+    # Load .env from project root if present
+    load_dotenv(Path(__file__).resolve().parent.parent.parent / ".env")
+except ImportError:
+    pass
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = BASE_DIR / "data"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
