@@ -146,3 +146,41 @@ The new visual identity uses a strictly defined semantic palette:
 6. **Step 7:** Unify MapLibre map presentation, dark operational layers, and compact toolbars.
 7. **Step 8:** Clean up dead code (`KpiBar.tsx`, `SideDrawer.tsx`) and verify zero regression.
 8. **Step 9:** Execute full test verification (`pytest` 75/75 + `npm run build` zero TypeScript errors).
+
+---
+
+## 7. Implementation 05 Upgrades: Product Validation & Intelligence Experience
+
+### 1. Additional Dead Code Elimination
+- `frontend/src/components/Header.tsx`: Legacy header superseded by `AppHeader.tsx`. Removed (178 lines).
+- `frontend/src/components/workspaces/EvidenceWorkspace.tsx`: Legacy evidence panel superseded by `SystemDiagnosticsModal.tsx`. Removed (240 lines).
+
+### 2. High-Performance Route-Based Code Splitting
+- **Problem:** Monolithic bundle had reached ~1.78 MB in a single file before compression.
+- **Solution:** Re-architected `App.tsx` and `vite.config.ts` using dynamic `React.lazy()` and manual chunk splitting:
+  - `vendor-maplibre`: 1,082 kB (MapLibre GL JS isolated for long-term browser caching)
+  - `vendor-icons`: 27 kB (`lucide-react` tree-shaken and isolated)
+  - `IntelligenceWorkspace`: 66.8 kB (loaded on demand)
+  - `IncidentWorkspace`: 23.4 kB (loaded on demand)
+  - `ResourcesWorkspace`: 19.7 kB (loaded on demand)
+  - `ResponderWorkspace`: 15.9 kB (loaded on demand)
+  - `CitizenReportTab`: 12.6 kB (loaded on demand)
+  - `CitizenActivityTab`: 9.0 kB (loaded on demand)
+  - `CitizenMapTab`: 8.7 kB (loaded on demand)
+  - `CitizenShelterTab`: 8.0 kB (loaded on demand)
+  - `SystemDiagnosticsModal`: 6.8 kB (loaded on demand)
+  - **Initial Entry Chunk:** Reduced to **528 kB** (over 70% decrease in initial download burden!).
+
+### 3. Signature FloodGuard Design Elements Added
+- **`GeospatialTelemetryStrip.tsx`:** Persistent operational telemetry bar displaying rainfall, hydrology gauge, SAR satellite passes, CAP early warnings, and incident queue statistics with live freshness timestamps.
+- **`IncidentPriorityBadge.tsx`:** Standardized lifecycle status pill (Unverified, Under Review, Verified, Dispatched, In Progress, Resolved) with severity tint.
+- **`DataProvenanceCard.tsx`:** Comprehensive scientific data lineage display detailing sensor, agency, observation classification, and ground truth validation status.
+- **`RiskDial.tsx`:** Distinctive SVG radial threat gauge communicating calibrated risk scores (0-100), contributing factor weights, and missing sensor warnings.
+- **`OperationalTimeline.tsx`:** Chronological operational action timeline tracking authority and responder audit entries.
+
+### 4. Tactical Situational Enhancements
+- **Operational Situation Room (`OverviewWorkspace.tsx`):** Large regional geospatial map as continuous anchor; non-obstructive floating Situation HUD; collapsible SITREP drawer with facility alerts and live hydro context.
+- **Field Teams (`ResponderWorkspace.tsx`):** Real-time MapLibre tactical field map showing unit GPS vs incident target location; explicit distinction between LIVE GPS beacon and STALE GPS (>15m) tracking.
+- **Incident Command (`IncidentWorkspace.tsx`):** Full 6-stage lifecycle pipeline stepper, attached evidence photo viewer, duplicate detection suggestions, and human-in-the-loop dispatch advisor.
+- **Explainable Risk Engine (`IntelligenceWorkspace.tsx`):** Integrated `RiskDial` and `DataProvenanceCard` alongside multi-region IMD/CWC/SACHET telemetry.
+

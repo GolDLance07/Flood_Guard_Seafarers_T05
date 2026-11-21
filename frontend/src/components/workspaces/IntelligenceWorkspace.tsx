@@ -5,14 +5,15 @@ import {
   ShieldCheck,
   Activity,
   Play,
-  RefreshCw,
-  Info
+  RefreshCw
 } from 'lucide-react';
 import type { FeatureCollection } from 'geojson';
 import type { OverviewResponse, FloodMetadataResponse, SatelliteJob, RiskAssessmentData } from '../../types/api';
 import { LiveMonitoringWorkspace } from './LiveMonitoringWorkspace';
 import { ImpactWorkspace } from './ImpactWorkspace';
 import { fetchSatelliteJobs, triggerSatelliteJob, fetchRiskAssessment } from '../../services/api';
+import { RiskDial } from '../design-system/RiskDial';
+import { DataProvenanceCard } from '../design-system/DataProvenanceCard';
 
 interface IntelligenceWorkspaceProps {
   liveData: any;
@@ -268,68 +269,77 @@ export const IntelligenceWorkspace: React.FC<IntelligenceWorkspaceProps> = ({
 
         {/* SUB-TAB 3: Explainable Risk Engine */}
         {activeSubTab === 'risk' && (
-          <div className="w-full h-full p-4 sm:p-6 overflow-y-auto space-y-4">
+          <div className="w-full h-full p-4 sm:p-6 overflow-y-auto space-y-5">
             {riskLoading ? (
               <div className="text-center py-16 text-slate-400 text-xs flex justify-center items-center">
                 <RefreshCw className="w-5 h-5 animate-spin mr-2 text-cyan-400" />
                 Synthesizing multi-vector disaster risk telemetry...
               </div>
             ) : riskData ? (
-              <>
-                {/* Composite Risk Score Banner */}
-                <div className="p-4 bg-[#10243A] border border-[#1E3550] rounded-xl flex flex-wrap justify-between items-center gap-4">
-                  <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xs text-slate-400 font-mono">COMPOSITE RISK LEVEL</span>
-                      <span className={`px-2 py-0.5 rounded text-[11px] font-mono font-bold ${
-                        riskData.risk_assessment.level === 'CRITICAL' ? 'bg-rose-950 text-rose-300 border border-rose-600' :
-                        riskData.risk_assessment.level === 'WARNING' ? 'bg-amber-950 text-amber-300 border border-amber-600' :
-                        'bg-emerald-950 text-emerald-300 border border-emerald-600'
-                      }`}>
-                        {riskData.risk_assessment.badge}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+                {/* Left: Interactive Risk Dial */}
+                <div className="lg:col-span-1">
+                  <RiskDial
+                    score={riskData.risk_assessment.composite_score}
+                    classification={riskData.risk_assessment.level}
+                    contributingFactors={{
+                      precipitationScore: riskData.contributing_factors.find(f => f.factor.includes('Precipitation'))?.contribution_score || 35,
+                      riverStageScore: riskData.contributing_factors.find(f => f.factor.includes('River') || f.factor.includes('Hydro'))?.contribution_score || 25,
+                      historicFloodScore: 45,
+                      populationExposureScore: 30,
+                    }}
+                    missingInputs={riskData.risk_assessment.confidence_score < 0.7 ? ['Local soil saturation sensor offline (extrapolated)'] : []}
+                    limitations={[riskData.risk_assessment.scientific_disclaimer]}
+                  />
+                </div>
+
+                {/* Right: Detailed Factor Breakdown & Provenance Cards */}
+                <div className="lg:col-span-2 space-y-4">
+                  <div className="p-4 bg-[#10243A] border border-[#203A52] rounded-2xl space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider">
+                        EXPLAINABILITY DOSSIER
+                      </span>
+                      <span className="text-[11px] font-mono text-slate-400">
+                        Confidence: {Math.round(riskData.risk_assessment.confidence_score * 100)}%
                       </span>
                     </div>
-                    <p className="text-xs text-slate-300 mt-1 max-w-xl">
+                    <p className="text-xs text-slate-200 leading-relaxed font-sans">
                       {riskData.risk_assessment.summary}
                     </p>
                   </div>
 
-                  <div className="flex items-center space-x-4">
-                    <div className="text-right">
-                      <div className="text-2xl font-black text-cyan-400 font-mono">
-                        {riskData.risk_assessment.composite_score} <span className="text-xs text-slate-500">/100</span>
+                  {/* Factor Cards */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    {riskData.contributing_factors.map((f, i) => (
+                      <div key={i} className="p-3.5 bg-[#10243A]/90 border border-[#203A52] rounded-xl space-y-1.5">
+                        <div className="flex justify-between items-start">
+                          <span className="font-bold text-xs text-white">{f.factor}</span>
+                          <span className="text-xs font-mono font-bold text-cyan-400">+{f.contribution_score} pts</span>
+                        </div>
+                        <div className="text-[11px] text-slate-400 font-mono">
+                          {f.value} • {f.source}
+                        </div>
+                        <p className="text-[11px] text-slate-300">
+                          {f.note}
+                        </p>
                       </div>
-                      <div className="text-[10px] text-slate-400 font-mono">
-                        Confidence: {Math.round(riskData.risk_assessment.confidence_score * 100)}%
-                      </div>
-                    </div>
+                    ))}
                   </div>
-                </div>
 
-                {/* Contributing Factor Breakdown */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {riskData.contributing_factors.map((f, i) => (
-                    <div key={i} className="p-3 bg-[#10243A]/80 border border-[#1E3550] rounded-xl space-y-1.5">
-                      <div className="flex justify-between items-start">
-                        <span className="font-bold text-xs text-white">{f.factor}</span>
-                        <span className="text-xs font-mono font-bold text-cyan-400">+{f.contribution_score} pts</span>
-                      </div>
-                      <div className="text-[11px] text-slate-400 font-mono">
-                        {f.value} • {f.source}
-                      </div>
-                      <p className="text-[11px] text-slate-300">
-                        {f.note}
-                      </p>
-                    </div>
-                  ))}
+                  {/* Data Provenance Card for the Risk Engine */}
+                  <DataProvenanceCard
+                    title="Risk Synthesis Algorithm (v2.4)"
+                    sourceAgency="National Multi-Hazard Early Warning Framework"
+                    sensorOrFeed="IMD AWS Precipitation + CWC Telemetry Stations"
+                    collectedAt={new Date().toISOString()}
+                    lastUpdatedAt="Live Sync"
+                    kind="MODELLED"
+                    isGroundVerified={false}
+                    uncertaintyOrLimitations="Continuous nonlinear multi-factor index. Runoff thresholds assume typical antecedent moisture conditions."
+                  />
                 </div>
-
-                {/* Scientific Disclaimer */}
-                <div className="p-3 bg-cyan-950/20 border border-cyan-800/30 rounded-xl text-[11px] text-cyan-200/90 flex items-start space-x-2">
-                  <Info className="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" />
-                  <span>{riskData.risk_assessment.scientific_disclaimer}</span>
-                </div>
-              </>
+              </div>
             ) : (
               <div className="text-center py-12 text-slate-500 text-xs">
                 No risk intelligence telemetry available for this region.

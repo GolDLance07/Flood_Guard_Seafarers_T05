@@ -1,24 +1,47 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, Suspense } from 'react';
 import { AppHeader } from './components/navigation/AppHeader';
 import { CommandSidebar, type CommandWorkspaceId } from './components/navigation/CommandSidebar';
 import { MapComponent } from './components/MapComponent';
 import { LayerControls, type LayerVisibility } from './components/LayerControls';
 import { OverviewWorkspace } from './components/workspaces/OverviewWorkspace';
-import { IntelligenceWorkspace } from './components/workspaces/IntelligenceWorkspace';
-import { IncidentWorkspace } from './components/workspaces/IncidentWorkspace';
-import { ResponderWorkspace } from './components/workspaces/ResponderWorkspace';
-import { ResourcesWorkspace } from './components/workspaces/ResourcesWorkspace';
-import { SystemDiagnosticsModal } from './components/workspaces/SystemDiagnosticsModal';
+import { GeospatialTelemetryStrip } from './components/design-system/GeospatialTelemetryStrip';
 import { EarthLoadingScreen } from './components/loading/EarthLoadingScreen';
+
+// Lazy-loaded Command Workspaces for performance & code splitting
+const IntelligenceWorkspace = React.lazy(() =>
+  import('./components/workspaces/IntelligenceWorkspace').then((m) => ({ default: m.IntelligenceWorkspace }))
+);
+const IncidentWorkspace = React.lazy(() =>
+  import('./components/workspaces/IncidentWorkspace').then((m) => ({ default: m.IncidentWorkspace }))
+);
+const ResponderWorkspace = React.lazy(() =>
+  import('./components/workspaces/ResponderWorkspace').then((m) => ({ default: m.ResponderWorkspace }))
+);
+const ResourcesWorkspace = React.lazy(() =>
+  import('./components/workspaces/ResourcesWorkspace').then((m) => ({ default: m.ResourcesWorkspace }))
+);
+const SystemDiagnosticsModal = React.lazy(() =>
+  import('./components/workspaces/SystemDiagnosticsModal').then((m) => ({ default: m.SystemDiagnosticsModal }))
+);
 
 // Citizen Experience Components
 import { CitizenHeader } from './components/citizen/CitizenHeader';
 import { CitizenNavigation } from './components/citizen/CitizenNavigation';
 import { CitizenOverviewTab } from './components/citizen/CitizenOverviewTab';
-import { CitizenMapTab } from './components/citizen/CitizenMapTab';
-import { CitizenShelterTab } from './components/citizen/CitizenShelterTab';
-import { CitizenReportTab } from './components/citizen/CitizenReportTab';
-import { CitizenActivityTab } from './components/citizen/CitizenActivityTab';
+
+// Lazy-loaded Citizen secondary tabs
+const CitizenMapTab = React.lazy(() =>
+  import('./components/citizen/CitizenMapTab').then((m) => ({ default: m.CitizenMapTab }))
+);
+const CitizenShelterTab = React.lazy(() =>
+  import('./components/citizen/CitizenShelterTab').then((m) => ({ default: m.CitizenShelterTab }))
+);
+const CitizenReportTab = React.lazy(() =>
+  import('./components/citizen/CitizenReportTab').then((m) => ({ default: m.CitizenReportTab }))
+);
+const CitizenActivityTab = React.lazy(() =>
+  import('./components/citizen/CitizenActivityTab').then((m) => ({ default: m.CitizenActivityTab }))
+);
 
 import {
   fetchOverview,
@@ -53,6 +76,13 @@ import type {
 
 import type { FeatureCollection } from 'geojson';
 import { AlertCircle } from 'lucide-react';
+
+const WorkspaceLoader: React.FC<{ label: string }> = ({ label }) => (
+  <div className="w-full h-full flex flex-col items-center justify-center space-y-2.5 bg-[#07111F] text-slate-400 font-mono text-xs select-none">
+    <div className="w-6 h-6 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin" />
+    <span className="text-cyan-300">Calibrating {label}...</span>
+  </div>
+);
 
 export const App: React.FC = () => {
   // Application Mode: Citizen (Public Safety) vs Command (Emergency Operations)
@@ -359,53 +389,61 @@ export const App: React.FC = () => {
           )}
 
           {activeCitizenTab === 'map' && (
-            <div className="w-full h-full">
-              <CitizenMapTab
-                region={{
-                  id: currentReg.id,
-                  name: currentReg.name,
-                  state: currentReg.state,
-                  center: citizenOverview?.region.center,
-                  aoi_bbox: citizenOverview?.region.aoi_bbox,
-                  zoom: citizenOverview?.region.zoom,
-                }}
-                shelters={citizenShelters?.shelters || []}
-                stations={liveData?.rivers?.stations || liveData?.stations || []}
-                floodGeoJSON={floodGeoJSON}
-              />
-            </div>
+            <Suspense fallback={<WorkspaceLoader label="Live Risk Map" />}>
+              <div className="w-full h-full">
+                <CitizenMapTab
+                  region={{
+                    id: currentReg.id,
+                    name: currentReg.name,
+                    state: currentReg.state,
+                    center: citizenOverview?.region.center,
+                    aoi_bbox: citizenOverview?.region.aoi_bbox,
+                    zoom: citizenOverview?.region.zoom,
+                  }}
+                  shelters={citizenShelters?.shelters || []}
+                  stations={liveData?.rivers?.stations || liveData?.stations || []}
+                  floodGeoJSON={floodGeoJSON}
+                />
+              </div>
+            </Suspense>
           )}
 
           {activeCitizenTab === 'shelters' && (
-            <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
-              <CitizenShelterTab
-                sheltersData={citizenShelters}
-                loading={citizenLoading}
-                currentRegionName={currentReg.name}
-              />
-            </div>
+            <Suspense fallback={<WorkspaceLoader label="Shelters Registry" />}>
+              <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6">
+                <CitizenShelterTab
+                  sheltersData={citizenShelters}
+                  loading={citizenLoading}
+                  currentRegionName={currentReg.name}
+                />
+              </div>
+            </Suspense>
           )}
 
           {activeCitizenTab === 'report' && (
-            <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
-              <CitizenReportTab
-                currentRegion={{
-                  id: currentReg.id,
-                  name: currentReg.name,
-                  center: citizenOverview?.region.center,
-                }}
-                onReportSubmitted={handleReportSubmitted}
-              />
-            </div>
+            <Suspense fallback={<WorkspaceLoader label="Emergency Report Form" />}>
+              <div className="max-w-3xl mx-auto px-4 sm:px-6 py-6">
+                <CitizenReportTab
+                  currentRegion={{
+                    id: currentReg.id,
+                    name: currentReg.name,
+                    center: citizenOverview?.region.center,
+                  }}
+                  onReportSubmitted={handleReportSubmitted}
+                />
+              </div>
+            </Suspense>
           )}
 
           {activeCitizenTab === 'activity' && (
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
-              <CitizenActivityTab
-                myReports={myReports}
-                onSelectTab={setActiveCitizenTab}
-              />
-            </div>
+            <Suspense fallback={<WorkspaceLoader label="Incident Activity Log" />}>
+              <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
+                <CitizenActivityTab
+                  myReports={myReports}
+                  onSelectTab={setActiveCitizenTab}
+                />
+              </div>
+            </Suspense>
           )}
         </main>
       </div>
@@ -415,6 +453,8 @@ export const App: React.FC = () => {
   // --------------------------------------------------------------------------
   // COMMAND INTERFACE (Emergency Operations Center)
   // --------------------------------------------------------------------------
+  const activeAlertsCount = liveData?.alerts?.active_count || (liveData?.alerts?.alerts?.length ?? 0);
+
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#07111F] flex flex-col font-sans select-none text-[#F1F5F9]">
       {/* Top Fixed-Height Intelligence Header Bar */}
@@ -425,11 +465,30 @@ export const App: React.FC = () => {
         loading={loading || liveLoading}
         onRefresh={loadAllData}
         onOpenSystemDiagnostics={() => setIsDiagnosticsModalOpen(true)}
+        activeAlertCount={activeAlertsCount}
+        operationalStatus="ACTIVE MONITORING"
+      />
+
+      {/* Geospatial Telemetry Strip */}
+      <GeospatialTelemetryStrip
+        rainfallMm={liveData?.weather?.rainfall_24h_mm}
+        rainfallSource={liveData?.weather?.provider || 'IMD AWS Station'}
+        rainfallFreshness="Live Sync"
+        riverStageM={liveData?.rivers?.stations?.[0]?.current_level_m}
+        riverWarningM={liveData?.rivers?.stations?.[0]?.warning_level_m}
+        riverSource="CWC Hydrometric"
+        satelliteMission="Sentinel-1A C-SAR"
+        satelliteOrbit="Orbit 56 Asc"
+        activeAlertCount={activeAlertsCount}
+        alertSource="NDMA SACHET"
+        incidentCount={12}
+        unverifiedCount={4}
+        compact={true}
       />
 
       {/* Backend Error Banner */}
       {error && (
-        <div className="absolute top-14 left-6 right-6 z-40 flex items-center justify-between px-4 py-3 bg-rose-950/90 border border-rose-500 text-rose-200 rounded-xl text-xs shadow-2xl backdrop-blur-md">
+        <div className="absolute top-20 left-6 right-6 z-40 flex items-center justify-between px-4 py-3 bg-rose-950/90 border border-rose-500 text-rose-200 rounded-xl text-xs shadow-2xl backdrop-blur-md">
           <div className="flex items-center space-x-2">
             <AlertCircle className="w-4 h-4 text-rose-400" />
             <span>{error}</span>
@@ -456,7 +515,7 @@ export const App: React.FC = () => {
 
         {/* Primary Workspace Display Canvas */}
         <main className="relative flex-1 overflow-hidden bg-[#07111F]">
-          {/* WORKSPACE 1: Overview (Map-Centric Executive Briefing) */}
+          {/* WORKSPACE 1: Overview (Map-Centric Situation Room Briefing) */}
           {activeWorkspace === 'overview' && (
             <div className="relative w-full h-full">
               {/* Satellite Map Canvas */}
@@ -476,16 +535,18 @@ export const App: React.FC = () => {
                 resetViewTrigger={resetViewTrigger}
               />
 
-              {/* Floating KPIs & Executive Drawer */}
+              {/* Floating KPIs & Situation Room SITREP Drawer */}
               <OverviewWorkspace
                 overview={overview}
                 floodMeta={floodMeta}
                 facilitiesGeoJSON={facilitiesGeoJSON}
                 settlementsGeoJSON={settlementsGeoJSON}
                 loading={loading}
+                liveData={liveData}
                 onNavigateToImpact={() => setActiveWorkspace('intelligence')}
                 onNavigateToRescue={() => setActiveWorkspace('resources')}
                 onNavigateToLive={() => setActiveWorkspace('intelligence')}
+                onNavigateToOperations={() => setActiveWorkspace('operations')}
               />
 
               {/* Bottom-Left Layer Controls */}
@@ -502,70 +563,82 @@ export const App: React.FC = () => {
 
           {/* WORKSPACE 2: Intelligence (Live Telemetry, SAR Pipeline, Risk Engine, Historical) */}
           {activeWorkspace === 'intelligence' && (
-            <IntelligenceWorkspace
-              liveData={liveData}
-              liveLoading={liveLoading}
-              selectedRegionId={monitoringRegionId}
-              onSelectRegion={(regId) => {
-                setMonitoringRegionId(regId);
-                localStorage.setItem('floodguard_monitoring_region_id', regId);
-                pollLiveData(regId);
-              }}
-              onRefresh={() => pollLiveData(monitoringRegionId)}
-              floodGeoJSON={floodGeoJSON}
-              overview={overview}
-              floodMeta={floodMeta}
-              facilitiesGeoJSON={facilitiesGeoJSON}
-              settlementsGeoJSON={settlementsGeoJSON}
-            />
+            <Suspense fallback={<WorkspaceLoader label="Intelligence Workspace" />}>
+              <IntelligenceWorkspace
+                liveData={liveData}
+                liveLoading={liveLoading}
+                selectedRegionId={monitoringRegionId}
+                onSelectRegion={(regId) => {
+                  setMonitoringRegionId(regId);
+                  localStorage.setItem('floodguard_monitoring_region_id', regId);
+                  pollLiveData(regId);
+                }}
+                onRefresh={() => pollLiveData(monitoringRegionId)}
+                floodGeoJSON={floodGeoJSON}
+                overview={overview}
+                floodMeta={floodMeta}
+                facilitiesGeoJSON={facilitiesGeoJSON}
+                settlementsGeoJSON={settlementsGeoJSON}
+              />
+            </Suspense>
           )}
 
           {/* WORKSPACE 3: Operations (Incident Triage Queue, Hotspots, Verification, Dispatch) */}
           {activeWorkspace === 'operations' && (
-            <IncidentWorkspace />
+            <Suspense fallback={<WorkspaceLoader label="Incident Operations Command" />}>
+              <IncidentWorkspace />
+            </Suspense>
           )}
 
           {/* WORKSPACE 4: Field Teams (Responder Console, Telemetry Beacon, Tasks) */}
           {activeWorkspace === 'teams' && (
-            <ResponderWorkspace />
+            <Suspense fallback={<WorkspaceLoader label="Field Responder Console" />}>
+              <ResponderWorkspace />
+            </Suspense>
           )}
 
           {/* WORKSPACE 5: Resources (Evacuation Routing, Shelters, Infrastructure) */}
           {activeWorkspace === 'resources' && (
-            <ResourcesWorkspace
-              layers={layers}
-              onToggleLayer={handleToggleLayer}
-              floodGeoJSON={floodGeoJSON}
-              roadsGeoJSON={roadsGeoJSON}
-              roadNetworkGeoJSON={roadNetworkGeoJSON}
-              facilitiesGeoJSON={facilitiesGeoJSON}
-              settlementsGeoJSON={settlementsGeoJSON}
-              origin={origin}
-              destination={destination}
-              setOrigin={setOrigin}
-              setDestination={setDestination}
-              routeResponse={routeResponse}
-              routingLoading={routingLoading}
-              onComputeRoute={handleComputeRoute}
-              selectionMode={selectionMode}
-              setSelectionMode={setSelectionMode}
-              fitAoiTrigger={fitAoiTrigger}
-              resetViewTrigger={resetViewTrigger}
-              onFitAOI={() => setFitAoiTrigger((c) => c + 1)}
-              onResetView={() => setResetViewTrigger((c) => c + 1)}
-              sheltersData={citizenShelters}
-            />
+            <Suspense fallback={<WorkspaceLoader label="Emergency Resources & Routing" />}>
+              <ResourcesWorkspace
+                layers={layers}
+                onToggleLayer={handleToggleLayer}
+                floodGeoJSON={floodGeoJSON}
+                roadsGeoJSON={roadsGeoJSON}
+                roadNetworkGeoJSON={roadNetworkGeoJSON}
+                facilitiesGeoJSON={facilitiesGeoJSON}
+                settlementsGeoJSON={settlementsGeoJSON}
+                origin={origin}
+                destination={destination}
+                setOrigin={setOrigin}
+                setDestination={setDestination}
+                routeResponse={routeResponse}
+                routingLoading={routingLoading}
+                onComputeRoute={handleComputeRoute}
+                selectionMode={selectionMode}
+                setSelectionMode={setSelectionMode}
+                fitAoiTrigger={fitAoiTrigger}
+                resetViewTrigger={resetViewTrigger}
+                onFitAOI={() => setFitAoiTrigger((c) => c + 1)}
+                onResetView={() => setResetViewTrigger((c) => c + 1)}
+                sheltersData={citizenShelters}
+              />
+            </Suspense>
           )}
         </main>
       </div>
 
       {/* Secondary Area: Data & System Diagnostics Modal */}
-      <SystemDiagnosticsModal
-        isOpen={isDiagnosticsModalOpen}
-        onClose={() => setIsDiagnosticsModalOpen(false)}
-        floodMeta={floodMeta}
-        overview={overview}
-      />
+      {isDiagnosticsModalOpen && (
+        <Suspense fallback={null}>
+          <SystemDiagnosticsModal
+            isOpen={isDiagnosticsModalOpen}
+            onClose={() => setIsDiagnosticsModalOpen(false)}
+            floodMeta={floodMeta}
+            overview={overview}
+          />
+        </Suspense>
+      )}
     </div>
   );
 };

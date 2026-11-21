@@ -69,7 +69,7 @@ export const CommandSidebar: React.FC<CommandSidebarProps> = ({
 
   return (
     <aside
-      className={`h-full bg-[#07111F] border-r border-[#1E3550] flex flex-col justify-between transition-all duration-200 select-none z-20 ${
+      className={`h-full bg-[#07111F] border-r border-[#203A52] flex flex-col justify-between transition-all duration-200 select-none z-20 ${
         collapsed ? 'w-14' : 'w-56'
       }`}
     >
@@ -91,7 +91,7 @@ export const CommandSidebar: React.FC<CommandSidebarProps> = ({
               className={`w-full flex items-center space-x-3 px-2.5 py-2 rounded-xl text-left transition-all duration-150 cursor-pointer ${
                 isActive
                   ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-950/40'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/60 border border-transparent'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-[#142B42]/60 border border-transparent'
               }`}
             >
               <div className="flex-shrink-0">
@@ -123,12 +123,12 @@ export const CommandSidebar: React.FC<CommandSidebarProps> = ({
       </div>
 
       {/* Bottom Area: Technical Diagnostics & Sidebar Collapse */}
-      <div className="p-2 border-t border-[#1E3550] space-y-1">
+      <div className="p-2 border-t border-[#203A52] space-y-1">
         {onOpenSystemDiagnostics && (
           <button
             onClick={onOpenSystemDiagnostics}
             title={collapsed ? 'Data & System Diagnostics' : undefined}
-            className="w-full flex items-center space-x-3 px-2.5 py-2 rounded-xl text-left text-slate-400 hover:text-slate-200 hover:bg-[#10243A]/60 transition-colors cursor-pointer border border-transparent"
+            className="w-full flex items-center space-x-3 px-2.5 py-2 rounded-xl text-left text-slate-400 hover:text-slate-200 hover:bg-[#142B42]/60 transition-colors cursor-pointer border border-transparent"
           >
             <div className="flex-shrink-0">
               <Database className="w-4 h-4 text-slate-400" />
@@ -145,7 +145,7 @@ export const CommandSidebar: React.FC<CommandSidebarProps> = ({
         {/* Toggle Collapse Button */}
         <button
           onClick={onToggleCollapse}
-          className="w-full flex items-center justify-center p-1.5 text-slate-400 hover:text-white hover:bg-[#10243A] rounded-lg transition-colors cursor-pointer"
+          className="w-full flex items-center justify-center p-1.5 text-slate-400 hover:text-white hover:bg-[#142B42] rounded-lg transition-colors cursor-pointer"
           title={collapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
         >
           {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}

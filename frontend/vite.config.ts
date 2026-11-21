@@ -8,6 +8,21 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  build: {
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules/maplibre-gl')) {
+            return 'vendor-maplibre';
+          }
+          if (id.includes('node_modules/lucide-react')) {
+            return 'vendor-icons';
+          }
+        }
+      }
+    }
+  },
   server: {
     port: 5173,
     proxy: {

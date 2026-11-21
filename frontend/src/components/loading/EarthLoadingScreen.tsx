@@ -50,6 +50,16 @@ export const EarthLoadingScreen: React.FC<EarthLoadingScreenProps> = ({
   }, []);
 
   useEffect(() => {
+    // Watchdog safety timeout (max 4.5s) to guarantee loading screen cannot hang indefinitely
+    const watchdog = setTimeout(() => {
+      if (onFinished) {
+        onFinished();
+      }
+    }, 4500);
+    return () => clearTimeout(watchdog);
+  }, [onFinished]);
+
+  useEffect(() => {
     if (progressPct !== undefined && progressPct >= 100 && onFinished) {
       const timeout = setTimeout(() => {
         onFinished();
@@ -325,6 +335,15 @@ export const EarthLoadingScreen: React.FC<EarthLoadingScreenProps> = ({
               {progressPct !== undefined ? `${progressPct}%` : `${Math.round(((stageIndex + 1) / DEFAULT_STAGES.length) * 100)}%`}
             </span>
           </div>
+
+          {onFinished && (
+            <button
+              onClick={onFinished}
+              className="mt-3 text-[10px] font-mono text-cyan-400/80 hover:text-cyan-300 underline tracking-wider uppercase transition cursor-pointer"
+            >
+              Proceed directly to Dashboard &rarr;
+            </button>
+          )}
         </div>
       </div>
     </div>
