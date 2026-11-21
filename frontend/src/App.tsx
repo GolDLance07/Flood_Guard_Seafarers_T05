@@ -1,14 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Header, type WorkspaceTab } from './components/Header';
+import { AppHeader } from './components/navigation/AppHeader';
+import { CommandSidebar, type CommandWorkspaceId } from './components/navigation/CommandSidebar';
 import { MapComponent } from './components/MapComponent';
 import { LayerControls, type LayerVisibility } from './components/LayerControls';
 import { OverviewWorkspace } from './components/workspaces/OverviewWorkspace';
-import { ImpactWorkspace } from './components/workspaces/ImpactWorkspace';
-import { LiveMonitoringWorkspace } from './components/workspaces/LiveMonitoringWorkspace';
-import { RescueWorkspace } from './components/workspaces/RescueWorkspace';
-import { EvidenceWorkspace } from './components/workspaces/EvidenceWorkspace';
+import { IntelligenceWorkspace } from './components/workspaces/IntelligenceWorkspace';
 import { IncidentWorkspace } from './components/workspaces/IncidentWorkspace';
 import { ResponderWorkspace } from './components/workspaces/ResponderWorkspace';
+import { ResourcesWorkspace } from './components/workspaces/ResourcesWorkspace';
+import { SystemDiagnosticsModal } from './components/workspaces/SystemDiagnosticsModal';
+import { EarthLoadingScreen } from './components/loading/EarthLoadingScreen';
 
 // Citizen Experience Components
 import { CitizenHeader } from './components/citizen/CitizenHeader';
@@ -51,21 +52,28 @@ import type {
 } from './types/citizen';
 
 import type { FeatureCollection } from 'geojson';
-import { AlertCircle, Loader2 } from 'lucide-react';
+import { AlertCircle } from 'lucide-react';
 
 export const App: React.FC = () => {
-  // Application Mode: Citizen (Public) vs Command (Emergency Operations)
+  // Application Mode: Citizen (Public Safety) vs Command (Emergency Operations)
   const [appMode, setAppMode] = useState<AppMode>(() => {
     return (localStorage.getItem('floodguard_app_mode') as AppMode) || 'citizen';
   });
 
-  // Citizen Tab Navigation
+  // Initial Signature 3D Earth Loading State (boot only)
+  const [hasInitialLoaded, setHasInitialLoaded] = useState<boolean>(false);
+  const [bootStage, setBootStage] = useState<string>('Establishing secure connection');
+  const [bootProgress, setBootProgress] = useState<number>(15);
+
+  // Citizen Tab Navigation (Home, Live Map, Shelters, Report, My Activity)
   const [activeCitizenTab, setActiveCitizenTab] = useState<CitizenTab>('overview');
 
-  // Command Center Workspaces
-  const [activeWorkspace, setActiveWorkspace] = useState<WorkspaceTab>('overview');
+  // Command Center Workspaces (Overview, Intelligence, Operations, Field Teams, Resources)
+  const [activeWorkspace, setActiveWorkspace] = useState<CommandWorkspaceId>('overview');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(false);
+  const [isDiagnosticsModalOpen, setIsDiagnosticsModalOpen] = useState<boolean>(false);
 
-  // Operational Geospatial Data State (Historical Case Study)
+  // Operational Geospatial Data State
   const [overview, setOverview] = useState<OverviewResponse | null>(null);
   const [floodMeta, setFloodMeta] = useState<FloodMetadataResponse | null>(null);
   const [floodGeoJSON, setFloodGeoJSON] = useState<FeatureCollection | null>(null);
@@ -153,7 +161,13 @@ export const App: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
+      setBootStage('Establishing secure connection');
+      setBootProgress(20);
+
       const savedRegion = localStorage.getItem('floodguard_monitoring_region_id') || 'kerala-alappuzha';
+
+      setBootStage('Connecting to monitoring feeds');
+      setBootProgress(40);
 
       const [ov, fm, fg, rg, rn, fac, set, live, regResp] = await Promise.all([
         fetchOverview(),
@@ -176,6 +190,9 @@ export const App: React.FC = () => {
         }),
       ]);
 
+      setBootStage('Loading regional intelligence');
+      setBootProgress(75);
+
       setOverview(ov);
       setFloodMeta(fm);
       setFloodGeoJSON(fg);
@@ -186,10 +203,19 @@ export const App: React.FC = () => {
       if (live) setLiveData(live);
       if (regResp?.regions) setRegionsList(regResp.regions);
 
+      setBootStage('Preparing operational workspace');
+      setBootProgress(95);
+
       await loadCitizenData(savedRegion);
+
+      setBootProgress(100);
+      setTimeout(() => {
+        setHasInitialLoaded(true);
+      }, 400);
     } catch (err: any) {
       console.error('Failed to load disaster intelligence data:', err);
       setError(err?.message || 'Failed to connect to FloodGuard API backend.');
+      setHasInitialLoaded(true);
     } finally {
       setLoading(false);
     }
@@ -278,6 +304,17 @@ export const App: React.FC = () => {
     setActiveCitizenTab('activity');
   };
 
+  // 1. Initial Signature Earth Loading Screen (boot only)
+  if (!hasInitialLoaded && loading) {
+    return (
+      <EarthLoadingScreen
+        currentStage={bootStage}
+        progressPct={bootProgress}
+        onFinished={() => setHasInitialLoaded(true)}
+      />
+    );
+  }
+
   // --------------------------------------------------------------------------
   // CITIZEN INTERFACE (Public Citizen Experience)
   // --------------------------------------------------------------------------
@@ -289,7 +326,7 @@ export const App: React.FC = () => {
     };
 
     return (
-      <div className="relative w-screen h-screen overflow-hidden bg-[#070D18] flex flex-col font-sans select-none text-[#F1F5F9]">
+      <div className="relative w-screen h-screen overflow-hidden bg-[#07111F] flex flex-col font-sans select-none text-[#F1F5F9]">
         {/* Public Citizen Header */}
         <CitizenHeader
           currentRegion={{
@@ -302,7 +339,7 @@ export const App: React.FC = () => {
           onSwitchToCommand={() => handleSetAppMode('command')}
         />
 
-        {/* 5-Tab Public Navigation */}
+        {/* 5-Tab Public Navigation (Home, Live Map, Shelters, Report, My Activity) */}
         <CitizenNavigation
           activeTab={activeCitizenTab}
           onSelectTab={setActiveCitizenTab}
@@ -376,165 +413,159 @@ export const App: React.FC = () => {
   }
 
   // --------------------------------------------------------------------------
-  // COMMAND INTERFACE (Authorized Emergency Workspaces)
+  // COMMAND INTERFACE (Emergency Operations Center)
   // --------------------------------------------------------------------------
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#070D18] flex flex-col font-sans select-none text-[#F1F5F9]">
-      {/* Top Intelligence Header Bar */}
-      <Header
-        overview={overview}
-        loading={loading}
-        activeWorkspace={activeWorkspace}
-        onSelectWorkspace={setActiveWorkspace}
+    <div className="relative w-screen h-screen overflow-hidden bg-[#07111F] flex flex-col font-sans select-none text-[#F1F5F9]">
+      {/* Top Fixed-Height Intelligence Header Bar */}
+      <AppHeader
+        appMode={appMode}
+        onSwitchMode={handleSetAppMode}
+        currentRegionName={overview?.aoi.name || 'Alappuzha & Kuttanad, Kerala'}
+        loading={loading || liveLoading}
         onRefresh={loadAllData}
-        onSwitchToCitizen={() => handleSetAppMode('citizen')}
+        onOpenSystemDiagnostics={() => setIsDiagnosticsModalOpen(true)}
       />
 
       {/* Backend Error Banner */}
       {error && (
-        <div className="absolute top-20 left-6 right-6 z-40 flex items-center justify-between px-4 py-3 bg-rose-950/90 border border-rose-500 text-rose-200 rounded-xl text-xs shadow-2xl backdrop-blur-md">
+        <div className="absolute top-14 left-6 right-6 z-40 flex items-center justify-between px-4 py-3 bg-rose-950/90 border border-rose-500 text-rose-200 rounded-xl text-xs shadow-2xl backdrop-blur-md">
           <div className="flex items-center space-x-2">
             <AlertCircle className="w-4 h-4 text-rose-400" />
             <span>{error}</span>
           </div>
           <button
             onClick={loadAllData}
-            className="px-3 py-1 bg-rose-500/20 hover:bg-rose-500/40 text-white rounded font-bold transition"
+            className="px-3 py-1 bg-rose-500/20 hover:bg-rose-500/40 text-white rounded font-bold transition cursor-pointer"
           >
             Retry Connection
           </button>
         </div>
       )}
 
-      {/* Workspace Display Area */}
-      <main className="relative flex-1 overflow-hidden">
-        {/* Loading Overlay */}
-        {loading && !overview && (
-          <div className="absolute inset-0 z-50 bg-[#070D18]/90 backdrop-blur-sm flex flex-col items-center justify-center space-y-3">
-            <Loader2 className="w-8 h-8 text-cyan-400 animate-spin" />
-            <div className="text-sm font-semibold text-white tracking-wide">
-              Loading Satellite Radar Observations & Impact Metrics...
-            </div>
-            <div className="text-xs text-slate-400 font-mono">
-              Sentinel-1A SAR Inundation • Alappuzha & Kuttanad Basin
-            </div>
-          </div>
-        )}
+      {/* Central Viewport Layout with Collapsible Command Sidebar */}
+      <div className="relative flex-1 flex overflow-hidden">
+        {/* Left Collapsible Command Sidebar */}
+        <CommandSidebar
+          activeWorkspace={activeWorkspace}
+          onSelectWorkspace={setActiveWorkspace}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+          onOpenSystemDiagnostics={() => setIsDiagnosticsModalOpen(true)}
+        />
 
-        {/* WORKSPACE 1: Command Center */}
-        {activeWorkspace === 'overview' && (
-          <div className="relative w-full h-full">
-            {/* Satellite Map */}
-            <MapComponent
+        {/* Primary Workspace Display Canvas */}
+        <main className="relative flex-1 overflow-hidden bg-[#07111F]">
+          {/* WORKSPACE 1: Overview (Map-Centric Executive Briefing) */}
+          {activeWorkspace === 'overview' && (
+            <div className="relative w-full h-full">
+              {/* Satellite Map Canvas */}
+              <MapComponent
+                layers={layers}
+                floodGeoJSON={floodGeoJSON}
+                roadsGeoJSON={roadsGeoJSON}
+                roadNetworkGeoJSON={roadNetworkGeoJSON}
+                facilitiesGeoJSON={facilitiesGeoJSON}
+                settlementsGeoJSON={settlementsGeoJSON}
+                routeResponse={routeResponse}
+                origin={origin}
+                destination={destination}
+                selectionMode={selectionMode}
+                onMapClickCoord={handleMapClickCoord}
+                fitAoiTrigger={fitAoiTrigger}
+                resetViewTrigger={resetViewTrigger}
+              />
+
+              {/* Floating KPIs & Executive Drawer */}
+              <OverviewWorkspace
+                overview={overview}
+                floodMeta={floodMeta}
+                facilitiesGeoJSON={facilitiesGeoJSON}
+                settlementsGeoJSON={settlementsGeoJSON}
+                loading={loading}
+                onNavigateToImpact={() => setActiveWorkspace('intelligence')}
+                onNavigateToRescue={() => setActiveWorkspace('resources')}
+                onNavigateToLive={() => setActiveWorkspace('intelligence')}
+              />
+
+              {/* Bottom-Left Layer Controls */}
+              <div className="absolute bottom-6 left-6 z-20">
+                <LayerControls
+                  layers={layers}
+                  onToggle={handleToggleLayer}
+                  onFitAOI={() => setFitAoiTrigger((c) => c + 1)}
+                  onResetView={() => setResetViewTrigger((c) => c + 1)}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* WORKSPACE 2: Intelligence (Live Telemetry, SAR Pipeline, Risk Engine, Historical) */}
+          {activeWorkspace === 'intelligence' && (
+            <IntelligenceWorkspace
+              liveData={liveData}
+              liveLoading={liveLoading}
+              selectedRegionId={monitoringRegionId}
+              onSelectRegion={(regId) => {
+                setMonitoringRegionId(regId);
+                localStorage.setItem('floodguard_monitoring_region_id', regId);
+                pollLiveData(regId);
+              }}
+              onRefresh={() => pollLiveData(monitoringRegionId)}
+              floodGeoJSON={floodGeoJSON}
+              overview={overview}
+              floodMeta={floodMeta}
+              facilitiesGeoJSON={facilitiesGeoJSON}
+              settlementsGeoJSON={settlementsGeoJSON}
+            />
+          )}
+
+          {/* WORKSPACE 3: Operations (Incident Triage Queue, Hotspots, Verification, Dispatch) */}
+          {activeWorkspace === 'operations' && (
+            <IncidentWorkspace />
+          )}
+
+          {/* WORKSPACE 4: Field Teams (Responder Console, Telemetry Beacon, Tasks) */}
+          {activeWorkspace === 'teams' && (
+            <ResponderWorkspace />
+          )}
+
+          {/* WORKSPACE 5: Resources (Evacuation Routing, Shelters, Infrastructure) */}
+          {activeWorkspace === 'resources' && (
+            <ResourcesWorkspace
               layers={layers}
+              onToggleLayer={handleToggleLayer}
               floodGeoJSON={floodGeoJSON}
               roadsGeoJSON={roadsGeoJSON}
               roadNetworkGeoJSON={roadNetworkGeoJSON}
               facilitiesGeoJSON={facilitiesGeoJSON}
               settlementsGeoJSON={settlementsGeoJSON}
-              routeResponse={routeResponse}
               origin={origin}
               destination={destination}
+              setOrigin={setOrigin}
+              setDestination={setDestination}
+              routeResponse={routeResponse}
+              routingLoading={routingLoading}
+              onComputeRoute={handleComputeRoute}
               selectionMode={selectionMode}
-              onMapClickCoord={handleMapClickCoord}
+              setSelectionMode={setSelectionMode}
               fitAoiTrigger={fitAoiTrigger}
               resetViewTrigger={resetViewTrigger}
+              onFitAOI={() => setFitAoiTrigger((c) => c + 1)}
+              onResetView={() => setResetViewTrigger((c) => c + 1)}
+              sheltersData={citizenShelters}
             />
+          )}
+        </main>
+      </div>
 
-            {/* Top KPIs & Intelligence Drawer */}
-            <OverviewWorkspace
-              overview={overview}
-              floodMeta={floodMeta}
-              facilitiesGeoJSON={facilitiesGeoJSON}
-              settlementsGeoJSON={settlementsGeoJSON}
-              loading={loading}
-              onNavigateToImpact={() => setActiveWorkspace('historical')}
-              onNavigateToRescue={() => setActiveWorkspace('rescue')}
-              onNavigateToLive={() => setActiveWorkspace('live')}
-            />
-
-            {/* Bottom-Left Layer Controls */}
-            <div className="absolute bottom-6 left-6 z-20">
-              <LayerControls
-                layers={layers}
-                onToggle={handleToggleLayer}
-                onFitAOI={() => setFitAoiTrigger((c) => c + 1)}
-                onResetView={() => setResetViewTrigger((c) => c + 1)}
-              />
-            </div>
-          </div>
-        )}
-
-        {/* WORKSPACE 2: Historical Analysis */}
-        {activeWorkspace === 'historical' && (
-          <ImpactWorkspace
-            overview={overview}
-            floodMeta={floodMeta}
-            facilitiesGeoJSON={facilitiesGeoJSON}
-            settlementsGeoJSON={settlementsGeoJSON}
-          />
-        )}
-
-        {/* WORKSPACE 3: Live Environmental Monitoring */}
-        {activeWorkspace === 'live' && (
-          <LiveMonitoringWorkspace
-            liveData={liveData}
-            loading={liveLoading}
-            selectedRegionId={monitoringRegionId}
-            onSelectRegion={(regId) => {
-              setMonitoringRegionId(regId);
-              localStorage.setItem('floodguard_monitoring_region_id', regId);
-              pollLiveData(regId);
-            }}
-            onRefresh={() => pollLiveData(monitoringRegionId)}
-            floodGeoJSON={floodGeoJSON}
-          />
-        )}
-
-        {/* WORKSPACE 4: Rescue Intelligence */}
-        {activeWorkspace === 'rescue' && (
-          <RescueWorkspace
-            layers={layers}
-            onToggleLayer={handleToggleLayer}
-            floodGeoJSON={floodGeoJSON}
-            roadsGeoJSON={roadsGeoJSON}
-            roadNetworkGeoJSON={roadNetworkGeoJSON}
-            facilitiesGeoJSON={facilitiesGeoJSON}
-            settlementsGeoJSON={settlementsGeoJSON}
-            origin={origin}
-            destination={destination}
-            setOrigin={setOrigin}
-            setDestination={setDestination}
-            routeResponse={routeResponse}
-            routingLoading={routingLoading}
-            onComputeRoute={handleComputeRoute}
-            selectionMode={selectionMode}
-            setSelectionMode={setSelectionMode}
-            fitAoiTrigger={fitAoiTrigger}
-            resetViewTrigger={resetViewTrigger}
-            onFitAOI={() => setFitAoiTrigger((c) => c + 1)}
-            onResetView={() => setResetViewTrigger((c) => c + 1)}
-          />
-        )}
-
-        {/* WORKSPACE 5: Data & Evidence */}
-        {activeWorkspace === 'evidence' && (
-          <EvidenceWorkspace
-            floodMeta={floodMeta}
-            overview={overview}
-          />
-        )}
-
-        {/* WORKSPACE 6: Incident Triage & Management */}
-        {activeWorkspace === 'incidents' && (
-          <IncidentWorkspace />
-        )}
-
-        {/* WORKSPACE 7: Responder Console */}
-        {activeWorkspace === 'field-ops' && (
-          <ResponderWorkspace />
-        )}
-      </main>
+      {/* Secondary Area: Data & System Diagnostics Modal */}
+      <SystemDiagnosticsModal
+        isOpen={isDiagnosticsModalOpen}
+        onClose={() => setIsDiagnosticsModalOpen(false)}
+        floodMeta={floodMeta}
+        overview={overview}
+      />
     </div>
   );
 };

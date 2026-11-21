@@ -4,11 +4,11 @@ import { Shield, Mail, LogOut, CheckCircle, AlertTriangle, X, Lock } from 'lucid
 import { Badge } from '../common/Badge';
 
 interface AuthModalProps {
-  isOpen: boolean;
+  isOpen?: boolean;
   onClose: () => void;
 }
 
-export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose }) => {
+export const AuthModal: React.FC<AuthModalProps> = ({ isOpen = true, onClose }) => {
   const { user, profile, role, isAuthenticated, signInWithOtp, signInWithPassword, signOut } = useAuth();
 
   const [activeTab, setActiveTab] = useState<'citizen' | 'responder'>('citizen');

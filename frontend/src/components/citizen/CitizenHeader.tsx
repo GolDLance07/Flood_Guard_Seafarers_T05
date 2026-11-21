@@ -50,13 +50,13 @@ export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
   );
 
   return (
-    <header className="bg-[#070D18]/95 backdrop-blur-md border-b border-[#1E2D4A] sticky top-0 z-40 select-none">
+    <header className="bg-[#07111F]/95 backdrop-blur-md border-b border-[#1E3550] sticky top-0 z-40 select-none">
       {/* Top Emergency Advisory Bar */}
       <div className="bg-amber-950/40 border-b border-amber-900/40 px-4 py-1 text-[11px] text-amber-200/90 flex items-center justify-between">
         <div className="flex items-center space-x-1.5 truncate">
           <AlertTriangle className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
           <span className="truncate">
-            Official instructions from District Administration and NDMA take precedence. Call <strong>1077</strong> for acute emergency rescue.
+            Official instructions from District Administration and NDMA take precedence. Call <strong>1077</strong> for emergency rescue.
           </span>
         </div>
         <span className="hidden sm:inline font-mono text-[10px] text-amber-400 font-bold px-1.5 py-0.2 rounded bg-amber-900/40 border border-amber-700/50">
@@ -64,24 +64,24 @@ export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
         </span>
       </div>
 
-      <div className="h-16 px-4 sm:px-6 flex items-center justify-between">
+      <div className="h-14 px-4 sm:px-6 flex items-center justify-between">
         {/* Brand & Citizen Mode Identity */}
         <div className="flex items-center space-x-3">
           <div className="flex items-center space-x-2.5">
-            <div className="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-400 shadow-sm shadow-emerald-950/40">
-              <ShieldAlert className="w-5 h-5 text-emerald-400" />
+            <div className="p-1.5 bg-cyan-500/10 border border-cyan-500/30 rounded-xl text-cyan-400 shadow-sm shadow-cyan-950/40">
+              <ShieldAlert className="w-5 h-5 text-cyan-400" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-lg tracking-tight text-white">
-                  Flood<span className="text-emerald-400">Guard</span>
+                <span className="font-extrabold text-base tracking-tight text-white font-mono">
+                  Flood<span className="text-cyan-400">Guard</span>
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-300">
-                  Citizen
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-cyan-950/80 border border-cyan-700/60 text-cyan-300 font-mono">
+                  Public Safety
                 </span>
               </div>
               <span className="text-[11px] text-slate-400 hidden sm:inline">
-                Public Safety & Emergency Shelter Intelligence
+                Real-Time Flood Warnings & Verified Shelter Directory
               </span>
             </div>
           </div>
@@ -93,9 +93,9 @@ export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
           <div className="relative">
             <button
               onClick={() => setIsRegionDropdownOpen(!isRegionDropdownOpen)}
-              className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#0D1626] border border-[#1E2D4A] hover:border-emerald-500/50 rounded-xl text-xs text-white transition shadow-sm"
+              className="flex items-center space-x-1.5 px-3 py-1.5 bg-[#10243A] border border-[#1E3550] hover:border-cyan-500/50 rounded-xl text-xs text-white transition shadow-sm cursor-pointer"
             >
-              <Navigation className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
+              <Navigation className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
               <span className="font-semibold max-w-[120px] sm:max-w-[180px] truncate">
                 {currentRegion.name}
               </span>
@@ -103,7 +103,7 @@ export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
             </button>
 
             {isRegionDropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 z-50 bg-[#0D1626] border border-[#1E2D4A] rounded-xl shadow-2xl overflow-hidden p-2.5 w-72 sm:w-80 space-y-2 backdrop-blur-xl">
+              <div className="absolute top-full right-0 mt-2 z-50 bg-[#10243A] border border-[#1E3550] rounded-xl shadow-2xl overflow-hidden p-2.5 w-72 sm:w-80 space-y-2 backdrop-blur-xl">
                 <div className="relative">
                   <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
                   <input
@@ -111,12 +111,12 @@ export const CitizenHeader: React.FC<CitizenHeaderProps> = ({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search city, district, state..."
-                    className="w-full bg-[#070D18] border border-[#1E2D4A] rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-400"
+                    className="w-full bg-[#07111F] border border-[#1E3550] rounded-lg pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400"
                     autoFocus
                   />
                 </div>
 
-                <div className="text-[10px] uppercase font-bold text-slate-400 px-1 pt-1 border-t border-[#1E2D4A]">
+                <div className="text-[10px] uppercase font-bold text-slate-400 px-1 pt-1 border-t border-[#1E3550]">
                   Preset Flood Monitoring Basins
                 </div>
                 <div className="grid grid-cols-2 gap-1">
