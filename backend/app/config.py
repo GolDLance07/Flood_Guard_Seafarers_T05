@@ -47,3 +47,12 @@ COPERNICUS_STAC_URL = os.environ.get(
     "COPERNICUS_STAC_URL",
     "https://catalogue.dataspace.copernicus.eu/stac"
 )
+
+# Supabase Configuration (Database, Authentication & Incident Evidence Storage)
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://sgsnnzejbeoafpspoqpy.supabase.co")
+SUPABASE_PUBLISHABLE_KEY = os.environ.get("SUPABASE_PUBLISHABLE_KEY", "sb_publishable_AAoSV6GWYX21uqZfOOICOQ_WG0q_6zf")
+SUPABASE_SECRET_KEY = os.environ.get("SUPABASE_SECRET_KEY", "")
+SUPABASE_JWKS_URL = os.environ.get(
+    "SUPABASE_JWKS_URL",
+    f"{SUPABASE_URL.rstrip('/')}/auth/v1/.well-known/jwks.json"
+)

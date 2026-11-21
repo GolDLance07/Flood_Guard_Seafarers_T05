@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+from contextlib import asynccontextmanager
 
 # Ensure root is in sys.path even when executed directly
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
@@ -15,14 +16,21 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from backend.app.config import CORS_ORIGINS, API_VERSION, BASE_DIR
-from backend.app.api import health, events, overview, flood, impact, facilities, routes, reports, live, monitoring
+from backend.app.api import health, events, overview, flood, impact, facilities, routes, reports, live, monitoring, auth
+from backend.app.core.supabase import supabase_manager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    supabase_manager.close()
 
 app = FastAPI(
     title="FloodGuard API",
     description="Satellite-Based Flood Impact Assessment & Rescue Intelligence API",
     version=API_VERSION,
     docs_url="/docs",
-    redoc_url="/redoc"
+    redoc_url="/redoc",
+    lifespan=lifespan
 )
 
 # CORS configuration
@@ -74,6 +82,7 @@ app.include_router(routes.router)
 app.include_router(reports.router)
 app.include_router(live.router)
 app.include_router(monitoring.router)
+app.include_router(auth.router)
 
 # Mount Frontend static files if built
 FRONTEND_DIST = BASE_DIR / "frontend" / "dist"

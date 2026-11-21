@@ -1,7 +1,21 @@
 import type { OverviewResponse, FloodMetadataResponse, RouteRequest, RouteResponse } from '../types/api';
 import type { FeatureCollection } from 'geojson';
+import { supabase } from './supabase';
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
+async function getAuthHeaders(): Promise<Record<string, string>> {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    const headers: Record<string, string> = {};
+    if (session?.access_token) {
+      headers['Authorization'] = `Bearer ${session.access_token}`;
+    }
+    return headers;
+  } catch {
+    return {};
+  }
+}
 
 export async function fetchHealth(): Promise<any> {
   const res = await fetch(`${API_BASE}/api/health`);
@@ -94,5 +108,17 @@ export async function fetchMonitoringStations(regionId?: string): Promise<any> {
   const q = regionId ? `?region=${encodeURIComponent(regionId)}` : '';
   const res = await fetch(`${API_BASE}/api/monitoring/stations${q}`);
   if (!res.ok) throw new Error('Failed to fetch river stations');
+  return res.json();
+}
+
+export async function fetchAuthMe(): Promise<any> {
+  const authHeaders = await getAuthHeaders();
+  const res = await fetch(`${API_BASE}/api/auth/me`, {
+    headers: { ...authHeaders, 'Content-Type': 'application/json' }
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err?.error?.message || 'Authentication check failed');
+  }
   return res.json();
 }

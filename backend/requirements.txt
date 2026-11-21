@@ -11,3 +11,4 @@ pyproj>=3.6.0
 pytest>=8.0.0
 httpx>=0.27.0
 python-dotenv>=1.0.0
+pyjwt[crypto]>=2.8.0

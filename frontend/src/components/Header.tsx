@@ -1,7 +1,9 @@
-import React from 'react';
-import { ShieldAlert, Radio, RefreshCw, LayoutDashboard, Activity, Navigation as NavigationIcon, FileCheck2, MapPin, Eye } from 'lucide-react';
+import React, { useState } from 'react';
+import { ShieldAlert, Radio, RefreshCw, LayoutDashboard, Activity, Navigation as NavigationIcon, FileCheck2, MapPin, Eye, User, Shield } from 'lucide-react';
 import type { OverviewResponse } from '../types/api';
 import { Badge } from './common/Badge';
+import { useAuth } from '../context/AuthContext';
+import { AuthModal } from './auth/AuthModal';
 
 export type WorkspaceTab = 'overview' | 'historical' | 'live' | 'rescue' | 'evidence';
 
@@ -27,6 +29,15 @@ export const Header: React.FC<HeaderProps> = ({
     { id: 'rescue', label: 'Rescue Intelligence', icon: NavigationIcon },
     { id: 'evidence', label: 'Data & Evidence', icon: FileCheck2 },
   ];
+
+  const { user, role, isAuthenticated } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  const roleVariant: 'cyan' | 'emerald' | 'amber' | 'rose' | 'slate' =
+    role === 'administrator' ? 'rose' :
+    role === 'district_authority' ? 'amber' :
+    role === 'field_team' ? 'emerald' :
+    role === 'citizen' ? 'cyan' : 'slate';
 
   return (
     <header className="h-16 px-4 sm:px-6 bg-[#070D18]/95 backdrop-blur-md border-b border-[#1E2D4A] flex items-center justify-between z-30 select-none">
@@ -113,7 +124,37 @@ export const Header: React.FC<HeaderProps> = ({
           <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin text-cyan-400' : ''}`} />
           <span className="hidden sm:inline">Refresh</span>
         </button>
+
+        {/* Supabase Identity & Auth Trigger */}
+        <button
+          onClick={() => setIsAuthModalOpen(true)}
+          className={`flex items-center space-x-1.5 px-2.5 py-1.5 border rounded-lg text-xs font-medium transition cursor-pointer ${
+            isAuthenticated
+              ? 'bg-[#0D1626] hover:bg-[#16243A] border-[#1E2D4A] text-slate-200'
+              : 'bg-cyan-500/10 hover:bg-cyan-500/20 border-cyan-500/40 text-cyan-300'
+          }`}
+          title={isAuthenticated ? `Signed in as ${user?.email}` : 'Sign in via Supabase Auth'}
+        >
+          {isAuthenticated ? (
+            <>
+              <User className="w-3.5 h-3.5 text-cyan-400" />
+              <span className="hidden md:inline max-w-[100px] truncate text-slate-300">
+                {user?.email?.split('@')[0]}
+              </span>
+              <Badge variant={roleVariant} size="sm">
+                {role.replace('_', ' ')}
+              </Badge>
+            </>
+          ) : (
+            <>
+              <Shield className="w-3.5 h-3.5 text-cyan-400" />
+              <span>Sign In</span>
+            </>
+          )}
+        </button>
       </div>
+
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </header>
   );
 };
