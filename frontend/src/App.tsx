@@ -7,6 +7,8 @@ import { ImpactWorkspace } from './components/workspaces/ImpactWorkspace';
 import { LiveMonitoringWorkspace } from './components/workspaces/LiveMonitoringWorkspace';
 import { RescueWorkspace } from './components/workspaces/RescueWorkspace';
 import { EvidenceWorkspace } from './components/workspaces/EvidenceWorkspace';
+import { IncidentWorkspace } from './components/workspaces/IncidentWorkspace';
+import { ResponderWorkspace } from './components/workspaces/ResponderWorkspace';
 
 // Citizen Experience Components
 import { CitizenHeader } from './components/citizen/CitizenHeader';
@@ -521,6 +523,16 @@ export const App: React.FC = () => {
             floodMeta={floodMeta}
             overview={overview}
           />
+        )}
+
+        {/* WORKSPACE 6: Incident Triage & Management */}
+        {activeWorkspace === 'incidents' && (
+          <IncidentWorkspace />
+        )}
+
+        {/* WORKSPACE 7: Responder Console */}
+        {activeWorkspace === 'field-ops' && (
+          <ResponderWorkspace />
         )}
       </main>
     </div>

@@ -109,3 +109,88 @@ ON CONFLICT (slug) DO UPDATE SET
     aoi_bbox = EXCLUDED.aoi_bbox,
     cwc_basin = EXCLUDED.cwc_basin,
     updated_at = now();
+
+-- ------------------------------------------------------------------------------
+-- Seed Responder Teams
+-- ------------------------------------------------------------------------------
+INSERT INTO public.responder_teams (
+    id,
+    region_id,
+    name,
+    callsign,
+    capabilities,
+    operational_status,
+    contact_phone,
+    base_latitude,
+    base_longitude,
+    metadata
+) VALUES
+(
+    'b0000000-0000-0000-0000-000000000001',
+    'a0000000-0000-0000-0000-000000000001',
+    'Kerala NDRF 04 Battalion Alpha Unit',
+    'NDRF-ALP-ALPHA',
+    ARRAY['rescue', 'boat_ops', 'evacuation', 'medical']::TEXT[],
+    'AVAILABLE',
+    '+91-477-2238630',
+    9.4981,
+    76.3388,
+    '{"boats": 4, "personnel": 18, "satellite_comms": true}'::jsonb
+),
+(
+    'b0000000-0000-0000-0000-000000000002',
+    'a0000000-0000-0000-0000-000000000001',
+    'Alappuzha Fire & Rescue Water Wing',
+    'FRS-ALP-WATER-1',
+    ARRAY['boat_ops', 'rescue', 'logistics']::TEXT[],
+    'AVAILABLE',
+    '101',
+    9.4920,
+    76.3260,
+    '{"boats": 2, "personnel": 10, "diving_gear": true}'::jsonb
+),
+(
+    'b0000000-0000-0000-0000-000000000003',
+    'a0000000-0000-0000-0000-000000000002',
+    'Kamrup Metropolitan SDRF Quick Response',
+    'SDRF-GHY-QR1',
+    ARRAY['rescue', 'boat_ops', 'supply_delivery']::TEXT[],
+    'AVAILABLE',
+    '+91-361-2735622',
+    26.1450,
+    91.7370,
+    '{"boats": 3, "personnel": 14}'::jsonb
+),
+(
+    'b0000000-0000-0000-0000-000000000004',
+    'a0000000-0000-0000-0000-000000000003',
+    'Patna Civil Defense Medical Triage Unit',
+    'MED-PAT-TRIAGE',
+    ARRAY['medical', 'evacuation', 'relief_distribution']::TEXT[],
+    'AVAILABLE',
+    '+91-612-2217636',
+    25.5940,
+    85.1380,
+    '{"ambulances": 3, "paramedics": 8}'::jsonb
+),
+(
+    'b0000000-0000-0000-0000-000000000005',
+    'a0000000-0000-0000-0000-000000000004',
+    'Ahmedabad Municipal Rapid Drainage Wing',
+    'AMC-AHM-RAPID',
+    ARRAY['infrastructure_inspection', 'logistics', 'rescue']::TEXT[],
+    'AVAILABLE',
+    '+91-79-25391811',
+    23.0220,
+    72.5710,
+    '{"pumps": 8, "heavy_vehicles": 4}'::jsonb
+)
+ON CONFLICT (callsign) DO UPDATE SET
+    name = EXCLUDED.name,
+    capabilities = EXCLUDED.capabilities,
+    operational_status = EXCLUDED.operational_status,
+    contact_phone = EXCLUDED.contact_phone,
+    base_latitude = EXCLUDED.base_latitude,
+    base_longitude = EXCLUDED.base_longitude,
+    metadata = EXCLUDED.metadata,
+    updated_at = now();

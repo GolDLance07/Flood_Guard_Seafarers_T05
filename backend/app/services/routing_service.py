@@ -1,4 +1,5 @@
 import json
+import math
 import numpy as np
 import networkx as nx
 from scipy.spatial import cKDTree
@@ -114,5 +115,145 @@ class RoutingService:
                     warning_msg
                 ]
             }
+
+    def find_evacuation_route(
+        self,
+        origin_lon: float,
+        origin_lat: float,
+        region_slug: Optional[str] = None,
+        preferred_shelter_id: Optional[str] = None,
+        travel_mode: str = "driving"
+    ) -> Dict[str, Any]:
+        """
+        Calculates safe evacuation route to nearest active shelter.
+        Strictly excludes flooded road segments where road graph is available.
+        Provides direct geodesic route with explicit warnings where road graphs are unmapped.
+        """
+        from backend.app.services.citizen_service import citizen_service
+
+        safety_disclaimer = (
+            "Candidate evacuation route only. Road conditions, water depths, bridge structural integrity, "
+            "and local debris require on-scene ground verification. Obey on-scene emergency responders "
+            "and district collectorate instructions at all times."
+        )
+
+        shelters_data = citizen_service.get_shelters_for_region(region_slug)
+        shelters = shelters_data.get("shelters", [])
+
+        if not shelters:
+            return {
+                "status": "no_shelters_available",
+                "target_shelter": None,
+                "distance_km": None,
+                "estimated_duration_minutes": None,
+                "travel_mode": travel_mode,
+                "geometry": None,
+                "routing_method": "NO_REGISTERED_SHELTERS",
+                "is_flood_avoiding": False,
+                "safety_disclaimer": safety_disclaimer,
+                "warnings": [
+                    shelters_data.get("notice") or f"No registered or operational emergency relief shelters found for region '{region_slug}'.",
+                    "Contact the local district emergency control room for emergency evacuation assembly points."
+                ]
+            }
+
+        # Select target shelter
+        target = None
+        if preferred_shelter_id:
+            for s in shelters:
+                if s.get("id") == preferred_shelter_id or s.get("shelter_id") == preferred_shelter_id:
+                    target = s
+                    break
+
+        if not target:
+            # Pick closest active shelter by haversine distance
+            def dist_calc(s):
+                s_lat = float(s.get("latitude", 0))
+                s_lon = float(s.get("longitude", 0))
+                R = 6371.0
+                phi1, phi2 = math.radians(origin_lat), math.radians(s_lat)
+                dphi = math.radians(s_lat - origin_lat)
+                dlambda = math.radians(s_lon - origin_lon)
+                a = math.sin(dphi / 2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2)**2
+                return 2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+
+            target = min(shelters, key=dist_calc)
+
+        dest_lat = float(target.get("latitude", 0))
+        dest_lon = float(target.get("longitude", 0))
+
+        target_info = {
+            "id": target.get("id") or target.get("shelter_id", "shelter-unknown"),
+            "name": target.get("name", "Emergency Relief Facility"),
+            "address": target.get("address") or target.get("location_name"),
+            "latitude": dest_lat,
+            "longitude": dest_lon,
+            "capacity": target.get("capacity"),
+            "current_occupancy": target.get("current_occupancy", 0),
+            "operational_status": target.get("operational_status", "ACTIVE"),
+            "contact_phone": target.get("contact_phone") or target.get("contact_officer")
+        }
+
+        # Check if coordinates fall within road network AOI (Kerala: lon ~ 76.0-77.0, lat ~ 9.0-10.0)
+        in_aoi = (
+            76.0 <= origin_lon <= 77.0 and 9.0 <= origin_lat <= 10.0 and
+            76.0 <= dest_lon <= 77.0 and 9.0 <= dest_lat <= 10.0
+        )
+
+        speed_kmh = 25.0 if travel_mode == "driving" else 4.0
+
+        if in_aoi and self.dry_graph is not None:
+            # Try road graph
+            route_res = self.find_route(origin_lon, origin_lat, dest_lon, dest_lat)
+            if route_res["status"] == "candidate_route" and route_res.get("distance_km"):
+                dist = route_res["distance_km"]
+                eta_mins = max(1, round((dist / speed_kmh) * 60))
+                return {
+                    "status": "candidate_route",
+                    "target_shelter": target_info,
+                    "distance_km": dist,
+                    "estimated_duration_minutes": eta_mins,
+                    "travel_mode": travel_mode,
+                    "geometry": route_res.get("geometry"),
+                    "routing_method": "OSM road network with satellite flood-inundated edges strictly excluded",
+                    "is_flood_avoiding": True,
+                    "safety_disclaimer": safety_disclaimer,
+                    "warnings": route_res.get("warnings", []) + [
+                        "Ground validation required before traversing candidate route."
+                    ]
+                }
+
+        # Fallback / Outside AOI: Direct Geodesic Bearing
+        R = 6371.0
+        phi1, phi2 = math.radians(origin_lat), math.radians(dest_lat)
+        dphi = math.radians(dest_lat - origin_lat)
+        dlambda = math.radians(dest_lon - origin_lon)
+        a = math.sin(dphi / 2)**2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2)**2
+        geodesic_dist = round(2 * R * math.atan2(math.sqrt(a), math.sqrt(1 - a)), 2)
+        est_road_dist = round(geodesic_dist * 1.3, 2)
+        eta_mins = max(1, round((est_road_dist / speed_kmh) * 60))
+
+        return {
+            "status": "direct_bearing",
+            "target_shelter": target_info,
+            "distance_km": est_road_dist,
+            "estimated_duration_minutes": eta_mins,
+            "travel_mode": travel_mode,
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [round(origin_lon, 5), round(origin_lat, 5)],
+                    [round(dest_lon, 5), round(dest_lat, 5)]
+                ]
+            },
+            "routing_method": "Geodesic bearing to designated shelter (OSM road graph not connected for this jurisdiction)",
+            "is_flood_avoiding": False,
+            "safety_disclaimer": safety_disclaimer,
+            "warnings": [
+                "Road network graph is currently not connected for this region. Showing direct bearing to shelter.",
+                "Actual road routes may be impassable or obstructed by flood waters.",
+                "Candidate path only. Road conditions and bridge safety require local ground verification before transit."
+            ]
+        }
 
 routing_service = RoutingService()

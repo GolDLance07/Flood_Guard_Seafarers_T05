@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { ShieldAlert, Radio, RefreshCw, LayoutDashboard, Activity, Navigation as NavigationIcon, FileCheck2, MapPin, Eye, User, Shield, Users } from 'lucide-react';
+import { ShieldAlert, Radio, RefreshCw, LayoutDashboard, Activity, Navigation as NavigationIcon, FileCheck2, MapPin, Eye, User, Shield, Users, AlertTriangle } from 'lucide-react';
 import type { OverviewResponse } from '../types/api';
 import { Badge } from './common/Badge';
 import { useAuth } from '../context/AuthContext';
 import { AuthModal } from './auth/AuthModal';
 
-export type WorkspaceTab = 'overview' | 'historical' | 'live' | 'rescue' | 'evidence';
+export type WorkspaceTab = 'overview' | 'incidents' | 'field-ops' | 'historical' | 'live' | 'rescue' | 'evidence';
 
 interface HeaderProps {
   overview: OverviewResponse | null;
@@ -26,6 +26,8 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const workspaces: { id: WorkspaceTab; label: string; icon: React.ComponentType<{ className?: string }>; badge?: string }[] = [
     { id: 'overview', label: 'Command Center', icon: LayoutDashboard },
+    { id: 'incidents', label: 'Incidents & Triage', icon: AlertTriangle, badge: 'Ops' },
+    { id: 'field-ops', label: 'Field Responders', icon: Users },
     { id: 'historical', label: 'Historical Analysis', icon: Activity },
     { id: 'live', label: 'Live Monitoring', icon: Radio, badge: 'Live' },
     { id: 'rescue', label: 'Rescue Intelligence', icon: NavigationIcon },

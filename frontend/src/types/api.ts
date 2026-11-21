@@ -330,3 +330,218 @@ export interface LiveOverviewResponse {
   hydrology: LiveHydrology;
   satellite_tracking: LiveSatelliteTracking;
 }
+
+// ------------------------------------------------------------------------------
+// Unified Intelligence, Public Safety & Responder Operations
+// ------------------------------------------------------------------------------
+
+export interface IncidentSummary {
+  id: string;
+  tracking_number: string;
+  region_id: string;
+  category: string;
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  status: 'SUBMITTED_UNVERIFIED' | 'IN_REVIEW' | 'VERIFIED' | 'ACTION_DISPATCHED' | 'IN_PROGRESS' | 'RESOLVED' | 'REJECTED' | 'DUPLICATE';
+  verification_status: string;
+  title: string;
+  latitude: number;
+  longitude: number;
+  address?: string;
+  affected_people_count: number;
+  assigned_team_id?: string;
+  public_status_note?: string;
+  submitted_at: string;
+  updated_at: string;
+}
+
+export interface DuplicateCandidate {
+  incident_id: string;
+  tracking_number: string;
+  title: string;
+  distance_meters: number;
+  time_delta_hours: number;
+  confidence_score: number;
+  same_category: boolean;
+}
+
+export interface IncidentTimelineEvent {
+  id: string;
+  incident_id: string;
+  author_name: string;
+  author_role: string;
+  update_type: string;
+  message: string;
+  is_public: boolean;
+  created_at: string;
+}
+
+export interface IncidentDetail extends IncidentSummary {
+  description?: string;
+  reporter_phone?: string;
+  evidence_urls: string[];
+  internal_notes?: string;
+  duplicate_of_id?: string;
+  suggested_duplicates: DuplicateCandidate[];
+  assigned_team_name?: string;
+  timeline: IncidentTimelineEvent[];
+}
+
+export interface IncidentCluster {
+  cluster_id: string;
+  centroid_latitude: number;
+  centroid_longitude: number;
+  report_count: number;
+  cluster_risk_level: 'ELEVATED' | 'HIGH' | 'CRITICAL';
+  severities: Record<string, number>;
+  categories: string[];
+  status_breakdown: Record<string, number>;
+  member_incident_ids: string[];
+  member_tracking_numbers: string[];
+  earliest_report: string;
+  latest_report: string;
+  primary_area?: string;
+}
+
+export interface DispatchRecommendation {
+  team_id: string;
+  team_name: string;
+  team_type: string;
+  status: string;
+  score: number;
+  scoring_breakdown: {
+    capability_score: number;
+    status_score: number;
+    proximity_score: number;
+    capacity_score: number;
+  };
+  matched_capabilities: string[];
+  all_capabilities: string[];
+  distance_km: number;
+  estimated_eta_minutes: number;
+  member_count: number;
+  rationale: string;
+  base_region_id: string;
+}
+
+export interface ResponderTeam {
+  id: string;
+  name: string;
+  team_type: string;
+  jurisdiction_zone: string;
+  status: 'AVAILABLE' | 'ENGAGED' | 'EN_ROUTE' | 'MAINTENANCE' | 'OFFLINE';
+  lead_officer_name?: string;
+  contact_phone?: string;
+  base_latitude: number;
+  base_longitude: number;
+  member_count: number;
+  capabilities: string[];
+  equipment: string[];
+  active_assignments_count: number;
+}
+
+export interface ResponderTask {
+  id: string;
+  task_code: string;
+  title: string;
+  description?: string;
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  status: 'PENDING' | 'ACCEPTED' | 'DECLINED' | 'EN_ROUTE' | 'ARRIVED' | 'IN_PROGRESS' | 'COMPLETED' | 'ABORTED';
+  team_id: string;
+  target_location: {
+    latitude: number;
+    longitude: number;
+    address?: string;
+  };
+  instructions?: string;
+  notes?: string;
+  assigned_at: string;
+  dispatched_at?: string;
+  completed_at?: string;
+}
+
+export interface SatelliteJob {
+  id: string;
+  scene_id: string;
+  region_slug: string;
+  status: 'DISCOVERED' | 'QUEUED' | 'DOWNLOADING' | 'PROCESSING' | 'ANALYSING' | 'COMPLETED' | 'FAILED';
+  progress_pct: number;
+  algorithm_version: string;
+  inundated_area_km2?: number;
+  output_geojson_path?: string;
+  provenance: Record<string, any>;
+  started_at: string;
+  completed_at?: string;
+}
+
+export interface RiskAssessmentData {
+  status: string;
+  region: {
+    id: string;
+    name: string;
+    state: string;
+    cwc_basin?: string;
+  };
+  timestamp: string;
+  risk_assessment: {
+    level: 'NORMAL' | 'ADVISORY' | 'WARNING' | 'CRITICAL';
+    badge: string;
+    composite_score: number;
+    summary: string;
+    confidence_score: number;
+    missing_inputs: string[];
+    scientific_disclaimer: string;
+  };
+  contributing_factors: {
+    factor: string;
+    nature: string;
+    source: string;
+    value: string;
+    contribution_score: number;
+    note: string;
+  }[];
+  infrastructure_exposure: {
+    potentially_affected_settlements: number;
+    potentially_impassable_roads_km: number;
+    critical_facilities_at_risk: number;
+    designated_relief_shelters_active: number;
+    exposure_methodology: string;
+  };
+}
+
+export interface EvacuationRouteResult {
+  status: 'candidate_route' | 'direct_bearing' | 'no_shelters_available' | 'error';
+  target_shelter?: {
+    id: string;
+    name: string;
+    address?: string;
+    latitude: number;
+    longitude: number;
+    capacity?: number;
+    current_occupancy?: number;
+    operational_status?: string;
+    contact_phone?: string;
+  };
+  distance_km?: number;
+  estimated_duration_minutes?: number;
+  travel_mode: string;
+  geometry?: {
+    type: 'LineString';
+    coordinates: [number, number][];
+  };
+  routing_method: string;
+  is_flood_avoiding: boolean;
+  safety_disclaimer: string;
+  warnings: string[];
+}
+
+export interface NotificationItem {
+  id: string;
+  title: string;
+  message: string;
+  severity: 'info' | 'advisory' | 'warning' | 'critical';
+  category: string;
+  source: string;
+  region_slug?: string;
+  is_read: boolean;
+  created_at: string;
+}

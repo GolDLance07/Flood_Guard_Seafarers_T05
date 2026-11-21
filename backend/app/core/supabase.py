@@ -26,6 +26,10 @@ class SupabaseClientManager:
         self.jwks_url = SUPABASE_JWKS_URL
         self._http_client: Optional[httpx.Client] = None
 
+    @property
+    def is_configured(self) -> bool:
+        return bool(self.base_url and self.publishable_key)
+
     def get_http_client(self) -> httpx.Client:
         """Returns a reused connection-pooled HTTP client."""
         if self._http_client is None or self._http_client.is_closed:

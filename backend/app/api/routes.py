@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from ..schemas.routes import RouteRequest, RouteResponse
+from ..schemas.routes import RouteRequest, RouteResponse, EvacuationRouteRequest, EvacuationRouteResponse
 from ..services.routing_service import routing_service
 
 router = APIRouter(prefix="/api", tags=["Routes"])
@@ -39,3 +39,19 @@ def compute_candidate_route(req: RouteRequest):
         dest_lat=req.destination.latitude
     )
     return res
+
+@router.post("/routes/evacuation", response_model=EvacuationRouteResponse)
+def compute_evacuation_route(req: EvacuationRouteRequest):
+    """
+    Computes safe evacuation route to nearest active emergency relief shelter.
+    Avoids satellite-mapped flood inundated road segments where road graph is available.
+    Returns direct bearing and honest warnings where road network graph is unmapped.
+    """
+    result = routing_service.find_evacuation_route(
+        origin_lon=req.origin.longitude,
+        origin_lat=req.origin.latitude,
+        region_slug=req.region_slug,
+        preferred_shelter_id=req.preferred_shelter_id,
+        travel_mode=req.travel_mode or "driving"
+    )
+    return result
